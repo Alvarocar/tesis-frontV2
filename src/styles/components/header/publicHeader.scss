@@ -1,0 +1,28 @@
+.public-header {
+  background: $primary-color;
+  color: $white-color;
+  .ant-page-header-heading {
+    padding-right: 3rem;
+    @media screen and (max-width: $screen-sm) {
+      padding-right: unset;
+    }
+    &-title {
+      color: $white-color;
+    }
+    &-extra {
+      display: flex;
+    } 
+  }
+  .ant-space-item {
+    cursor: default;
+    &:hover {
+      color: $tertiary-color;
+    }
+    a {
+      color: $white-color;
+      &:hover {
+        color: $tertiary-color;
+      }
+    }
+  }
+}
