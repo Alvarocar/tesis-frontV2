@@ -1,0 +1,10 @@
+@use "/src/styles/variables" as var;
+
+.btn {
+  &--primary {
+    background: var.$color-primary;
+    > span {
+      color: var.$white;
+    }
+  }
+}

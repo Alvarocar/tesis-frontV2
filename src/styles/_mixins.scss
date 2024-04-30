@@ -1,0 +1,12 @@
+@mixin page {
+  height: 100dvh;
+}
+
+@mixin grid {
+  display: grid;
+}
+
+@mixin grid-center {
+  @include grid;
+  place-content: center;
+}

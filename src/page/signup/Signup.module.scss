@@ -1,0 +1,8 @@
+@use "/src/styles/variables" as var;
+@use "/src/styles/mixins" as mx;
+
+.sign-up {
+  background-color: var.$color-secundary;
+  @include mx.page;
+  @include mx.grid-center;
+}
