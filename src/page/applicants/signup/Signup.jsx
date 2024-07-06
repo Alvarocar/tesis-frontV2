@@ -1,26 +1,28 @@
-import styles from "./Signup.module.scss"
-import { SignupForm } from "../../components/signup/SignupForm"
+import { SignupForm } from "../../../components/signup/SignupForm"
 import { Card } from "antd"
-import { Subject, catchError, map, mergeMap, retry } from "rxjs"
-import { useEffect, useState } from "react"
+import { Subject, catchError, map, mergeMap } from "rxjs"
+import { useEffect, useRef, useState } from "react"
+import classNames from "classnames/bind"
 import { APPLICANT_API } from "@app/api/applicants.api"
 import { fromPromise } from "@app/utils/rxjs"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { PublicTemplate } from "@app/template/PublicTemplate"
+import styles from "./Signup.module.scss"
 
-const submit$ = new Subject()
+const cx = classNames.bind(styles)
 
 export const Signup = () => {
   const navigate = useNavigate();
+  const submit$ = useRef(new Subject())
 
   const handleSubmit = (payload) => {
-    submit$.next(payload)
+    submit$.current.next(payload)
   }
 
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const subscription = submit$.pipe(
+    const subscription = submit$.current.pipe(
       map(value => ({
         email: value.email,
         name: value.name,
@@ -38,7 +40,7 @@ export const Signup = () => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [])
+  }, [navigate])
 
   return (
     <PublicTemplate>
@@ -52,6 +54,7 @@ export const Signup = () => {
           />
           {error}
         </Card>
+        <p className={cx('sign-up__msg')}>¿Ya tienes una cuenta? <Link to='/aspirantes/sign-in' className={cx('sign-up__login')}>Ingresa aqu&iacute;.</Link></p>
       </div>
     </PublicTemplate>
   )

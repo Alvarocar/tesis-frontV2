@@ -6,11 +6,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "sign-up",
-        lazy: () => import('@app/page/signup')
+        lazy: () => import('@app/page/applicants/signup')
       },
       {
         path: "sign-in",
-        lazy: () => import('@app/page/login')
+        lazy: () => import('@app/page/applicants/login')
       }
     ],
   },

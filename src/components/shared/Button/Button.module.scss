@@ -2,14 +2,16 @@
 
 .btn {
   &--primary {
-    background: var.$color-primary;
+    background: #1d7afc;
+    border: none;
     > span {
       color: var.$white;
     }
   }
   &--primary:hover,
   &--primary:active {
-    background: var.$color-primary !important;
-    border-color: #d9d9d9 !important;
+    background: #1d7afc !important;
+    border: none;
+    outline: none;
   }
 }

@@ -1,0 +1,24 @@
+@use "/src/styles/variables" as var;
+@use "/src/styles/mixins" as mx;
+
+.sign-up {
+  background-color: #111518;
+  @include mx.page;
+  @include mx.grid-center;
+  &__login {
+    opacity: 0.6;
+    color: white;
+    text-decoration: underline;
+    transition: ease-out all 100ms;
+    &:hover {
+      text-decoration: underline;
+      color: white;
+      opacity: 1;
+    }
+  }
+  &__msg {
+    opacity: 0.6;
+    color: white;
+    text-align: center;
+  }
+}

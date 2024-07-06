@@ -51,7 +51,8 @@ const SignupForm = ({
       <Button
         loading={isLoading}
         type="primary"
-        htmlType="submit">
+        htmlType="submit"
+        className={cx('SignupForm__submit')}>
         Registrarme
       </Button>
     </Form>
