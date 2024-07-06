@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Signup } from "@app/page/signup/Signup";
 
 export const router = createBrowserRouter([
   {
@@ -7,10 +6,16 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "sign-up",
-        element: <Signup />
-
-
+        lazy: () => import('@app/page/signup')
       },
+      {
+        path: "sign-in",
+        lazy: () => import('@app/page/login')
+      }
     ],
   },
+  {
+    path: '/',
+    lazy: () => import('@app/page/home/index'),
+  }
 ]);

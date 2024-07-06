@@ -7,4 +7,9 @@
       color: var.$white;
     }
   }
+  &--primary:hover,
+  &--primary:active {
+    background: var.$color-primary !important;
+    border-color: #d9d9d9 !important;
+  }
 }

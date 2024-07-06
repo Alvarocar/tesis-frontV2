@@ -1,5 +1,5 @@
 @mixin page {
-  height: 100dvh;
+  min-height: 100dvh;
 }
 
 @mixin grid {

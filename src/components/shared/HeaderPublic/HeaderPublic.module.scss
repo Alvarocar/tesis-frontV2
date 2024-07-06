@@ -1,0 +1,41 @@
+.header {
+  background: #222831;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  align-items: center;
+  border-bottom: 1px solid #31363f;
+  &__title {
+    margin: 0;
+    color: white;
+  }
+  &__links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.btn {
+  padding: 0 10px;
+  &,
+  &__login,
+  &__signup {
+    color: white;
+    font-weight: 500;
+    &:hover {
+      color: white;
+    }
+  }
+  &__login {
+    background: #3c89e8;
+    padding: 5px 15px;
+    border-radius: 10px;
+  }
+
+  &__signup {
+    padding: 5px 15px;
+    border-radius: 10px;
+    background: #31363f;
+  }
+}

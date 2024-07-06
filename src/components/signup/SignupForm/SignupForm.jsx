@@ -1,17 +1,28 @@
 import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
-import { rules } from './applicantRules'
+import { signupFormRules } from '@app/utils/singup/validations.utils'
 import { Button } from '@app/components/shared/Button'
 import styles from "./SignupForm.module.scss"
+import { useState } from 'react'
+import classNames from 'classnames/bind'
 
 const { Item } = Form
+
+const cx = classNames.bind(styles)
 
 const SignupForm = ({
   onSubmit,
 }) => {
-
-  const handleSubmit = (data) => {
-    onSubmit && onSubmit(data)
+  const [isLoading, setIsLoading] = useState(false)
+  const handleSubmit = async (data) => {
+    try {
+      setIsLoading(true)
+      if (typeof onSubmit === "function") {
+        await onSubmit(data)
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -19,18 +30,28 @@ const SignupForm = ({
       layout='vertical'
       requiredMark="optional"
       onFinish={handleSubmit}
-      className={styles["SignupForm"]}
+      className={cx("SignupForm")}
     >
-      <Item label="Nombre" name="name" rules={rules.name}>
+      <Item label="Nombre" name="name" rules={signupFormRules.name}>
         <Input />
       </Item>
-      <Item label="Email" name="email" rules={rules.email}>
+      <Item label="Email" name="email" rules={signupFormRules.email}>
         <Input />
       </Item>
-      <Item label="Password" name="password" rules={rules.password}>
+      <Item label="Contraseña" name="password" rules={signupFormRules.password}>
         <Input.Password />
       </Item>
-      <Button type="primary" htmlType="submit">
+      <Item
+        dependencies={["password"]}
+        label="Confirmar Contraseña"
+        name="confirmPassword"
+        rules={signupFormRules.confirmPassword}>
+        <Input.Password />
+      </Item>
+      <Button
+        loading={isLoading}
+        type="primary"
+        htmlType="submit">
         Registrarme
       </Button>
     </Form>

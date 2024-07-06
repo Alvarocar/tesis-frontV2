@@ -1,0 +1,55 @@
+.home {
+  background: #222831;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  &__card {
+    width: 100%;
+    max-width: 1200px;
+  }
+}
+
+.figure {
+  position: relative;
+  margin: 0;
+  &__title {
+    color: white;
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  &__description {
+    margin: 0;
+    color: white;
+    font-weight: 100;
+  }
+  &__caption {
+    padding: 0 30px;
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__btn {
+    margin-top: 20px;
+    background: #3c89e8;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+    width: fit-content;
+    &:hover {
+      color: white;
+    }
+  }
+  &__img-container {
+    width: 100%;
+  }
+  &__img {
+    height: 500px !important;
+    object-fit: cover;
+    object-position: top;
+  }
+}

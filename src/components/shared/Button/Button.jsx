@@ -9,11 +9,14 @@ const Button = ({
   type = "primary",
   onClick = () => null,
   htmlType = "button",
+  className,
+  loading = false,
   children,
 }) => {
   return (
     <AntButton
-      className={cx('btn', `btn--${type}`)}
+      className={cx('btn', `btn--${type}`, className)}
+      loading={loading}
       onClick={onClick}
       htmlType={htmlType}
     >{children}</AntButton>
@@ -22,9 +25,11 @@ const Button = ({
 
 Button.propTypes = {
   type: PropTypes.oneOf(["primary"]),
-  children: PropTypes.element,
+  children: PropTypes.elementType,
   onClick: PropTypes.func,
   htmlType: PropTypes.oneOf(["button", "submit", "reset"]),
+  className: PropTypes.string,
+  loading: PropTypes.bool,
 }
 
 export default Button
