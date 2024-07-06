@@ -1,10 +1,10 @@
 .header {
-  background: #222831;
+  background: #111518;
   display: flex;
   justify-content: space-between;
   padding: 15px 20px;
   align-items: center;
-  border-bottom: 1px solid #31363f;
+  border-bottom: 1px solid #28323a;
   &__title {
     margin: 0;
     color: white;
@@ -36,6 +36,6 @@
   &__signup {
     padding: 5px 15px;
     border-radius: 10px;
-    background: #31363f;
+    background: #28323a;
   }
 }

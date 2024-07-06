@@ -9,14 +9,15 @@ const HeaderPublic = () => {
   return (
     <header className={cx('header')}>
       <section>
-        <h4 className={cx('header__title')}>Acme Inc.</h4>
+        <Link to='/'><h4 className={cx('header__title')}>Acme Inc.</h4></Link>
+
       </section>
       <section className={cx('header__links')}>
         <Link className={cx('btn')} to="/">About</Link>
         <Link className={cx('btn')} to="/">Careers</Link>
         <Link className={cx('btn')} to="/">Contact</Link>
-        <Link className={cx('btn__login')} href="/">Log in</Link>
-        <Link className={cx('btn__signup')} href="/">Sign in</Link>
+        <Link className={cx('btn__login')} to="/aspirantes/sign-in">Log in</Link>
+        <Link className={cx('btn__signup')} to="/aspirantes/sign-up">Sign up</Link>
       </section>
     </header>
   )

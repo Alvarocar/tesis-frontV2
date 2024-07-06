@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { APPLICANT_API } from "@app/api/applicants.api"
 import { fromPromise } from "@app/utils/rxjs"
 import { useNavigate } from "react-router-dom"
+import { PublicTemplate } from "@app/template/PublicTemplate"
 
 const submit$ = new Subject()
 
@@ -40,17 +41,19 @@ export const Signup = () => {
   }, [])
 
   return (
-    <div className={styles['sign-up']}>
-      <Card
-        title="Registrarse como Aspirante"
-      >
-        <SignupForm
-          onSubmit={handleSubmit}
+    <PublicTemplate>
+      <div className={styles['sign-up']}>
+        <Card
+          title="Registrarse como Aspirante"
+        >
+          <SignupForm
+            onSubmit={handleSubmit}
 
-        />
-        {error}
-      </Card>
-    </div>
+          />
+          {error}
+        </Card>
+      </div>
+    </PublicTemplate>
   )
 }
 
