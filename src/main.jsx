@@ -1,9 +1,11 @@
-import ReactDOM from 'react-dom/client'
-import './styles/_global.scss'
 import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { ConfigProvider, theme } from 'antd'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './routes'
+import { store } from './store'
+import './styles/_global.scss'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -11,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       algorithm: theme.darkAlgorithm,
       hashed: false,
     }}>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </ConfigProvider>
   </React.StrictMode>
 )

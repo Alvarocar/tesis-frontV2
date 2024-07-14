@@ -1,9 +1,11 @@
 import { Form, Input } from "antd"
 import classNames from "classnames/bind"
 import { Button } from "@app/components/shared/Button"
-import { useState } from "react"
+import { useEffect } from "react"
 import styles from './Signin.module.scss'
 import { signinFormRules } from "@app/utils/signin/validations.util"
+import { useSigninApplicantMutation } from "@app/store/applicant"
+import { useNavigate } from "react-router-dom"
 
 const cx = classNames.bind(styles)
 
@@ -11,11 +13,18 @@ const { Item } = Form
 
 const SigninForm = () => {
 
-  const [isLoading] = useState(false)
 
-  const handleSubmit = () => {
-
+  const [submit, query] = useSigninApplicantMutation()
+  const navigate = useNavigate()
+  const handleSubmit = (values) => {
+    submit(values)
   }
+
+  useEffect(() => {
+    if (query.status === 'fulfilled') {
+      navigate({ pathname: '/aspirantes/home' })
+    }
+  }, [query.status, navigate])
 
   return (
     <Form
@@ -31,7 +40,7 @@ const SigninForm = () => {
         <Input.Password />
       </Item>
       <Button
-        loading={isLoading}
+        loading={query.isLoading}
         type="primary"
         htmlType="submit"
         className={cx('form__submit')}>

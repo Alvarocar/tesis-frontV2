@@ -11,6 +11,10 @@ export const router = createBrowserRouter([
       {
         path: "sign-in",
         lazy: () => import('@app/page/applicants/login')
+      },
+      {
+        path: "home",
+        lazy: () => import('@app/page/applicants/home'),
       }
     ],
   },
