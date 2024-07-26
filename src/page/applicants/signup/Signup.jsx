@@ -7,6 +7,7 @@ import { APPLICANT_API } from "@app/api/applicants.api"
 import { fromPromise } from "@app/utils/rxjs"
 import { Link, useNavigate } from "react-router-dom"
 import { PublicTemplate } from "@app/template/PublicTemplate"
+import { PublicMiddleware } from '@app/middlewares/public.middleware'
 import styles from "./Signup.module.scss"
 
 const cx = classNames.bind(styles)
@@ -43,20 +44,22 @@ export const Signup = () => {
   }, [navigate])
 
   return (
-    <PublicTemplate>
-      <div className={styles['sign-up']}>
-        <Card
-          title="Registrarse como Aspirante"
-        >
-          <SignupForm
-            onSubmit={handleSubmit}
+    <PublicMiddleware userType='applicant'>
+      <PublicTemplate>
+        <div className={styles['sign-up']}>
+          <Card
+            title="Registrarse como Aspirante"
+          >
+            <SignupForm
+              onSubmit={handleSubmit}
 
-          />
-          {error}
-        </Card>
-        <p className={cx('sign-up__msg')}>¿Ya tienes una cuenta? <Link to='/aspirantes/sign-in' className={cx('sign-up__login')}>Ingresa aqu&iacute;.</Link></p>
-      </div>
-    </PublicTemplate>
+            />
+            {error}
+          </Card>
+          <p className={cx('sign-up__msg')}>¿Ya tienes una cuenta? <Link to='/aspirantes/sign-in' className={cx('sign-up__login')}>Ingresa aqu&iacute;.</Link></p>
+        </div>
+      </PublicTemplate>
+    </PublicMiddleware>
   )
 }
 

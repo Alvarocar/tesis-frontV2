@@ -6,7 +6,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "sign-up",
-        lazy: () => import('@app/page/applicants/signup')
+        lazy: () => import('@app/page/applicants/signup'),
       },
       {
         path: "sign-in",

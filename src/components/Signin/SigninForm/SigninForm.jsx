@@ -4,7 +4,7 @@ import { Button } from "@app/components/shared/Button"
 import { useEffect } from "react"
 import styles from './Signin.module.scss'
 import { signinFormRules } from "@app/utils/signin/validations.util"
-import { useSigninApplicantMutation } from "@app/store/applicant"
+import { useSigninApplicantMutation } from "@app/store/features/applicant"
 import { useNavigate } from "react-router-dom"
 
 const cx = classNames.bind(styles)
@@ -44,7 +44,7 @@ const SigninForm = () => {
         type="primary"
         htmlType="submit"
         className={cx('form__submit')}>
-        Registrarme
+        Ingresar
       </Button>
     </Form>
   )
