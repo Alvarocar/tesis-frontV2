@@ -7,7 +7,7 @@ import { router } from './routes'
 import { store } from './store'
 import './styles/_global.scss'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <React.StrictMode>
     <ConfigProvider theme={{
       algorithm: theme.darkAlgorithm,

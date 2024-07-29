@@ -2,6 +2,8 @@
  * @typedef {Array<import('antd/es/form').Rule>} Rule
  */
 
+import { Rule } from "antd/es/form";
+
 /**
  * @typedef {Object} ApplicantRules
  * @property {Rule} name
@@ -13,7 +15,7 @@
 /**
  * @type {ApplicantRules}
  */
-export const signupFormRules = {
+export const signupFormRules: Record<string, Rule[]> = {
   email: [
     {
       required: true,

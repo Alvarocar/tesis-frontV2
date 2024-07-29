@@ -16,20 +16,22 @@ const initialState = (): Partial<ICandidate> => {
   };
 };
 
+function resetApplicant(applicant: ICandidate) {
+  applicant.creation_date = undefined;
+  applicant.email = undefined;
+  applicant.id = undefined;
+  applicant.modification_date = undefined;
+  applicant.name = undefined;
+  applicant.password = undefined;
+  applicant.token = undefined;
+  localStorage.removeItem(CANDIDATE_TOKEN);
+}
+
 export const applicantSlice = createSlice({
   name: "applicantSlide",
   initialState: initialState(),
   reducers: {
-    RESET_APPLICANT: (applicant) => {
-      applicant.creation_date = undefined;
-      applicant.email = undefined;
-      applicant.id = undefined;
-      applicant.modification_date = undefined;
-      applicant.name = undefined;
-      applicant.password = undefined;
-      applicant.token = undefined;
-      localStorage.removeItem(CANDIDATE_TOKEN);
-    },
+    RESET_APPLICANT: resetApplicant,
   },
   extraReducers(builder) {
     builder.addMatcher(
@@ -65,6 +67,13 @@ export const applicantSlice = createSlice({
         state.id = id;
         state.modification_date = modification_date;
         state.name = name;
+      }
+    );
+
+    builder.addMatcher(
+      applicantApi.endpoints.getApplicant.matchRejected,
+      (state) => {
+        resetApplicant(state);
       }
     );
   },

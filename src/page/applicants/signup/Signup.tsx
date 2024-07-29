@@ -16,15 +16,15 @@ export const Signup = () => {
   const navigate = useNavigate();
   const submit$ = useRef(new Subject())
 
-  const handleSubmit = (payload) => {
+  const handleSubmit = (payload: any) => {
     submit$.current.next(payload)
   }
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const subscription = submit$.current.pipe(
-      map(value => ({
+      map((value: any) => ({
         email: value.email,
         name: value.name,
         password: value.password,
@@ -32,6 +32,7 @@ export const Signup = () => {
       mergeMap(user => fromPromise(APPLICANT_API.SIGN_UP(user))),
       catchError(() => {
         setError("Hubo un error")
+        return ""
       })
     )
       .subscribe(() => {

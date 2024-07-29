@@ -15,6 +15,14 @@ export const router = createBrowserRouter([
       {
         path: "home",
         lazy: () => import('@app/page/applicants/home'),
+      },
+      {
+        path: "hojas-de-vida",
+        lazy: () => import('@app/page/applicants/resumes'),
+      },
+      {
+        path: "hojas-de-vida/:id",
+        lazy: () => import('@app/page/applicants/resumes/edit'),
       }
     ],
   },

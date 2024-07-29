@@ -10,11 +10,11 @@ const { Item } = Form
 
 const cx = classNames.bind(styles)
 
-const SignupForm = ({
+const SignupForm: React.FC<{ onSubmit: (data: any) => void }> = ({
   onSubmit,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (data: any) => {
     try {
       setIsLoading(true)
       if (typeof onSubmit === "function") {
@@ -57,10 +57,6 @@ const SignupForm = ({
       </Button>
     </Form>
   )
-}
-
-SignupForm.propTypes = {
-  onSubmit: PropTypes.func
 }
 
 export default SignupForm

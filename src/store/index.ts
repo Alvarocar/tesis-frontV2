@@ -1,14 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { applicantApi } from "./features/applicant";
 import { applicantSlice } from "./features/applicant/applicant.slice";
+import { applicantResumeApi } from "./features/applicantResume";
 
 export const store = configureStore({
   reducer: {
     [applicantApi.reducerPath]: applicantApi.reducer,
     [applicantSlice.name]: applicantSlice.reducer,
+    [applicantResumeApi.reducerPath]: applicantResumeApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(applicantApi.middleware),
+    getDefaultMiddleware()
+      .concat(applicantApi.middleware)
+      .concat(applicantResumeApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
