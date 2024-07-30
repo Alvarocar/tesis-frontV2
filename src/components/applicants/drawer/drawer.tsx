@@ -30,13 +30,13 @@ const Drawer = () => {
       </button>
       <AntDrawer
         placement="left"
-        title={<Typography.Title level={4}>{`Perfil de ${name}`}</Typography.Title>}
+        title={`Perfil de ${name}`}
         onClose={handleClick}
         open={open}
       >
         <Link to="/aspirantes/cuenta"><Typography.Text style={{ fontSize: "18px" }}>Cuenta</Typography.Text></Link>
         <Divider />
-        <Typography.Title level={4}>Hojas de Vida</Typography.Title>
+        <Typography.Title level={4} >Hojas de Vida</Typography.Title>
         {isLoading ? <Skeleton active /> : resumes?.map(resume => (
           <ResumeOverviewCard key={resume.id} value={resume} />
         ))}

@@ -1,11 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { HeaderPublic } from "@app/components/shared/HeaderPublic"
+import { DynamicHeader } from "@app/components/shared/DynamicHeader"
 
 const PublicTemplate: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <React.Fragment>
-      <HeaderPublic />
+      <DynamicHeader />
       {children}
       <footer></footer>
     </React.Fragment>

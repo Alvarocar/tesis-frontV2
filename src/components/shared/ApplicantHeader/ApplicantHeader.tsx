@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import { Drawer } from "@app/components/applicants/drawer";
-import styles from "./ApplicantHeader.module.scss";
 import { connect, ConnectedProps } from "react-redux";
 import { AppDispatch } from "@app/store";
 import { RESET_APPLICANT } from "@app/store/features/applicant/applicant.slice";
+import { useGetApplicantQuery } from "@app/store/features/applicant";
+import styles from "./ApplicantHeader.module.scss";
 
 const cx = classNames.bind(styles)
 
 const ApplicantHeader: React.FC<ConnectedProps<typeof connector>> = ({ resetApplicant }) => {
+
+  useGetApplicantQuery()
+
   return (
     <header className={cx('header')}>
       <section className={cx('header__row')}>

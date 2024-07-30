@@ -32,8 +32,17 @@ export const applicantResumeApi = createApi({
         },
       }),
     }),
+    getResumeById: build.query<unknown, number>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: HTTP_METHODS.GET,
+      })
+    })
   }),
 });
 
-export const { useGetMyResumesQuery, useCreateNewResumeMutation } =
-  applicantResumeApi;
+export const {
+  useGetMyResumesQuery,
+  useGetResumeByIdQuery,
+  useCreateNewResumeMutation,
+} = applicantResumeApi;

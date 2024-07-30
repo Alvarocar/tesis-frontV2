@@ -1,0 +1,37 @@
+.not-found {
+  background: #111518;
+  padding: 20x;
+  display: grid;
+  place-content: center center;
+  min-height: 100vh;
+  &__number {
+    font-weight: 900 !important;
+    font-size: 4rem !important;
+    margin-bottom: 0 !important;
+    text-align: center;
+  }
+  &__title {
+    text-align: center;
+  }
+
+  &__text {
+    text-align: center;
+  }
+}
+
+.link {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: fit-content;
+  background: #3c89e8;
+  margin: 20px auto 0;
+  gap: 20px;
+  border-radius: 12px;
+  &:hover {
+    opacity: 0.8;
+    color: white;
+  }
+}

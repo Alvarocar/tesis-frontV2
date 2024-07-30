@@ -12,7 +12,7 @@ const ResumeCreateForm = () => {
     if (request.isSuccess) {
       navigate(`aspirantes/hojas-de-vida/${request.data.id}`)
     }
-  }, [])
+  }, [request.isSuccess])
 
   return (
     <Form
@@ -41,7 +41,7 @@ const ResumeCreateForm = () => {
       >
         <Input type="text" placeholder="Nombre de la hoja de vida" />
       </Form.Item>
-      <Button loading type="primary" htmlType="submit" >Crear Hoja de vida</Button>
+      <Button loading={request.isLoading} type="primary" htmlType="submit" >Crear Hoja de vida</Button>
     </Form>
   )
 }
