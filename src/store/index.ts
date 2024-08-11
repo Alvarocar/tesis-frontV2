@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { applicantApi } from "./features/applicant";
 import { applicantSlice } from "./features/applicant/applicant.slice";
 import { applicantResumeApi } from "./features/applicantResume";
+import { applicantResumeSlice } from './features/applicantResume/applicantResume.slice';
 
 export const store = configureStore({
   reducer: {
     [applicantApi.reducerPath]: applicantApi.reducer,
     [applicantSlice.name]: applicantSlice.reducer,
     [applicantResumeApi.reducerPath]: applicantResumeApi.reducer,
+    [applicantResumeSlice.name]: applicantResumeSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

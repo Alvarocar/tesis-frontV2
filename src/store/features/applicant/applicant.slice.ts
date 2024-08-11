@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ICandidate } from "@app/@types/candidate.types";
 import { applicantApi } from ".";
+import { applicantResumeApi } from "../applicantResume";
 
 const CANDIDATE_TOKEN = "candidate_token";
 
@@ -12,6 +13,8 @@ const initialState = (): Partial<ICandidate> => {
     modification_date: undefined,
     name: undefined,
     password: undefined,
+    birth_date: undefined,
+    direction: undefined,
     token: localStorage.getItem(CANDIDATE_TOKEN) ?? undefined,
   };
 };
@@ -76,6 +79,19 @@ export const applicantSlice = createSlice({
         resetApplicant(state);
       }
     );
+
+    builder.addMatcher(
+      applicantResumeApi.endpoints.getResumeById.matchFulfilled,
+      (state, action) => {
+        const { birth_date, direction, identification, modification_date, name, phone_number } = action.payload.applicant
+        state.birth_date = birth_date
+        state.direction = direction
+        state.identification = identification
+        state.modification_date = modification_date
+        state.name = name
+        state.phone_number = phone_number
+      }
+    )
   },
 });
 

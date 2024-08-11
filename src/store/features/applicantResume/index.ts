@@ -2,7 +2,7 @@ import { ENV, HTTP_METHODS } from "@app/constants";
 import { isEmpty } from "lodash";
 import { RootState } from "@app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IResumeOverview } from "@app/@types/resume.types";
+import { IResumeDetail, IResumeOverview } from "@app/@types/resume.types";
 
 export const applicantResumeApi = createApi({
   reducerPath: "applicantResume",
@@ -32,10 +32,17 @@ export const applicantResumeApi = createApi({
         },
       }),
     }),
-    getResumeById: build.query<unknown, number>({
+    getResumeById: build.query<IResumeDetail, number>({
       query: (id) => ({
         url: `/${id}`,
         method: HTTP_METHODS.GET,
+      })
+    }),
+    patchAboutMe: build.mutation<{ about_me: string }, { resumeId: number, about_me: string }>({
+      query: (body) => ({
+        url: '/about_me',
+        method: HTTP_METHODS.PATCH,
+        body,
       })
     })
   }),
@@ -45,4 +52,5 @@ export const {
   useGetMyResumesQuery,
   useGetResumeByIdQuery,
   useCreateNewResumeMutation,
+  usePatchAboutMeMutation,
 } = applicantResumeApi;

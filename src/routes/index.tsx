@@ -1,8 +1,10 @@
+import { Error } from "@app/page/error";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
   {
     path: "/aspirantes",
+    ErrorBoundary: Error,
     children: [
       {
         path: "sign-up",
@@ -17,11 +19,11 @@ export const router = createBrowserRouter([
         lazy: () => import('@app/page/applicants/home'),
       },
       {
-        path: "hojas-de-vida",
+        path: "cv",
         lazy: () => import('@app/page/applicants/resumes'),
       },
       {
-        path: "hojas-de-vida/:id",
+        path: "cv/:id",
         lazy: () => import('@app/page/applicants/resumes/edit'),
       }
     ],

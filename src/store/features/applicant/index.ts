@@ -51,6 +51,26 @@ export const applicantApi = createApi({
         url: "",
       }),
     }),
+
+    patchPersonalInfo: build.mutation<
+      ICandidate,
+      {
+        name: string;
+        identification: string;
+        phone_number: string;
+        /**
+         * @format DD-MM-YYYY
+         */
+        birth_date: string;
+        direction: string;
+      }
+    >({
+      query: (body) => ({
+        method: HTTP_METHODS.PATCH,
+        url: "/personal-info",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +78,5 @@ export const {
   useCreateApplicantMutation,
   useSigninApplicantMutation,
   useGetApplicantQuery,
+  usePatchPersonalInfoMutation,
 } = applicantApi;

@@ -6,12 +6,32 @@ import { AppDispatch } from "@app/store";
 import { RESET_APPLICANT } from "@app/store/features/applicant/applicant.slice";
 import { useGetApplicantQuery } from "@app/store/features/applicant";
 import styles from "./ApplicantHeader.module.scss";
+import { useEffect } from "react";
+import { stubTrue } from "lodash";
 
 const cx = classNames.bind(styles)
 
-const ApplicantHeader: React.FC<ConnectedProps<typeof connector>> = ({ resetApplicant }) => {
+interface Props extends ConnectedProps<typeof connector> {
+  onError?: () => void
+  onComplete?: () => void
+}
 
-  useGetApplicantQuery()
+const ApplicantHeader: React.FC<Props> = ({ resetApplicant, onError = stubTrue, onComplete = stubTrue }) => {
+
+  const { isError, isLoading } = useGetApplicantQuery()
+
+
+  useEffect(() => {
+    if (isError) {
+      onError()
+    }
+  }, [isError])
+
+  useEffect(() => {
+    if (!isLoading) {
+      onComplete()
+    }
+  }, [isLoading])
 
   return (
     <header className={cx('header')}>
@@ -20,7 +40,7 @@ const ApplicantHeader: React.FC<ConnectedProps<typeof connector>> = ({ resetAppl
         <Link to='/'><h4 className={cx('header__title')}>Acme Inc.</h4></Link>
       </section>
       <section className={cx('header__links')}>
-        <Link className={cx('btn')} to="/">Ofertas Laborales</Link>
+        <Link className={cx('btn')} to="/aspirantes/home">Ofertas Laborales</Link>
         <Link className={cx('btn')} to="/">Hojas de vida</Link>
         <Link className={cx('btn')} to="/">Perfil</Link>
         <Link className={cx('btn__signup')} to="/aspirantes/sign-up" onClick={() => resetApplicant()}>Sign out</Link>

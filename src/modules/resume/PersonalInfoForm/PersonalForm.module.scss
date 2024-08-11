@@ -1,0 +1,26 @@
+@use '../../../styles/variables' as v;
+
+.form {
+  width: fit-content;
+  margin: 0 auto;
+  &__address {
+    width: 16rem;
+  }
+  &__submit {
+    margin: 0 auto;
+  }
+  &__center {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  &--col-sm {
+    @media screen and (max-width: v.$screen-sm) {
+      flex-direction: column;
+    }
+  }
+}

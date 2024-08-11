@@ -10,7 +10,7 @@ const ResumeCreateForm = () => {
 
   useEffect(() => {
     if (request.isSuccess) {
-      navigate(`aspirantes/hojas-de-vida/${request.data.id}`)
+      navigate(`aspirantes/cv/${request.data.id}`)
     }
   }, [request.isSuccess])
 
