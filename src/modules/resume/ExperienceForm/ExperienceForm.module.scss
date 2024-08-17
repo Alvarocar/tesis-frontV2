@@ -1,0 +1,10 @@
+.form {
+  &__row {
+    display: flex;
+    gap: 2rem;
+  }
+  &__center {
+    display: flex;
+    justify-content: center;
+  }
+}

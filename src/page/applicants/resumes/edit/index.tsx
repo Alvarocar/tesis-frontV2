@@ -5,6 +5,9 @@ import { PersonalInfoForm } from "@app/modules/resume/PersonalInfoForm"
 import { useGetResumeByIdQuery } from "@app/store/features/applicantResume"
 import { ApplicantTemplate } from "@app/template/ApplicantTemplate"
 import DescriptionForm from "@app/modules/resume/DescriptionForm/DescriptionForm"
+import { EducationList } from "@app/modules/resume/EducationList"
+import ExperienceList from "@app/modules/resume/ExperiencieList/ExperienceList"
+import { LanguageList } from "@app/modules/resume/LanguageList"
 
 const isNumberRegEx = new RegExp("^\\d+$")
 
@@ -20,6 +23,9 @@ export const Component: React.FC = () => {
       <Typography.Title style={{ textAlign: 'center' }} level={2}>Editar una Hoja de Vida</Typography.Title>
       <PersonalInfoForm />
       <DescriptionForm />
+      <EducationList />
+      <ExperienceList />
+      <LanguageList />
     </ApplicantTemplate>
   )
 }

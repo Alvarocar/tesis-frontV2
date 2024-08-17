@@ -25,7 +25,7 @@ const DescriptionForm: React.FC<Props> = ({
   resume_id,
 }) => {
   const [form] = useForm()
-  const [patch] = usePatchAboutMeMutation()
+  const [patch, request] = usePatchAboutMeMutation()
 
   useEffect(() => {
     form.setFieldsValue({ about_me, resume_id })
@@ -57,7 +57,7 @@ const DescriptionForm: React.FC<Props> = ({
       </Form.Item>
       <Form.Item noStyle name='resume_id' ></Form.Item>
       <div className={cx('form__submit')}>
-        <Button onClick={() => form.submit()} type="primary">
+        <Button loading={request.isLoading} onClick={() => form.submit()} type="primary">
           <Typography.Text>Guardar</Typography.Text>
         </Button>
       </div>

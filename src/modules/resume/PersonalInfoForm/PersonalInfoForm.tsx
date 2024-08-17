@@ -26,7 +26,7 @@ const PersonalInfoForm: React.FC<Props> = ({
   value,
 }) => {
 
-  const [patch] = usePatchPersonalInfoMutation()
+  const [patch, request] = usePatchPersonalInfoMutation()
   const [form] = useForm()
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const PersonalInfoForm: React.FC<Props> = ({
         </Form.Item>
       </div>
       <div className={cx('form__center')}>
-        <Button onClick={() => form.submit()} className={cx('form__submit')} type="primary">
+        <Button loading={request.isLoading} onClick={() => form.submit()} className={cx('form__submit')} type="primary">
           <Typography.Text>Guardar</Typography.Text>
         </Button>
       </div>

@@ -9,8 +9,8 @@ export interface IResumeDetail {
   title: string
   about_me: string
   modification_date: string
-  experiences: Experience[]
-  educations: Education[]
+  experiences: IExperience[]
+  educations: IEducation[]
   personal_references: PersonalReference[]
   laboral_references: LaboralReference[]
   languages: Language[]
@@ -18,7 +18,7 @@ export interface IResumeDetail {
   applicant: Applicant
 }
 
-export interface Experience {
+export interface IExperience {
   id?: number
   rol: string
   company: string
@@ -28,7 +28,7 @@ export interface Experience {
   description: string
 }
 
-export interface Education {
+export interface IEducation {
   id?: number
   institute: string
   title: string
