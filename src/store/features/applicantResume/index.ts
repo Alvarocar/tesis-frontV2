@@ -2,7 +2,7 @@ import { ENV, HTTP_METHODS } from "@app/constants";
 import { isEmpty } from "lodash";
 import { RootState } from "@app/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IResumeDetail, IResumeOverview } from "@app/@types/resume.types";
+import { ILanguage, IResumeDetail, IResumeOverview } from "@app/@types/resume.types";
 
 export const applicantResumeApi = createApi({
   reducerPath: "applicantResume",
@@ -44,6 +44,13 @@ export const applicantResumeApi = createApi({
         method: HTTP_METHODS.PATCH,
         body,
       })
+    }),
+    getLanguagesByTerm: build.query<ILanguage[], string>({
+      query: (term) =>  ({
+        url: '/language/search',
+        method: HTTP_METHODS.GET,
+        params: { term }
+      })
     })
   }),
 });
@@ -53,4 +60,5 @@ export const {
   useGetResumeByIdQuery,
   useCreateNewResumeMutation,
   usePatchAboutMeMutation,
+  useGetLanguagesByTermQuery,
 } = applicantResumeApi;

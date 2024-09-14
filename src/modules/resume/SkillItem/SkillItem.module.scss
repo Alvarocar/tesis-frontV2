@@ -1,0 +1,16 @@
+.skill-item {
+  background: #BDC3C7;
+  width: fit-content;
+  padding: 5px 10px;
+  display: flex;
+  gap: 5px;
+  border-radius: 8px;
+  cursor: default;
+  user-select: none;
+  &__x {
+    background: transparent;
+    border-radius: 50%;
+    border: 1px solid #E74C3C;
+    color: #E74C3C;
+  }
+}

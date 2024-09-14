@@ -1,0 +1,36 @@
+.levels {
+  div[role="radio"] {
+    background: #01579b;
+    &[aria-checked=true] {
+      background: #03a9f4;
+    }
+  }
+
+  &-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__legend {
+      text-align: center;
+    }
+  }
+}
+
+.level {
+  width: 2rem;
+  height: 1rem;
+}
+
+.language {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+
+  &__name {
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 16px;
+    align-self: flex-start;
+  }
+}

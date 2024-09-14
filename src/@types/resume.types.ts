@@ -13,8 +13,8 @@ export interface IResumeDetail {
   educations: IEducation[]
   personal_references: PersonalReference[]
   laboral_references: LaboralReference[]
-  languages: Language[]
-  skills: Skill[]
+  languages: ILanguage[]
+  skills: ISkill[]
   applicant: Applicant
 }
 
@@ -53,14 +53,15 @@ export interface LaboralReference {
   rol: string
 }
 
-export interface Skill {
+export interface ISkill {
   id?: number
   name: string
 }
 
-export interface Language {
-  name: string
-  level: number
+export interface ILanguage {
+  id?: number;
+  name: string;
+  level: number;
 }
 
 interface Applicant {

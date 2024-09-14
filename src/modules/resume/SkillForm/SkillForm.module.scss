@@ -1,0 +1,14 @@
+.skills {
+  display: flex;
+  flex-direction: column;
+  &__list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  &__submit {
+    margin: 0 auto;
+  }
+}

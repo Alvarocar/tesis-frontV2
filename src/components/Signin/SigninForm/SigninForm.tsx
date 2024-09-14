@@ -1,4 +1,4 @@
-import { Form, Input } from "antd"
+import { Form, Input, Typography } from "antd"
 import classNames from "classnames/bind"
 import { Button } from "@app/components/shared/Button"
 import { useEffect } from "react"
@@ -44,7 +44,9 @@ const SigninForm = () => {
         type="primary"
         htmlType="submit"
         className={cx('form__submit')}>
-        Ingresar
+          <Typography.Text>
+            Ingresar
+          </Typography.Text>
       </Button>
     </Form>
   )

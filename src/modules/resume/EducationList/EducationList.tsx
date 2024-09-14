@@ -4,6 +4,7 @@ import { IEducation } from '@app/@types/resume.types'
 import { Button, Modal, Typography } from 'antd'
 import EducationForm from '../EducationForm/EducationForm'
 import styles from './EducationList.module.scss'
+import { LanguageAutoComplete } from '../LanguageAutoComplete'
 
 const cx = classNames.bind(styles)
 

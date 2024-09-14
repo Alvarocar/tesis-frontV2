@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Button, Modal, Typography } from "antd"
 import classNames from "classnames/bind"
+import { LanguageForm } from "../LanguageForm"
 import styles from './LanguageList.module.scss'
 
 const cx = classNames.bind(styles)
@@ -24,7 +25,7 @@ const LanguageList: React.FC = () => {
           onCancel={() => setOpen(false)}
           footer={null}
         >
-
+          <LanguageForm />
         </Modal>
     </article>
   )

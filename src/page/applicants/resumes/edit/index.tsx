@@ -8,6 +8,7 @@ import DescriptionForm from "@app/modules/resume/DescriptionForm/DescriptionForm
 import { EducationList } from "@app/modules/resume/EducationList"
 import ExperienceList from "@app/modules/resume/ExperiencieList/ExperienceList"
 import { LanguageList } from "@app/modules/resume/LanguageList"
+import { SkillList } from "@app/modules/resume/SkillList"
 
 const isNumberRegEx = new RegExp("^\\d+$")
 
@@ -26,6 +27,7 @@ export const Component: React.FC = () => {
       <EducationList />
       <ExperienceList />
       <LanguageList />
+      <SkillList />
     </ApplicantTemplate>
   )
 }

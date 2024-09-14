@@ -1,5 +1,6 @@
 
-const Error = () => {
+const Error = (props) => {
+  console.error(props)
   return <div>hubo un error</div>
 }
 
