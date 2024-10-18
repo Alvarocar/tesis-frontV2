@@ -1,16 +1,57 @@
 import React from "react";
-import { Button, Checkbox, DatePicker, Form, Input, Typography } from "antd";
+import dayjs from "dayjs";
+import { isUndefined, stubTrue } from "lodash";
 import classNames from "classnames/bind";
+import { Button, Checkbox, Form, Input, Typography } from "antd";
+import { usePatchExperienceMutation } from "@app/store/features/applicantResume";
+import { useSelector } from "react-redux";
+import { selectResumeId } from "@app/store/features/applicantResume/applicantResume.selector";
+import { dateToString } from "@app/utils/date.util";
+import { CustomDatePicker } from "@app/components/shared/CustomDatePicker";
+import { IExperience } from '../../../@types/resume.types';
 import styles from "./ExperienceForm.module.scss";
 
 const cx = classNames.bind(styles);
 
-const ExperienceForm: React.FC = () => {
-  const [form] = Form.useForm();
+type Props = {
+  onSubmit?: () => void;
+  value: IExperience;
+};
 
+const ExperienceForm: React.FC<Props> = ({ onSubmit = stubTrue, value }) => {
+  const [form] = Form.useForm();
+  const [update, request] = usePatchExperienceMutation();
+  const resumeId = useSelector(selectResumeId);
   return (
-    <Form layout="vertical" form={form} className={cx("form")}>
+    <Form
+      layout="vertical"
+      form={form}
+      className={cx("form")}
+      onFinish={(values) => {
+        update({
+          resumeId: values.resumeId,
+          experience: {
+            ...values,
+            resumeId: undefined,
+            start_date: dateToString(values.start_date),
+            end_date: values.end_date
+              ? dateToString(values.end_date)
+              : null,
+          },
+        }).then(req => {
+          if (isUndefined(req.error)) {
+            onSubmit()
+          }
+        });
+      }}
+      initialValues={{
+        ...value,
+        resumeId,
+      }}
+    >
       <Typography.Title level={3}>Agregar/Editar Experiencia</Typography.Title>
+      <Form.Item noStyle name="resumeId"/>
+      <Form.Item noStyle name="id" />
       <div className={cx("form__row")}>
         <Form.Item
           label="Rol"
@@ -42,21 +83,25 @@ const ExperienceForm: React.FC = () => {
           style={{ height: 220, resize: "none" }}
         />
       </Form.Item>
-      <Form.Item name="keep_study">
+      <Form.Item name="keep_working" valuePropName="checked">
         <Checkbox>
           <Typography.Text>¿Aun sigue en el cargo?</Typography.Text>
         </Checkbox>
       </Form.Item>
       <div className={cx("form__row")}>
         <Form.Item name="start_date" label="Fecha de ingreso">
-          <DatePicker />
+          <CustomDatePicker />
         </Form.Item>
         <Form.Item name="end_date" label="Fecha de finalización">
-          <DatePicker />
+          <CustomDatePicker />
         </Form.Item>
       </div>
-      <div className={cx('form__center')}>
-        <Button type="primary" onClick={() => form.submit()}>
+      <div className={cx("form__center")}>
+        <Button
+          loading={request.isLoading}
+          type="primary"
+          onClick={() => form.submit()}
+        >
           <Typography.Text>Guardar</Typography.Text>
         </Button>
       </div>

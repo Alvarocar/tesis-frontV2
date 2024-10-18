@@ -22,9 +22,10 @@ const Skill = () => {
           open={open}
           onClose={() => setOpen(false)}
           onCancel={() => setOpen(false)}
+          destroyOnClose
           footer={null}
         >
-          <SkillForm />
+          <SkillForm onSubmit={() => setOpen(false)}/>
         </Modal>
     </article>
   )

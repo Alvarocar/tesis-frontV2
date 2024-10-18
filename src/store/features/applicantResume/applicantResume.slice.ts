@@ -22,5 +22,21 @@ export const applicantResumeSlice = createSlice({
       if (!state.currentResume) return
       state.currentResume.about_me = action.payload.about_me
     })
+    builder.addMatcher(applicantResumeApi.endpoints.patchEducation.matchFulfilled, (state, action) => {
+      if (!state.currentResume) return
+      state.currentResume.educations = action.payload
+    })
+    builder.addMatcher(applicantResumeApi.endpoints.patchExperience.matchFulfilled, (state, action) => {
+      if (!state.currentResume) return
+      state.currentResume.experiences = action.payload
+    })
+    builder.addMatcher(applicantResumeApi.endpoints.patchLanguages.matchFulfilled, (state, action) => {
+      if (!state.currentResume) return
+      state.currentResume.languages = action.payload
+    })
+    builder.addMatcher(applicantResumeApi.endpoints.patchSkill.matchFulfilled, (state, action) => {
+      if (!state.currentResume) return
+      state.currentResume.skills = action.payload
+    })
   }
 })

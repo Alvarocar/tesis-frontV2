@@ -5,13 +5,24 @@ import { SkillInput } from "../SkillInput"
 import { SkillItem } from "../SkillItem"
 import styles from './SkillForm.module.scss'
 import { ISkill } from "@app/@types/resume.types"
+import { useSelector } from "react-redux"
+import { selectResumeId, selectResumeSkills } from "@app/store/features/applicantResume/applicantResume.selector"
+import { usePatchSkillMutation } from "@app/store/features/applicantResume"
+import { stubTrue } from "lodash"
 
 const cx = classNames.bind(styles)
 
-const SkillForm = () => {
+type Props = {
+  onSubmit?: () => void
+}
+
+const SkillForm: React.FC<Props> = ({ onSubmit = stubTrue }) => {
   const inputRef = useRef({
     clean: () => null,
   })
+  const skills = useSelector(selectResumeSkills)
+  const resumeId = useSelector(selectResumeId)
+  const [update, request] = usePatchSkillMutation()
 
   const [form] = Form.useForm()
 
@@ -20,13 +31,24 @@ const SkillForm = () => {
       layout="vertical"
       form={form}
       onFinish={(values) => {
-        console.log(values)
+        update({
+          resumeId: values.resumeId,
+          skills: values.skills,
+        })
+        .then(res => {
+          if (res.error === undefined) {
+            onSubmit()
+          }
+        })
       }}
+      onFinishFailed={console.log}
       initialValues={{
-        skills: [],
+        skills,
+        resumeId,
       }}
     >
       <Typography.Title level={3}>Agregar/Editar una Habilidad</Typography.Title>
+      <Form.Item noStyle name="resumeId" />
       <Form.List name="skills">
       {(fields, { add, remove }) => (
         <div className={cx("skills")}>
@@ -48,6 +70,7 @@ const SkillForm = () => {
             type="primary"
             className={cx("skills__submit")}
             onClick={() => form.submit()}
+            loading={request.isLoading}
           >
             <Typography.Text>Guardar</Typography.Text>
           </Button>

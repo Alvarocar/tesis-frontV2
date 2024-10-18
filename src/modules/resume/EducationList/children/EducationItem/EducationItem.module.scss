@@ -1,0 +1,31 @@
+.education-item {
+  padding: 0 20px;
+  border: 1px solid #BDC3C7;
+  border-radius: 10px;
+  text-align: center;
+  transition: 300ms ease-out all;
+  position: relative;
+
+  &__title {
+    margin: 0 !important;
+    
+  }
+
+  &__edit {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 10px;
+    &:hover {
+      background: #2C3E50;
+    }
+  }
+
+  &__subtitle {
+    font-weight: 600;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

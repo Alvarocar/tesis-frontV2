@@ -6,7 +6,7 @@ import { useGetLanguagesByTermQuery } from "@app/store/features/applicantResume"
 import { DefaultOptionType } from "antd/es/select"
 import { ILanguage } from "@app/@types/resume.types"
 import styles from './LanguageSearch.module.scss'
-import { isEmpty, stubTrue } from "lodash"
+import { isEmpty, omit, stubTrue } from "lodash"
 
 const { Text } = Typography
 
@@ -34,7 +34,7 @@ const LanguageSearch: React.FC<Props> = ({
   const isLoading = isFetching || value !== current
 
   const handleSelect = (value: string) =>  {
-    onSelect(data.find((lng) => lng.name === value) as ILanguage)
+    onSelect(omit(data.find((lng) => lng.name === value), ['id']) as ILanguage)
     set('')
   }
 

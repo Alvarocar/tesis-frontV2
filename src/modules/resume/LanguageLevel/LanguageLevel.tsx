@@ -1,4 +1,4 @@
-import { Rate } from "antd"
+import { Rate, Typography } from "antd"
 import classNames from "classnames/bind"
 import { ILanguage } from "@app/@types/resume.types"
 import { stubTrue } from "lodash"
@@ -25,7 +25,7 @@ const levelsLabel = [
   }
 ]
 
-const LanguageLevel: React.FC<{value?: ILanguage, onChange?: (level: ILanguage) => void}> = ({ value, onChange = stubTrue }) => {
+const LanguageLevel: React.FC<{value?: ILanguage, onChange?: (level: ILanguage) => void, onDelete?: (value: ILanguage) => void}> = ({ value, onChange = stubTrue, onDelete = stubTrue }) => {
   if (!value) return null
   return (
     <div className={cx('language')}>
@@ -46,6 +46,12 @@ const LanguageLevel: React.FC<{value?: ILanguage, onChange?: (level: ILanguage) 
       <div className={cx('language__name')}>
         {value.name}
       </div>
+      <button className={cx('language__delete')} onClick={() => {
+        if (value === undefined) return
+        onDelete(value)
+      }}>
+        <Typography.Text>X</Typography.Text>
+      </button>
     </div>
   )
 }

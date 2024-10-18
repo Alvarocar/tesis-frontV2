@@ -5,6 +5,7 @@ import { ConfigProvider, theme } from 'antd'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './routes'
 import { store } from './store'
+import './days'
 import './styles/_global.scss'
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(

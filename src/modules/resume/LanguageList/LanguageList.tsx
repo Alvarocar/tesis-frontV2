@@ -23,9 +23,12 @@ const LanguageList: React.FC = () => {
           open={open}
           onClose={() => setOpen(false)}
           onCancel={() => setOpen(false)}
+          destroyOnClose
           footer={null}
         >
-          <LanguageForm />
+          <LanguageForm onSubmit={() => {
+            setOpen(false)
+          }} />
         </Modal>
     </article>
   )
