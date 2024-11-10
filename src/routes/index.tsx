@@ -29,6 +29,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: '/job/:id',
+    ErrorBoundary: Error,
+    lazy: () => import('@app/page/job/[id]'),
+  },
+  {
     path: '/',
     lazy: () => import('@app/page/home'),
   },

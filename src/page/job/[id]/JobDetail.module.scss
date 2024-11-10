@@ -1,0 +1,15 @@
+.page {
+  background: #111518;
+  padding: 20px;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+
+  color: white;
+  h2, p, span, h1, h3, h4, h5, h6, br, b, strong {
+    color: white;
+  }
+}
+
+.job-detail {}

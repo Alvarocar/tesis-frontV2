@@ -5,16 +5,22 @@ import styles from "./Home.module.scss"
 import { Drawer } from "@app/components/applicants/drawer";
 import { useGetApplicantQuery } from "@app/store/features/applicant";
 import JobCard from "@app/components/shared/JobCard/JobCard";
-import { jobsExample } from "@app/constants/vacants.constant";
+import { useGetJobsQuery } from "@app/store/features/job";
 
 const cx = classNames.bind(styles)
 
 const Home = () => {
   useGetApplicantQuery()
+  const { data } = useGetJobsQuery({ page: 1, pageSize: 10 })
+
   return (
     <ApplicantTemplate>
       <main className={cx("home")}>
-        <JobCard {...jobsExample[0]} />
+        <div className={cx("jobs")}>
+          {data?.result?.map(job => (
+            <div key={job.id}><JobCard {...job} /></div>
+          ))}
+        </div>
       </main>
     </ApplicantTemplate>
   )

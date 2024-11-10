@@ -3,6 +3,7 @@ import { applicantApi } from "./features/applicant";
 import { applicantSlice } from "./features/applicant/applicant.slice";
 import { applicantResumeApi } from "./features/applicantResume";
 import { applicantResumeSlice } from './features/applicantResume/applicantResume.slice';
+import { jobApi } from "./features/job";
 
 export const store = configureStore({
   reducer: {
@@ -10,11 +11,13 @@ export const store = configureStore({
     [applicantSlice.name]: applicantSlice.reducer,
     [applicantResumeApi.reducerPath]: applicantResumeApi.reducer,
     [applicantResumeSlice.name]: applicantResumeSlice.reducer,
+    [jobApi.reducerPath]: jobApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(applicantApi.middleware)
-      .concat(applicantResumeApi.middleware),
+      .concat(applicantResumeApi.middleware)
+      .concat(jobApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

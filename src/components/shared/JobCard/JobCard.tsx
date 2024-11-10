@@ -1,5 +1,10 @@
 import { Buildings, Clock, DollarCircle } from "iconsax-react";
-import { IJobCard } from "./JobCard.interface"
+import classNames from "classnames/bind";
+import { IJobCard } from "./JobCard.interface";
+import styles from './JobCard.module.scss';
+import { Link } from "react-router-dom";
+
+const cx = classNames.bind(styles);
 
 const JobCard: React.FC<IJobCard> = ({
   title,
@@ -8,25 +13,27 @@ const JobCard: React.FC<IJobCard> = ({
   type,
 }) => {
   return (
-    <article>
-      <h4>{title}</h4>
-      <section>
-        <Buildings size={20} />
-        <p>{company}</p>
-      </section>
-      <section>
-        <DollarCircle size={20} />
-        {salary ? salary : 'A convenir'}
-      </section>
-      <section>
-        <section>
-          <Clock size={20} />
-          {type}
+    <article className={cx('job-card')}>
+      <h4 className={cx('job-card__title')}>{title}</h4>
+      <div className={cx('job-card__center')}>
+        <section className={cx('job-card__row')}>
+          <Buildings size={20} />
+          <p>{company}</p>
         </section>
-        <button>
-          Ver detalle
-        </button>
-      </section>
+        <section className={cx('job-card__row')}>
+          <DollarCircle size={20} />
+          {salary ? salary : 'A convenir'}
+        </section>
+        <section className={cx('job-card__row')}>
+          <section className={cx('job-card__row')}>
+            <Clock size={20} />
+            {type}
+          </section>
+          <Link to="/" className={cx('job-card__see-detail')}>
+            Ver detalle
+          </Link>
+        </section>
+      </div>
     </article>
   );
 }

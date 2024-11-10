@@ -1,7 +1,7 @@
 
-export interface IJobCard {
-  title: string;
-  company: string;
-  salary?: number | null;
-  type: string; 
+import { IJobPreview } from '../../../@types/job.types';
+
+export interface IJobCard extends IJobPreview {
+  children?: React.ReactNode;
 }
+
