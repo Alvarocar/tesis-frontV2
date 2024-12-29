@@ -1,9 +1,8 @@
 import { Route, Switch } from "wouter"
-import { Header } from "./modules/common/header"
-import { Suspense, lazy } from "react"
+import { Suspense } from "react"
+import { ROUTES } from "./router/routes"
 
-const Home = lazy(() => import('./pages/Home').then(({ Home }) => ({ default: Home })))
-const Signup = lazy(() => import('./pages/Signup').then(({ Signup }) => ({ default: Signup })))
+const { Home, Signin, Signup } = ROUTES;
 
 function App() {  return (
     <div className="h-screen bg-slate-100">
@@ -11,6 +10,7 @@ function App() {  return (
         <Switch>
           <Route path='/' component={Home} />
           <Route path='/sign-up' component={Signup} />
+          <Route path='/sign-in' component={Signin} />
           <Route>
             404
           </Route>

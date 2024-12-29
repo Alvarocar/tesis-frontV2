@@ -29,9 +29,10 @@ const SignupForm = () => {
     }
   })
 
-  const { mutate, isLoading, error } = useMutate(ApplicantRepository.signup.bind(ApplicantRepository))
+  const { mutate, isLoading } = useMutate(ApplicantRepository.signup.bind(ApplicantRepository))
 
   const onSubmit: SubmitHandler<Inputs> = async (args) => {
+    setErrorMsg('')
     try {
       const [resp, error] = await mutate(args)
       if (error) {
@@ -40,8 +41,6 @@ const SignupForm = () => {
       //TODO: use resp to authenticate the applicant.
     } catch (e) { console.error(e) }
   }
-
-  console.log(error)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
