@@ -1,9 +1,11 @@
+import { Link } from "wouter";
+import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import ApplicantRepository from "@app/repositories/applicant.repository";
+import useMutate from "@app/hooks/useMutation.hook";
 import { Button } from "@app/components/ui/button";
-import { Label } from "@app/components/ui/label";
 import { Form } from "@app/modules/common/form";
 import { emailRegex } from "@app/util/regex";
-import { Link } from "wouter";
 
 type Inputs = {
   firstName: string;
@@ -16,6 +18,8 @@ const { InputField } = Form
 
 const SignupForm = () => {
 
+  const [errorMsg, setErrorMsg] = useState('');
+
   const { handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
       email: '',
@@ -25,13 +29,23 @@ const SignupForm = () => {
     }
   })
 
-  const onSubmit: SubmitHandler<Inputs> = (args) => {
-    console.log(args)
+  const { mutate, isLoading, error } = useMutate(ApplicantRepository.signup.bind(ApplicantRepository))
+
+  const onSubmit: SubmitHandler<Inputs> = async (args) => {
+    try {
+      const [resp, error] = await mutate(args)
+      if (error) {
+        return setErrorMsg(error.message);
+      }
+      //TODO: use resp to authenticate the applicant.
+    } catch (e) { console.error(e) }
   }
+
+  console.log(error)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <legend>Crear una cuenta</legend>
+      <legend className="font-bold text-lg" >Crear una cuenta</legend>
       <fieldset className="flex flex-col gap-4">
         <Controller
           name='firstName'
@@ -61,8 +75,9 @@ const SignupForm = () => {
           render={({ formState: { errors }, field }) => 
             <InputField type="password" {...field} label="Contraseña" error={errors.password} />}
         />
+        {errorMsg && <p className="text-red-500">{errorMsg}</p>}
       </fieldset>
-      <Button className="my-5" type="submit">Registrarme</Button>
+      <Button disabled={isLoading} className="my-5" type="submit">Registrarme</Button>
 
       <p className="md:hidden">¿Ya tienes una cuenta? <Link className='text-sky-500' href="/sign-in">haz clic aquí</Link></p>
     </form>
