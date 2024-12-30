@@ -11,9 +11,9 @@ const authReducer = (state: TAuthContext, action: TAuthAction): TAuthContext => 
     case 'SET_AUTH':
       return { ...state, isAuth: action.payload.isAuth, userType: action.payload.userType, isLoading: false };
     case 'SET_TOKEN':
-      return { ...state, isLoading: true };
+      return { ...state ,isLoading: true, token: action.payload };
     case 'REMOVE_TOKEN':
-      return { ...state, isAuth: false, userType: undefined, isLoading: false };
+      return { ...state, isAuth: false, userType: undefined, isLoading: false, token: undefined };
     default:
       return state;
   }
