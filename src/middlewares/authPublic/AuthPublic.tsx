@@ -1,17 +1,12 @@
 import { Redirect } from "wouter";
-import React, { useEffect } from "react"; 
+import React from "react"; 
 import { useAuth } from "@app/hooks/useAuth.hook";
 import { TMiddlewareComponent } from "@app/@types/middleware";
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader";
 
 const AuthPublic: TMiddlewareComponent = ({ children,...rest }) => {
   
-  const { userType, checkAuth, isLoading, isAuth } = useAuth();
-
-  useEffect(() => {
-    if (userType) return;
-    checkAuth();
-  }, [userType, checkAuth])
+  const { isLoading, isAuth } = useAuth();
 
   if (isLoading) return <DotsLoader />
 

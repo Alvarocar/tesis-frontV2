@@ -1,6 +1,6 @@
-import { AuthPublic } from "@app/middlewares/authPublic";
 import { ROUTES } from "./routes";
 import { TSchemaRouter } from "@app/@types/schema";
+import { AuthPublicApplicant } from "@app/middlewares/authPublicApplicant";
 
 export const routesSchema: TSchemaRouter[] = [
   {
@@ -11,6 +11,6 @@ export const routesSchema: TSchemaRouter[] = [
   {
     path: '/sign-in',
     component: ROUTES.Signin,
-    middleware: [AuthPublic]
+    middleware: [AuthPublicApplicant]
   },
 ]

@@ -1,4 +1,3 @@
-import { Route, Switch } from "wouter"
 import { Suspense } from "react"
 import { AuthProvider } from "./context/auth";
 import { DotsLoader } from "./modules/common/loader/dotsLoader";
@@ -10,12 +9,7 @@ function App() {  return (
     <div className="h-screen bg-slate-100">
       <AuthProvider>
         <Suspense fallback={<DotsLoader />}>
-          <Switch>
             <CustomRouter schema={routesSchema} />
-            <Route>
-              404
-            </Route>
-          </Switch>
         </Suspense>
       </AuthProvider>
     </div>

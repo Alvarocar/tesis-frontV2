@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "wouter";
+import { Route, Switch } from "wouter";
 import { TSchemaRouter } from "@app/@types/schema";
 
 const compound = (
@@ -24,7 +24,7 @@ export const CustomRouter: React.FC<{ schema: TSchemaRouter[] }> = ({
   schema,
 }) => {
   return (
-    <>
+    <Switch>
       {schema.map(({ component, path, middleware }) => (
         <Route
           key={path}
@@ -32,6 +32,9 @@ export const CustomRouter: React.FC<{ schema: TSchemaRouter[] }> = ({
           component={compound(component, middleware, path)}
         />
       ))}
-    </>
+      <Route>
+        404
+      </Route>
+    </Switch>
   );
 };
