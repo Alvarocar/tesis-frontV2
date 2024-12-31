@@ -10,3 +10,12 @@ export namespace TApiResponse {
     message?: string;
   }
 }
+
+export type Paginator = {
+  page: string,
+  pageSize: string,
+}
+
+export type TListResult<T> = {
+  result: T[],
+} & Paginator;

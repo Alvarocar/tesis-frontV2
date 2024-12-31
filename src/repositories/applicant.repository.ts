@@ -2,6 +2,7 @@ import { ENV } from "@app/constants";
 import BaseRepository from "./base.repository";
 import { ICandidate } from "@app/@types/applicant";
 import { TApiResponse } from '@app/@types/api';
+import { addToken } from "@app/decorators/repository.decorator";
 
 
 class ApplicantRepository extends BaseRepository {
@@ -17,10 +18,12 @@ class ApplicantRepository extends BaseRepository {
     return this.put<TApiResponse.Token<ICandidate>, ICandidate.SigninPayload>('/sign-in', payload);
   }
 
+  @addToken()
   getApplicant() {
     return this.get<ICandidate>('')
   }
 
+  @addToken()
   updateApplicant(payload: Partial<ICandidate.PersonalInfoPayload>) {
     this.patch<ICandidate.PersonalInfoPayload, Partial<ICandidate.PersonalInfoPayload>>('/personal-info', payload);
   }
