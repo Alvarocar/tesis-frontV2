@@ -6,7 +6,7 @@ import { routesSchema } from "./router/routes.schema";
 
 
 function App() {  return (
-    <div className="h-screen bg-slate-100">
+    <div className="min-h-screen bg-slate-100">
       <AuthProvider>
         <Suspense fallback={<DotsLoader />}>
             <CustomRouter schema={routesSchema} />

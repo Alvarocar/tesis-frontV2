@@ -1,10 +1,11 @@
 import { Header } from "@app/modules/common/header"
+import { JobList } from "@app/modules/job/JobList";
 
 const Home = () => {
   return (
     <>
       <Header />
-      <div>Hola Mundo</div>
+      <JobList />
     </>
   )
 }

@@ -9,7 +9,7 @@ const AuthPublicApplicant: TMiddlewareComponent = ({ children, ...rest }) => {
 
   if (isLoading) return <DotsLoader />
 
-  if (isAuth) return <Redirect to='/aspirantes/home' />
+  if (isAuth) return <Redirect to='/' />
 
   return React.cloneElement(children, rest);
 }
