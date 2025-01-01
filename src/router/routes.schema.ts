@@ -11,6 +11,16 @@ export const routesSchema: TSchemaRouter[] = [
   {
     path: '/sign-in',
     component: ROUTES.Signin,
-    middleware: [AuthPublicApplicant]
+    middleware: [AuthPublicApplicant],
   },
+  {
+    path: '/sign-up',
+    component: ROUTES.Signup,
+    middleware: [AuthPublicApplicant],
+  },
+  {
+    path: 'empleo/:jobSlug',
+    component: ROUTES.JobById,
+    middleware: [],
+  }
 ]

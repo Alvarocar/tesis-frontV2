@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "wouter";
 import { TSchemaRouter } from "@app/@types/schema";
+import { ROUTES } from "./routes";
 
 const compound = (
   Page: TSchemaRouter["component"],
@@ -14,7 +15,7 @@ const compound = (
         params: {},
         ...props,
       });
-    }, React.createElement(Page));
+    }, React.createElement(Page, props));
 
   Component.displayName = name;
   return Component;
@@ -33,7 +34,7 @@ export const CustomRouter: React.FC<{ schema: TSchemaRouter[] }> = ({
         />
       ))}
       <Route>
-        404
+        <ROUTES.NotFound />
       </Route>
     </Switch>
   );

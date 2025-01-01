@@ -7,7 +7,7 @@ type Props = {
 }
 
 const colors = {
-  white: 'bg-slate-100'
+  white: 'bg-white'
 }
 
 const Card: React.FC<Props> = ({ children, className,colorType = 'white' }) => {

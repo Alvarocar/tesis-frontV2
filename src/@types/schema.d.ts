@@ -3,6 +3,7 @@ import { TMiddlewareComponent } from "./middleware";
 
 export type TSchemaRouter = {
   path: string;
-  component: React.ComponentType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: React.ComponentType<any>;
   middleware: Array<TMiddlewareComponent>;
 }

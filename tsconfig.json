@@ -19,6 +19,7 @@
       "@app/*": ["./src/*"]
     },
     "types": ["vite/client"],
+    "experimentalDecorators": true,
   },
   "include": ["src"],
   "extensions": [".ts", ".tsx", ".scss", ".png", ".jpeg"],

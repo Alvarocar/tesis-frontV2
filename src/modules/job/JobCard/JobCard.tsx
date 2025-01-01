@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { TJobPreview } from "@app/@types/jobs";
 import { Card } from "@app/modules/common/card";
 import { Buildings, Clock, DollarCircle } from "iconsax-react";
+import { ExternalLink } from "lucide-react";
 
 type Props = {
   className?: string;
@@ -31,7 +32,7 @@ const JobCard: React.FC<Props> = ({ className, job }) => {
           </li>
         </ul>
         <section className="mt-6">
-          <Link href={`/empleo/${job.id}`} className="px-5 py-2 text-white rounded-lg bg-zinc-900 hover:bg-zinc-900/90" >Ver detalle</Link>
+          <Link href={`/empleo/${job.id}`} className="px-5 py-2 rounded-lg flex gap-2 border-2" ><ExternalLink />  Ver detalle</Link>
         </section>
       </article>
     </Card>

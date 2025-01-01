@@ -3,14 +3,18 @@ import { AuthProvider } from "./context/auth";
 import { DotsLoader } from "./modules/common/loader/dotsLoader";
 import { CustomRouter } from "./router/router";
 import { routesSchema } from "./router/routes.schema";
+import { ErrorBoundary } from "./modules/common/error/ErrorBoundary";
+import { GenericError } from "./modules/common/error/GenericError";
 
 
 function App() {  return (
     <div className="min-h-screen bg-slate-100">
       <AuthProvider>
-        <Suspense fallback={<DotsLoader />}>
-            <CustomRouter schema={routesSchema} />
-        </Suspense>
+        <ErrorBoundary fallback={<GenericError />}>
+          <Suspense fallback={<DotsLoader />}>
+              <CustomRouter schema={routesSchema} />
+          </Suspense>
+        </ErrorBoundary>
       </AuthProvider>
     </div>
   )
