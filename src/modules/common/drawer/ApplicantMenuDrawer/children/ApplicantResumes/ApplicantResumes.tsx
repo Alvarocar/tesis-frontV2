@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { Link } from "wouter";
 import { useState } from "react";
 import { DocumentText } from "iconsax-react";
 import { useAuth } from "@app/hooks/useAuth.hook";
@@ -6,6 +7,7 @@ import { Button } from "@app/components/ui/button";
 import { Skeleton } from "@app/components/ui/skeleton";
 import resumeRepository from "@app/repositories/resume.repository";
 import { CreateResume } from "@app/modules/common/drawer/ApplicantMenuDrawer/children/CreateResume";
+import { ExternalLink } from "lucide-react";
 
 const ApplicantResumes = () => {
   const { token } = useAuth()
@@ -23,10 +25,10 @@ const ApplicantResumes = () => {
       </div>
     )
 
-    if (data.length > 0)
+    if (data.length === 0)
       return (
         <article className="flex flex-col gap-5">
-          <h3 className="font-normal">Aun no tienes una hoja de vida creada</h3>
+          <h3 className="font-normal text-lg">Aun no tienes una hoja de vida creada</h3>
           <Button onClick={toggle} ><DocumentText /> Crea una nueva</Button>
           <CreateResume open={open} onOpenChange={toggle} />
         </article>
@@ -34,7 +36,27 @@ const ApplicantResumes = () => {
 
   return (
     <article>
-      <h3>Hojas de vida</h3>
+      <h3 className="font-normal text-lg mb-4">Hojas de vidas</h3>
+      <div className="flex flex-col gap-4">
+        {data.map(cv => (
+          <section className=" p-2 w-80 border rounded-md border-black" key={cv.id}>
+            <header className="border-b-2 border-black mb-1 pb-2 flex" >
+              <h4 className="flex-1" >{cv.title}</h4>
+              <Link to={`/aspirante/${cv.id}`} aria-label={`ir a la hoja de vida ${cv.title}`}>
+                <ExternalLink />
+              </Link>
+            </header>
+            <p className="line-clamp-3">{cv.about_me}</p>
+          </section>
+        ))}
+      </div>
+      {data.length < 5 ? 
+        <footer className="py-4">
+          <CreateResume open={open} onOpenChange={toggle} />
+          <Button onClick={toggle} ><DocumentText /> Crea una nueva</Button>
+        </footer>
+        : null
+      }
     </article>
   );
 }
