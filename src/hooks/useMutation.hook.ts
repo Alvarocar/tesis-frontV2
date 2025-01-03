@@ -24,7 +24,7 @@ const useMutate = <TArgs extends unknown[], TReturn>(
       setData(result);
       return [result, undefined];
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+      setError(err instanceof Error ? err : new Error('Ocurrió un error inesperado'));
       return [undefined, err instanceof Error ? err : { name: 'UnknownError', message: 'Ocurrió un error inesperado' }]
     } finally {
       setLoading(false);

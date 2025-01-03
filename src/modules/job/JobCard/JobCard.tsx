@@ -24,7 +24,7 @@ const JobCard: React.FC<Props> = ({ className, job }) => {
           </li>
           <li className="flex gap-2 items-center">
             <DollarCircle size={20} />
-            <p>{currencyFormat.format(job.salaryOffer)}</p>
+            <p>{job.salaryOffer ? currencyFormat.format(job.salaryOffer) : 'A convenir'}</p>
           </li>
           <li className="flex gap-2 items-center">
           <Clock size={20} />

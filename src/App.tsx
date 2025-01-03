@@ -5,6 +5,7 @@ import { CustomRouter } from "./router/router";
 import { routesSchema } from "./router/routes.schema";
 import { ErrorBoundary } from "./modules/common/error/ErrorBoundary";
 import { GenericError } from "./modules/common/error/GenericError";
+import { Toaster } from "./components/ui/toaster";
 
 
 function App() {  return (
@@ -13,6 +14,7 @@ function App() {  return (
         <ErrorBoundary fallback={<GenericError />}>
           <Suspense fallback={<DotsLoader />}>
               <CustomRouter schema={routesSchema} />
+              <Toaster />
           </Suspense>
         </ErrorBoundary>
       </AuthProvider>

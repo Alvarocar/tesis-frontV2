@@ -28,6 +28,7 @@ export const useAuth = () => {
     isAuth: state.isAuth,
     isLoading: state.isLoading,
     userType: state.userType,
+    token: state.token,
     setAuthToken,
     removeAuthToken,
   };

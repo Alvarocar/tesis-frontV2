@@ -1,9 +1,14 @@
+import useSWR from "swr";
 import { Link } from "wouter";
 import { ENV } from "@app/constants";
 import { ApplicantMenuDrawer } from "@app/modules/common/drawer/ApplicantMenuDrawer";
 import { AccountOptionsDropDown } from "../AccountOptionsDropDown";
+import { useAuth } from "@app/hooks/useAuth.hook";
+import applicantRepository from "@app/repositories/applicant.repository";
 
 const HeaderApplicant = () => {
+  const { token } = useAuth()
+  useSWR(token, applicantRepository.getApplicant.bind(applicantRepository))
   return (
     <header className="w-screen bg-zinc-200 py-5 px-3 flex items-center">
       <ApplicantMenuDrawer />

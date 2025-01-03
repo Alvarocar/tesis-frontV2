@@ -9,7 +9,7 @@ const JobList = () => {
   if (!data) return <DotsLoader />
   
   return (
-    <div className="max-w-screen-2xl min-w- mx-auto grid gap-y-10 gap-x-5 justify-center py-10 px-5 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] ">
+    <div className="max-w-screen-2xl mx-auto grid gap-y-10 gap-x-5 justify-center py-10 px-5 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] ">
       {data.result.map(job => <JobCard key={job.id} job={job}  className="justify-self-center" />)}
     </div>
   )
