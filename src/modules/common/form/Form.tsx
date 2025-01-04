@@ -16,7 +16,7 @@ const InputField = forwardRef<any, IFormInput>(function ({ error, label, classNa
   return (
     <div className={classNameWrapper}>
       {label && <Label htmlFor={rest.id} >{label}</Label>}
-      <Input className={classNames("focus-visible:ring-0", {
+      <Input className={classNames("focus-visible:ring-0 bg-white", {
         "border-red-500": error,
       })} {...rest} ref={ref} />
       {error && <span className="text-red-500" >{error.message}</span>}

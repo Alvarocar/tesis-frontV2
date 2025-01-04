@@ -1,5 +1,6 @@
 import { ROUTES } from "./routes";
 import { TSchemaRouter } from "@app/@types/schema";
+import { AuthNotFoundApplicant } from "@app/middlewares/authNotFoundApplicant";
 import { AuthPublicApplicant } from "@app/middlewares/authPublicApplicant";
 
 export const routesSchema: TSchemaRouter[] = [
@@ -22,5 +23,10 @@ export const routesSchema: TSchemaRouter[] = [
     path: 'empleo/:jobSlug',
     component: ROUTES.JobById,
     middleware: [],
+  },
+  {
+    path: 'aspirante/:cvSlug',
+    component: ROUTES.ResumeApplicant,
+    middleware: [AuthNotFoundApplicant],
   }
 ]

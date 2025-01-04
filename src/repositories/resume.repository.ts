@@ -17,6 +17,11 @@ class ResumeRepository extends BaseRepository {
   createResume(payload: { title: string }) {
     return this.post<{ id: number }, { title: string }>('/', payload)
   }
+
+  @addToken()
+  getDetail({ resumeId }: { resumeId: number }) {
+    return this.get(`/${resumeId}`);
+  }
 }
 
 export default new ResumeRepository();
