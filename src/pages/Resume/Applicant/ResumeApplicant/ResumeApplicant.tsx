@@ -13,18 +13,18 @@ const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
 
 export const ResumeApplicant: React.FC<Props> = ({ params }) => {
 
-  const { error, isLoading } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
+  const { data, error, isLoading } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
 
   if (!isValidSlug(params.cvSlug)) return <NotFound />
 
   if (error) return <NotFound />
 
-  if (isLoading) return <DotsLoader />
+  if (isLoading || !data) return <DotsLoader />
 
   return (
     <>
       <Header />
-      <EditResume /> 
+      <EditResume resume={data} /> 
     </>
   )
 

@@ -20,7 +20,7 @@ class ResumeRepository extends BaseRepository {
 
   @addToken()
   getDetail({ resumeId }: { resumeId: number }) {
-    return this.get(`/${resumeId}`);
+    return this.get<TResume>(`/${resumeId}`);
   }
 }
 
