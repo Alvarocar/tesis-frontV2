@@ -3,11 +3,11 @@ import { Building } from "iconsax-react";
 import {  GraduationCap, PenBox } from "lucide-react";
 
 type Props = {
-  studies: TResume.IEducation[],
+  studies?: TResume.IEducation[],
 }
 
 const Studies: React.FC<Props> = ({
-  studies,
+  studies = [],
 }) => {
   return (
     <article>
