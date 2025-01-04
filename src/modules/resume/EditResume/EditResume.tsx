@@ -2,6 +2,7 @@ import { TResume } from "@app/@types/resume";
 import { PersonalInfoForm } from "./children/PersonalInfoForm";
 import { ResumeDescriptionForm } from "./children/ResumeDescriptionForm";
 import { Experiences } from "./children/Experiences";
+import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
 
 type Props = {
@@ -22,6 +23,8 @@ const EditResume: React.FC<Props> = ({ resume }) => {
       <Studies studies={resume.educations} />
       <hr className="my-4" />
       <Experiences experiences={resume.experiences} />
+      <hr className="my-4" />
+      <Languages />
       <hr className="my-4" />
     </main>
   )
