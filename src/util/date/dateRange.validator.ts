@@ -1,14 +1,3 @@
-const now = new Date();
-
-const minDate = new Date(now);
-
-minDate.setFullYear(now.getFullYear() - 75);
-minDate.setMonth(0);
-
-const maxDate = new Date(now);
-
-maxDate.setFullYear(now.getFullYear() - 14);
-maxDate.setMonth(11);
 
 type TDateRelative = Partial<{ year: number, month: number, day: number  }>;
 

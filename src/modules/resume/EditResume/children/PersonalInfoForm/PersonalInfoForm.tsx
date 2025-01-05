@@ -1,8 +1,13 @@
+import useSWR from "swr";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Form } from "@app/modules/common/form";
 import { DatePicker } from "@app/modules/common/datePicker";
 import { DateRange } from "@app/util/date/dateRange.validator";
+import applicantRepository from "@app/repositories/applicant.repository";
+import { parseDate } from "@app/util/date/dateParser.util";
 import { Button } from "@app/components/ui/button";
+import { useAuth } from "@app/hooks/useAuth.hook";
+import { Form } from "@app/modules/common/form";
 
 const { InputField } = Form;
 
@@ -19,12 +24,28 @@ const birthDateRange = DateRange.init()
   .setStartDateRelative({ year: -75, month: 0, day: 0 })
   .setEndDateRelative({ year: -15, month: 11, day: 31 });
 
-const PersonalInfoForm = () => {
+  const PersonalInfoForm = () => {
+    const { token } = useAuth()
+    const { data } = useSWR(token ? token : null, applicantRepository.getApplicant.bind(applicantRepository));
+  
   const {
     register,
     control,
     formState: { errors },
+    reset,
   } = useForm<FormData>();
+
+  useEffect(() => {
+    if (!data) return;
+    reset({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      identification: String(data.identification),
+      birth_date: parseDate(data.birth_date),
+      direction: data.direction,
+      phone_number: data.phone_number,
+    });
+  }, [data, reset])
 
   return (
     <form>
