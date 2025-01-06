@@ -1,6 +1,13 @@
 import { Blocks } from "lucide-react";
+import { TResume } from "@app/@types/resume";
 
-const Skills = () => {
+type Props = {
+  skills?: TResume.ISkill[];
+}
+
+const Skills: React.FC<Props> = ({
+  skills,
+}) => {
   return (
     <section>
       <header className="flex">
@@ -12,6 +19,13 @@ const Skills = () => {
           Agregar Habilidad
         </button>
       </header>
+      <ul>
+        {skills?.map(skill => (
+          <li className="capitalize px-2 py-2 border-b-2 border-gray-400" key={skill.id}>
+            {skill.name}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
