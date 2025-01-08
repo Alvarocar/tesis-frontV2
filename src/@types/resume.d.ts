@@ -65,3 +65,8 @@ export namespace TResume {
   }
   
 }
+
+export type TLanguage = {
+  id?: number;
+  name: string;
+}

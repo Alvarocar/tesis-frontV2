@@ -16,12 +16,12 @@ const Skills: React.FC<Props> = ({
           <h3 className="text-lg font-medium">Habilidades</h3>
         </div>
         <button className="rounded-lg border border-gray-400 p-2">
-          Agregar Habilidad
+          Agregar / Editar Habilidad
         </button>
       </header>
       <ul>
         {skills?.map(skill => (
-          <li className="capitalize px-2 py-2 border-b-2 border-gray-400" key={skill.id}>
+          <li className="capitalize mx-auto max-w-[30rem] px-2 py-2 border-b-2 border-gray-400" key={skill.id}>
             {skill.name}
           </li>
         ))}

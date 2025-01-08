@@ -27,7 +27,7 @@ const EditResume: React.FC<Props> = ({ resume }) => {
       <hr className="my-4" />
       <Skills skills={resume.skills} />
       <hr className="my-4" />
-      <Languages />
+      <Languages languages={resume.languages} />
     </main>
   )
 }
