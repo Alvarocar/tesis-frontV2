@@ -4,6 +4,8 @@ import { NotFound } from "@app/modules/common/error/NotFound";
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader";
 import resumeRepository from "@app/repositories/resume.repository";
 import { EditResume } from "@app/modules/resume/EditResume";
+import { ResumeContext } from "@app/context/resume.context";
+import { useMemo } from 'react';
 
 type Props = {
   params: { cvSlug: string }
@@ -13,7 +15,7 @@ const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
 
 export const ResumeApplicant: React.FC<Props> = ({ params }) => {
 
-  const { data, error, isLoading } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
+  const { data, error, isLoading, mutate } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
 
   if (!isValidSlug(params.cvSlug)) return <NotFound />
 
@@ -21,11 +23,13 @@ export const ResumeApplicant: React.FC<Props> = ({ params }) => {
 
   if (isLoading || !data) return <DotsLoader />
 
+  const value = useMemo(() => ({ refresh: mutate }), [mutate])
+
   return (
-    <>
+    <ResumeContext.Provider value={value}>
       <Header />
       <EditResume resume={data} /> 
-    </>
+    </ResumeContext.Provider>
   )
 
 }

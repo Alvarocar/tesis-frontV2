@@ -20,6 +20,7 @@ import useMutate from "@app/hooks/useMutation.hook";
 import languagesRepository from "@app/repositories/languages.repository";
 import resumeRepository from "@app/repositories/resume.repository";
 import { stubUndefined } from "@app/util/stub";
+import { useResumeContext } from "@app/context/resume.context";
 
 type Props = {
   languages?: TResume.ILanguage[];
@@ -35,6 +36,7 @@ const LanguageForm: React.FC<Props> = ({ languages = [], onClose = stubUndefined
     "/languages/all",
     languagesRepository.getAll.bind(languagesRepository)
   );
+  const { refresh } = useResumeContext();
   const params = useParams<{ cvSlug : number }>();
   const { mutate, isLoading: isLoadingMutation } = useMutate(resumeRepository.patchLanguages.bind(resumeRepository))
 
@@ -57,7 +59,11 @@ const LanguageForm: React.FC<Props> = ({ languages = [], onClose = stubUndefined
   const send = async (data: FormData) => {
     const [, error] = await mutate({ resumeId: params.cvSlug, languages: data.languages ?? [] })
     if (error) return;
-    onClose();
+    try {
+      await refresh();
+    } finally {
+      onClose();
+    }
   }
 
 

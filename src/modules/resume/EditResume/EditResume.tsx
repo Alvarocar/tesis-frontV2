@@ -1,6 +1,6 @@
 import { TResume } from "@app/@types/resume";
-import { PersonalInfoForm } from "./children/PersonalInfoForm";
 import { ResumeDescriptionForm } from "./children/ResumeDescriptionForm";
+import { PersonalInfoForm } from "./children/PersonalInfoForm";
 import { Experiences } from "./children/Experiences";
 import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
@@ -8,6 +8,7 @@ import { Skills } from "./children/Skills";
 
 type Props = {
   resume: TResume;
+  onUpdate?: VoidFunction;
 }
 
 const EditResume: React.FC<Props> = ({ resume }) => {

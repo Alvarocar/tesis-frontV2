@@ -2,8 +2,8 @@ import { useState } from "react";
 import { GlobeIcon } from "lucide-react";
 import { TResume } from "@app/@types/resume";
 import { Dialog, DialogContent } from "@app/components/ui/dialog";
-import { LanguageForm } from "./children/LanguageForm";
 import { LanguageNameFactory } from "@app/constants/resume.constant";
+import { LanguageForm } from "./children/LanguageForm";
 
 type Props = {
   languages?: TResume.ILanguage[];
