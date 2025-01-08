@@ -17,13 +17,14 @@ export const ResumeApplicant: React.FC<Props> = ({ params }) => {
 
   const { data, error, isLoading, mutate } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
 
+  const value = useMemo(() => ({ refresh: mutate }), [mutate])
+  
   if (!isValidSlug(params.cvSlug)) return <NotFound />
 
   if (error) return <NotFound />
 
   if (isLoading || !data) return <DotsLoader />
 
-  const value = useMemo(() => ({ refresh: mutate }), [mutate])
 
   return (
     <ResumeContext.Provider value={value}>
