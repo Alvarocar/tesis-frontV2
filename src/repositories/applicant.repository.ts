@@ -24,8 +24,8 @@ class ApplicantRepository extends BaseRepository {
   }
 
   @addToken()
-  updateApplicant(payload: Partial<ICandidate.PersonalInfoPayload>) {
-    this.patch<ICandidate.PersonalInfoPayload, Partial<ICandidate.PersonalInfoPayload>>('/personal-info', payload);
+  patchPersonalInfo(payload: ICandidate.PersonalInfo) {
+    return this.patch('/personal-info', payload);
   }
 }
 

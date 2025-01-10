@@ -4,17 +4,21 @@ import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@app/modules/common/datePicker";
 import { DateRange } from "@app/util/date/dateRange.validator";
 import applicantRepository from "@app/repositories/applicant.repository";
-import { parseDate } from "@app/util/date/dateParser.util";
+import { formatDate, parseDate } from "@app/util/date/dateParser.util";
 import { Button } from "@app/components/ui/button";
 import { useAuth } from "@app/hooks/useAuth.hook";
 import { Form } from "@app/modules/common/form";
+import { useResumeContext } from "@app/context/resume.context";
+import useMutate from "@app/hooks/useMutation.hook";
+import { ENV } from "@app/constants";
+import { toast } from "@app/hooks/use-toast";
 
 const { InputField } = Form;
 
 type FormData = {
   firstName: string;
   lastName: string;
-  identification: string;
+  identification: number;
   phone_number: string;
   birth_date: Date;
   direction: string;
@@ -27,12 +31,14 @@ const birthDateRange = DateRange.init()
   const PersonalInfoForm = () => {
     const { token } = useAuth()
     const { data } = useSWR(token ? token : null, applicantRepository.getApplicant.bind(applicantRepository));
-  
+    const { isLoading, mutate, error } = useMutate(applicantRepository.patchPersonalInfo.bind(applicantRepository));
+    const { refresh } = useResumeContext();
   const {
     register,
     control,
     formState: { errors },
     reset,
+    handleSubmit,
   } = useForm<FormData>();
 
   useEffect(() => {
@@ -40,15 +46,35 @@ const birthDateRange = DateRange.init()
     reset({
       firstName: data.firstName,
       lastName: data.lastName,
-      identification: String(data.identification),
+      identification: data.identification,
       birth_date: parseDate(data.birth_date),
       direction: data.direction,
       phone_number: data.phone_number,
     });
   }, [data, reset])
 
+  const send = async (data: FormData) => {
+    const [, error] = await mutate({
+      ...data,
+      birth_date: formatDate(data.birth_date)
+    });
+
+    if (error) return;
+    toast({
+      title: 'Actualizado',
+      duration: 2000,
+    })
+    try {
+      await refresh();
+    } catch (e) {
+      if (ENV.MODE === 'development') {
+        console.error(e);
+      } 
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(send)}>
       <legend className="text-lg font-medium">Información Personal</legend>
       <fieldset className="grid grid-cols-2 gap-x-6 gap-y-6">
         <InputField
@@ -66,18 +92,22 @@ const birthDateRange = DateRange.init()
           })}
         />
 
-        <InputField
+        <InputField          
           label="Numero de identificación"
+          type="number"
           error={errors.identification}
           {...register("identification", {
             required: "Campo requerido",
+            valueAsNumber: true,
           })}
         />
 
         <InputField
           label="Numero de celular"
+          inputMode="numeric"
+          type="tel"
           error={errors.direction}
-          {...register("direction", {
+          {...register("phone_number", {
             required: "Campo requerido",
           })}
         />
@@ -107,8 +137,9 @@ const birthDateRange = DateRange.init()
             })}
           />
         </div>
+        {error ? <p className="text-red-400">{error.message}</p> : null}
       </fieldset>
-      <Button className="mt-5" type="submit">Guardar</Button>
+      <Button className="mt-5" type="submit" disabled={isLoading}>Guardar</Button>
     </form>
   );
 };

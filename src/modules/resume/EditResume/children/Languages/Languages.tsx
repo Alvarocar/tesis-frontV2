@@ -30,7 +30,7 @@ const Languages: React.FC<Props> = ({
         </header>
         <ul>
           {languages?.map(lng => (
-            <li className="p-2 mx-auto max-w-[30rem] border-b-2 border-zinc-400 flex gap-2">
+            <li key={lng.id} className="p-2 mx-auto max-w-[30rem] border-b-2 border-zinc-400 flex gap-2">
               <span className="flex-1">{lng.name}</span>
               <span>{LanguageNameFactory.get(lng.level)}</span>
             </li>

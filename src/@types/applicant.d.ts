@@ -16,5 +16,5 @@ export interface ICandidate {
 export namespace ICandidate {
   export type SignupPayload = Pick<ICandidate, 'email' | 'firstName' | 'lastName' | 'password'>;
   export type SigninPayload = Pick<ICandidate, 'email' | 'password'>;
-  export type PersonalInfoPayload = Pick<ICandidate, 'name' | 'identification' | 'phone_number' | 'birth_date' | 'direction'>;
+  export type PersonalInfo = Pick<ICandidate, 'firstName' | 'lastName' | 'identification' | 'phone_number' | 'birth_date' | 'direction'>
 }
