@@ -17,7 +17,7 @@ export const ResumeApplicant: React.FC<Props> = ({ params }) => {
 
   const { data, error, isLoading, mutate } = useSWR(isValidSlug(params.cvSlug) ? { resumeId: params.cvSlug } : null, resumeRepository.getDetail.bind(resumeRepository))
 
-  const value = useMemo(() => ({ refresh: mutate }), [mutate])
+  const value = useMemo(() => ({ refresh: mutate, resume_id: Number(params.cvSlug), resume: data }), [mutate, params.cvSlug, data])
   
   if (!isValidSlug(params.cvSlug)) return <NotFound />
 

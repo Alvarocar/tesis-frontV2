@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { BriefcaseIcon } from "lucide-react";
 import { Button } from "@app/components/ui/button";
 import { Textarea } from "@app/components/ui/textarea";
+import useMutate from "@app/hooks/useMutation.hook";
+import resumeRepository from "@app/repositories/resume.repository";
+import { useResumeContext } from "@app/context/resume.context";
+import { toast } from "@app/hooks/use-toast";
 
 type Props = {
   description: string;
@@ -22,8 +26,15 @@ const ResumeDescriptionForm: React.FC<Props> = ({
     }
   })
 
-  const send = () => {
+  const { refresh, resume_id } = useResumeContext()
 
+  const { mutate, isLoading } = useMutate(resumeRepository.patchAboutMe.bind(resumeRepository))
+
+  const send = async (payload: FormData) => {
+    const [,error] = await mutate({ ...payload, resume_id });
+    if (error) return;
+    refresh()
+    toast({ title: 'Actualizado' })
   }
   return (
     <form onSubmit={handleSubmit(send)}>
@@ -41,7 +52,7 @@ const ResumeDescriptionForm: React.FC<Props> = ({
         />
         {errors.about_me ? <p className="text-red-500">{errors.about_me.message}</p> : null}
       </fieldset>
-      <Button>Guardar</Button>
+      <Button disabled={isLoading}>Guardar</Button>
     </form>
   )
 }

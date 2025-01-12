@@ -24,6 +24,16 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
+  patchAboutMe(payload: { about_me: string, resume_id: number }) {
+    return this.patch('/about_me', payload);
+  }
+
+  @addToken()
+  patchSkills(payload: { skills: TResume.ISkill[], resume_id: number }) {
+    return this.patch(`/skill/${payload.resume_id}`, payload.skills);
+  }
+
+  @addToken()
   patchLanguages(params: { languages: TResume.ILanguage[], resumeId: number }) {
     return this.patch(`/language/${params.resumeId}`, params.languages);
   }
