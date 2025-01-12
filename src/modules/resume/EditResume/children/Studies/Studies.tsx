@@ -63,6 +63,7 @@ const Studies: React.FC<Props> = ({
         <DialogContent onOpenAutoFocus={e => e.preventDefault()} className="max-w-[40rem]" >
           <StudyForm
             study={study}
+            onFinish={toggle}
           />
         </DialogContent>
       </Dialog>

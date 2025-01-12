@@ -1,13 +1,20 @@
-import { TResume } from "@app/@types/resume"
-import { Checkbox } from "@app/components/ui/checkbox";
-import { DatePicker } from "@app/modules/common/datePicker";
-import { Form } from "@app/modules/common/form";
-import { parseDate } from "@app/util/date/dateParser.util";
 import { useId } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Checkbox } from "@app/components/ui/checkbox";
+import { DatePicker } from "@app/modules/common/datePicker";
+import { useResumeContext } from "@app/context/resume.context";
+import resumeRepository from "@app/repositories/resume.repository";
+import { formatDate, parseDate } from "@app/util/date/dateParser.util";
+import useMutate from "@app/hooks/useMutation.hook";
+import { Button } from "@app/components/ui/button";
+import { Form } from "@app/modules/common/form";
+import { stubUndefined } from "@app/util/stub";
+import { toast } from "@app/hooks/use-toast";
+import { TResume } from "@app/@types/resume";
 
 type Props = {
   study?: TResume.IEducation,
+  onFinish?: VoidFunction,
 }
 
 const { InputField } = Form
@@ -25,12 +32,14 @@ const maxDate = new Date();
 
 const StudyForm: React.FC<Props> = ({ 
   study,
+  onFinish = stubUndefined,
 }) => {
 
   const {
     register,
     control,
     formState: { errors },
+    handleSubmit,
   } = useForm<FormData>({
     defaultValues: {
       id: study?.id,
@@ -42,10 +51,29 @@ const StudyForm: React.FC<Props> = ({
     }
   });
 
-  const checkId = useId()
+  const checkId = useId();
+  const { resume_id, refresh } = useResumeContext();
+  const { mutate, isLoading } = useMutate(resumeRepository.patchEducation.bind(resumeRepository))
+
+  const send = async (data: FormData) => {
+    const [, error] = await mutate({ 
+      resume_id,
+      education: {
+        ...data,
+        start_date: formatDate(data.start_date) ?? '',
+        end_date: formatDate(data.end_date),
+      }
+     })
+     if (error) return;
+     refresh();
+     toast({
+      title: 'Actualizado',
+     })
+     onFinish();
+  }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(send)}>
       <legend className="text-lg font-medium" >{study ? 'Editar Educación': 'Agregar Educación'}</legend>
       <fieldset>
       <InputField
@@ -107,6 +135,9 @@ const StudyForm: React.FC<Props> = ({
           </div>
         </section>
       </fieldset>
+      <footer className="pt-5 flex justify-center">
+        <Button type="submit" disabled={isLoading} >Guardar</Button>
+      </footer>
     </form>
   )
 }

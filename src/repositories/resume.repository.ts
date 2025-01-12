@@ -37,6 +37,11 @@ class ResumeRepository extends BaseRepository {
   patchLanguages(params: { languages: TResume.ILanguage[], resumeId: number }) {
     return this.patch(`/language/${params.resumeId}`, params.languages);
   }
+
+  @addToken()
+  patchEducation(params: { education: TResume.IEducation, resume_id: number }) {
+    return this.patch(`/education/${params.resume_id}`, params.education)
+  }
 }
 
 export default new ResumeRepository();
