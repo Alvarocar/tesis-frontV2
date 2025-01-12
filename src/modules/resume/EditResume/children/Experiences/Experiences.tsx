@@ -66,6 +66,7 @@ const Experiences: React.FC<Props> = ({
           <DialogContent onOpenAutoFocus={e => e.preventDefault()} className="max-w-[40rem]">
             <ExperienceForm
               experience={experience}
+              onFinish={toggle}
             />
           </DialogContent>
       </Dialog>

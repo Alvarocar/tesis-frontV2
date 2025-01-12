@@ -42,6 +42,11 @@ class ResumeRepository extends BaseRepository {
   patchEducation(params: { education: TResume.IEducation, resume_id: number }) {
     return this.patch(`/education/${params.resume_id}`, params.education)
   }
+
+  @addToken()
+  patchExperience(params: { experience: TResume.IExperience, resume_id: number }) {
+    return this.patch(`/experience/${params.resume_id}`, params.experience);
+  }
 }
 
 export default new ResumeRepository();

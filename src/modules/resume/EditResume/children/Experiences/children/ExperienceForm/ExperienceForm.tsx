@@ -1,16 +1,23 @@
 import { useId } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { TResume } from "@app/@types/resume";
-import { parseDate } from "@app/util/date/dateParser.util";
+import { formatDate, parseDate } from "@app/util/date/dateParser.util";
 import { Form } from "@app/modules/common/form";
 import { Checkbox } from "@app/components/ui/checkbox";
 import { DatePicker } from "@app/modules/common/datePicker";
 import { Textarea } from "@app/components/ui/textarea";
 import { Label } from "@app/components/ui/label";
 import classNames from "classnames";
+import { stubUndefined } from "@app/util/stub";
+import useMutate from "@app/hooks/useMutation.hook";
+import resumeRepository from "@app/repositories/resume.repository";
+import { useResumeContext } from "@app/context/resume.context";
+import { toast } from "@app/hooks/use-toast";
+import { Button } from "@app/components/ui/button";
 
 type Props = {
   experience?: TResume.IExperience;
+  onFinish?: VoidFunction;
 }
 
 type FormData = {
@@ -27,12 +34,13 @@ const { InputField } = Form
 
 const maxDate = new Date();
 
-const ExperienceForm: React.FC<Props> = ({ experience }) => {
+const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined }) => {
   
   const {
     register,
     control,
     formState: { errors },
+    handleSubmit,
   } = useForm<FormData>({
     defaultValues: {
       id: experience?.id,
@@ -45,9 +53,30 @@ const ExperienceForm: React.FC<Props> = ({ experience }) => {
     }
   });
 
+  const { refresh, resume_id } = useResumeContext();
+
+  const { mutate, isLoading } = useMutate(resumeRepository.patchExperience.bind(resumeRepository));
+
   const checkId = useId()
+  
+  const send: SubmitHandler<FormData> = async (data) => {
+    const [,error] = await mutate({ resume_id, experience: {
+      ...data,
+      start_date: formatDate(data.start_date) ?? '',
+      end_date: formatDate(data.end_date),
+    } })
+
+    if (error) return;
+
+    refresh();
+    toast({ 
+      title: 'Actualizado',
+     })
+    onFinish();
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(send)}>
       <legend className="text-lg font-medium" >{experience ? 'Editar Experiencia': 'Agregar Experiencia'}</legend>
       <fieldset>
       <InputField
@@ -116,6 +145,9 @@ const ExperienceForm: React.FC<Props> = ({ experience }) => {
           </div>
         </section>
       </fieldset>
+      <footer className="pt-4 flex justify-center">
+        <Button type="submit" >Guardar</Button>
+      </footer>
     </form>
   )
 }
