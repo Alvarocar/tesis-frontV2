@@ -28,5 +28,10 @@ export const routesSchema: TSchemaRouter[] = [
     path: 'aspirante/:cvSlug',
     component: ROUTES.ResumeApplicant,
     middleware: [AuthNotFoundApplicant],
+  },
+  {
+    path: '/sign-in/reclutadores',
+    component: ROUTES.SigninRecruiter,
+    middleware: [AuthPublicApplicant],
   }
 ]
