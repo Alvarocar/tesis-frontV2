@@ -283,3 +283,9 @@
     border: 2px inset;
   }
 }
+
+
+.text-rich .tiptap.ProseMirror {
+  height: 20rem;
+  padding: .5rem;
+}

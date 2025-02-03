@@ -1,5 +1,7 @@
 import { ENV } from "@app/constants";
 import BaseRepository from "./base.repository";
+import { addToken } from "@app/decorators/repository.decorator";
+import { Recruiter } from "@app/@types/recruiter";
 
 class RecruiterRepository extends BaseRepository {
   constructor() {
@@ -9,6 +11,12 @@ class RecruiterRepository extends BaseRepository {
   signin(payload: { email: string, password: string }) {
     return this.put<{ data: { token: string } }, { email: string, password: string }>('/sign-in', payload);
   }
+
+  @addToken()
+  getInfo() {
+    return this.get<Recruiter>('/');
+  }
+
 }
 
 export default new RecruiterRepository();

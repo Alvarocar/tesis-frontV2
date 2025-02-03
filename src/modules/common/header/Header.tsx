@@ -1,11 +1,14 @@
 import { useAuth } from "@app/hooks/useAuth.hook";
 import { HeaderDefault } from "./children/HeaderDefault";
 import { HeaderApplicant } from "./children/HeaderApplicant";
+import { HeaderRecruiter } from "./children/HeaderRecruiter";
 
 const Header = () => {
   const { userType } = useAuth()
 
-  if (!userType || userType === 'recruiter') return <HeaderDefault />
+  if (!userType) return <HeaderDefault />
+
+  if (userType === 'recruiter') return <HeaderRecruiter />
 
   return <HeaderApplicant />
 }

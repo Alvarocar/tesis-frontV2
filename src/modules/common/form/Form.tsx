@@ -1,10 +1,11 @@
+import { forwardRef } from "react";
+import classNames from "classnames";
 import { FieldError } from "react-hook-form";
 import { Input } from "@app/components/ui/input";
 import { Label } from "@app/components/ui/label";
-import { forwardRef } from "react";
-import classNames from "classnames";
+import RichText from "./children/RichText/RichText";
 
-const Form = {};
+const Form = { };
 
 interface IFormInput extends React.ComponentProps<typeof Input> {
   error?: FieldError;
@@ -26,4 +27,4 @@ const InputField = forwardRef<any, IFormInput>(function ({ error, label, classNa
 
 InputField.displayName = "InputField";
 
-export default Object.assign(Form, { InputField });
+export default Object.assign(Form, { InputField, RichText });
