@@ -1,7 +1,7 @@
 import { ENV } from "@app/constants";
-import BaseRepository from "./base.repository";
 import { TVacant } from "@app/@types/vacant";
 import { addToken } from "@app/decorators/repository.decorator";
+import BaseRepository from "./base.repository";
 
 class VacantRepository extends BaseRepository {
   constructor() {
@@ -11,6 +11,16 @@ class VacantRepository extends BaseRepository {
   @addToken()
   createVacant(vacant: TVacant) {
     return this.post('/', vacant);
+  }
+
+  @addToken()
+  getVacant({ id }: { id: number }) {
+    return this.get<TVacant>(`/${id}`);
+  }
+
+  @addToken()
+  updateVacant(vacantId: number, vacant: TVacant) {
+    return this.put(`/${vacantId}`, vacant);
   }
 }
 

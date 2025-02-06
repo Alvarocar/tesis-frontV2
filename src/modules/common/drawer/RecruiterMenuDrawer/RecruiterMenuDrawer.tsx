@@ -25,6 +25,11 @@ const RecruiterMenuDrawer = () => {
         <hr className="my-4" />
         <nav>
           <ul className="flex flex-col gap-4">
+          <li>
+              <Link to="/" className="block border-2 py-2 px-4 hover:bg-stone-100">
+                Pagina principal
+              </Link>
+            </li>
             <li>
               <Link to="/vacantes" className="block border-2 py-2 px-4 hover:bg-stone-100">
                 Mis Vacantes

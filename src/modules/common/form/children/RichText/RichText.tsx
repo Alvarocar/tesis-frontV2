@@ -24,7 +24,7 @@ const RichText: React.FC<Props> = ({
   })
 
   return (
-    <EditorContent className="text-rich bg-white overflow-y-scroll border-2" editor={editor}/>
+    <EditorContent className="text-rich unset-tailwind bg-white overflow-y-scroll border-2" editor={editor}/>
   );
 };
 

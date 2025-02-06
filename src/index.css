@@ -289,3 +289,7 @@
   height: 20rem;
   padding: .5rem;
 }
+
+.text-rich .tiptap.ProseMirror:focus-visible {
+  outline: none;
+}

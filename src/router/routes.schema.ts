@@ -39,5 +39,10 @@ export const routesSchema: TSchemaRouter[] = [
     path: '/vacante/crear',
     component: ROUTES.CrearVacante,
     middleware: [AuthNotFoundRecruiter],
+  },
+  {
+    path: '/vacante/:id',
+    component: ROUTES.EditarVacante,
+    middleware: [AuthNotFoundRecruiter],
   }
 ]
