@@ -1,17 +1,15 @@
-import useSWR from "swr";
 import { Link } from "wouter";
 import { useState } from "react";
 import { DocumentText } from "iconsax-react";
-import { useAuth } from "@app/hooks/useAuth.hook";
 import { Button } from "@app/components/ui/button";
 import { Skeleton } from "@app/components/ui/skeleton";
-import resumeRepository from "@app/repositories/resume.repository";
 import { CreateResume } from "@app/modules/common/drawer/ApplicantMenuDrawer/children/CreateResume";
 import { ExternalLink } from "lucide-react";
+import { useGetResumes } from "@app/hooks/useGetResumes.hook";
 
 const ApplicantResumes = () => {
-  const { token } = useAuth()
-  const { data, isLoading } = useSWR(`/my-resumes/${token}`, resumeRepository.getMyResumes.bind(resumeRepository));
+  
+  const { data, isLoading } = useGetResumes()
   const [open, setOpen] = useState(false);
 
   const toggle = () => setOpen(oldState => !oldState);

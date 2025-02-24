@@ -1,5 +1,6 @@
 import { ENV } from "@app/constants";
 import { RecruiterMenuDrawer } from "@app/modules/common/drawer/RecruiterMenuDrawer";
+import { AccountOptionsDropDown } from "../AccountOptionsDropDown";
 
 const HeaderRecruiter = () => {
   return (
@@ -9,6 +10,11 @@ const HeaderRecruiter = () => {
         <h2>
           {ENV.APP_NAME}
         </h2>
+        <ul className="flex flex-1 justify-end px-5 gap-6">
+        <li className="px-4 py-1 rounded text-white">
+          <AccountOptionsDropDown />
+        </li>
+      </ul>
       </section>
     </header>
   )
