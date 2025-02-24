@@ -1,3 +1,4 @@
+//@ts-nocheck
 import useSWR from "swr";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";

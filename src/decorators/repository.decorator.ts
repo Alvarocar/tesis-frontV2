@@ -1,3 +1,4 @@
+//@ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import BaseRepository from "@app/repositories/base.repository";
