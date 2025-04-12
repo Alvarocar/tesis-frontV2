@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { DynamicHeader } from "@app/components/shared/DynamicHeader"
+import { Header } from "@app/modules/common/Header"
 
 const PublicTemplate: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (

@@ -1,5 +1,6 @@
 import { DatePicker } from "antd"
 import dayjs from "dayjs"
+import { isEmpty } from "lodash"
 
 type Props = {
   value?: string | dayjs.Dayjs
@@ -14,8 +15,7 @@ const CustomDatePicker: React.FC<Props> = ({
   onChange,
 }) => {
 
-  const finalValue = typeof value === 'string' ? dayjs(value) : undefined
-
+  const finalValue = value != null && !isEmpty(value) ? dayjs(value) : undefined
   return (
     <DatePicker 
       className={className}

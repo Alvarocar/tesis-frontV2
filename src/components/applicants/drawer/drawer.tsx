@@ -11,7 +11,7 @@ import { ResumeCreateForm } from "@app/modules/resume/ResumeOverviewCard/ResumeC
 const Drawer = () => {
 
   const [open, setOpen] = useState(false)
-  const { data: resumes, isLoading } = useGetMyResumesQuery()
+  const { data: resumes = [], isLoading } = useGetMyResumesQuery()
   const name = useSelector(selectCandidateName)
   const [visibleModalCreate, setVisibleModalCreate] = useState(false)
 

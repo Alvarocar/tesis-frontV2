@@ -42,8 +42,8 @@ const EducationForm: React.FC<{ value: IEducation, onSubmit?: () => void }> = ({
       }}
       initialValues={{
         
-        start_date: dayjs(value.start_date),
-        end_date: dayjs(value.end_date),
+        start_date: value.start_date ?? dayjs(value.start_date) ,
+        end_date: value.end_date ?? dayjs(value.end_date),
         resumeId,
       }}
     >
