@@ -49,7 +49,7 @@ const Studies: React.FC<Props> = ({
                 </section>
                 <aside className="flex flex-col gap-2">
                   <span>
-                    {study.start_date} - {study.keep_study ? 'Actual' : study.end_date}
+                    {study.startDate} - {study.keepStudy ? 'Actual' : study.endDate}
                   </span>
                   <button onClick={() => handleStudy(study)} className="w-fit mx-auto">
                     <PenBox />

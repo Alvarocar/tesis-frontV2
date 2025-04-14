@@ -44,7 +44,7 @@ const ApplicantResumes = () => {
                 <ExternalLink />
               </Link>
             </header>
-            <p className="line-clamp-3">{cv.about_me}</p>
+            <p className="line-clamp-3">{cv.aboutMe}</p>
           </section>
         ))}
       </div>

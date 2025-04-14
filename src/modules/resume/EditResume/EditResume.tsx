@@ -20,7 +20,7 @@ const EditResume: React.FC<Props> = ({ resume }) => {
       <hr className="my-4" />
       <PersonalInfoForm />
       <hr className="my-4" />
-      <ResumeDescriptionForm description={resume.about_me} />
+      <ResumeDescriptionForm description={resume.aboutMe} />
       <hr className="my-4" />
       <Studies studies={resume.educations} />
       <hr className="my-4" />

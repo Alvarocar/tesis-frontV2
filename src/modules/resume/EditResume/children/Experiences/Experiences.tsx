@@ -48,7 +48,7 @@ const Experiences: React.FC<Props> = ({
                   </section>
                   <aside className="flex flex-col gap-2">
                     <span>
-                      {experience.start_date} - {experience.keep_working ? 'Actual' : experience.end_date}
+                      {experience.startDate} - {experience.keepWorking ? 'Actual' : experience.endDate}
                     </span>
                     <button onClick={() => handleExperience(experience)} className="w-fit mx-auto">
                       <PenBox />

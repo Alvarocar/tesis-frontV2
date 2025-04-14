@@ -57,7 +57,7 @@ const birthDateRange = DateRange.init()
   const send = async (data: FormData) => {
     const [, error] = await mutate({
       ...data,
-      birth_date: formatDate(data.birth_date)
+      birthDate: formatDate(data.birth_date)
     });
 
     if (error) return;

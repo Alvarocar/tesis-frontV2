@@ -23,9 +23,9 @@ type FormData = {
   id: number;
   institute: string;
   title: string;
-  keep_study: boolean;
-  start_date: Date;
-  end_date: Date;
+  keepStudy: boolean;
+  startDate: Date;
+  endDate: Date;
 };
 
 const maxDate = new Date();
@@ -44,10 +44,10 @@ const StudyForm: React.FC<Props> = ({
     defaultValues: {
       id: study?.id,
       institute: study?.institute,
-      keep_study: study?.keep_study,
+      keepStudy: study?.keepStudy,
       title: study?.title,
-      start_date: parseDate(study?.start_date),
-      end_date: parseDate(study?.end_date),
+      startDate: parseDate(study?.startDate),
+      endDate: parseDate(study?.endDate),
     }
   });
 
@@ -60,8 +60,8 @@ const StudyForm: React.FC<Props> = ({
       resume_id,
       education: {
         ...data,
-        start_date: formatDate(data.start_date) ?? '',
-        end_date: formatDate(data.end_date),
+        startDate: formatDate(data.startDate) ?? '',
+        endDate: formatDate(data.endDate),
       }
      })
      if (error) return;
@@ -93,7 +93,7 @@ const StudyForm: React.FC<Props> = ({
         />
         <div className="py-4 px-2 flex gap-6 items-center" >
           <Controller 
-            name="keep_study"
+            name="keepStudy"
             control={control}
             render={({ field }) => (
               <Checkbox id={checkId} checked={field.value} onChange={field.onChange}/>
@@ -106,13 +106,13 @@ const StudyForm: React.FC<Props> = ({
           <div>
             <label className="font-medium text-sm">Fecha de ingreso</label>
             <Controller
-              name="start_date"
+              name="startDate"
               control={control}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
                   label="Fecha de ingreso"
-                  error={formState.errors.start_date}
+                  error={formState.errors.startDate}
                   endMonth={maxDate}
                 />
               )}
@@ -121,13 +121,13 @@ const StudyForm: React.FC<Props> = ({
           <div>
           <label className="font-medium text-sm">Fecha de finalización</label>
             <Controller
-              name="end_date"
+              name="endDate"
               control={control}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
                   label="Fecha de finalización"
-                  error={formState.errors.end_date}
+                  error={formState.errors.endDate}
                   endMonth={maxDate}
                 />
               )}

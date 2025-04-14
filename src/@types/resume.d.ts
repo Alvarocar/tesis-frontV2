@@ -3,12 +3,12 @@ import { ICandidate } from "./applicant"
 export type TResume = {
   id: number
   title: string
-  about_me: string
-  modification_date: string
+  aboutMe: string
+  modificationDate: string
   experiences: TResume.IExperience[]
   educations: TResume.IEducation[]
-  personal_references: TResume.PersonalReference[]
-  laboral_references: TResume.LaboralReference[]
+  personalReferences: TResume.PersonalReference[]
+  laboralReferences: TResume.LaboralReference[]
   languages: TResume.ILanguage[]
   skills: TResume.ISkill[]
   applicant: ICandidate;
@@ -16,15 +16,15 @@ export type TResume = {
 
 
 export namespace TResume {
-  export type Overview = Pick<TResume, 'id' | 'title' | 'about_me'>;
+  export type Overview = Pick<TResume, 'id' | 'title' | 'aboutMe'>;
   
   export interface IExperience {
     id?: number
     rol: string
     company: string
-    start_date: string
-    end_date?: string
-    keep_working: boolean
+    startDate: string
+    endDate?: string
+    keepWorking: boolean
     description: string
   }
   
@@ -32,9 +32,9 @@ export namespace TResume {
     id?: number
     institute: string
     title: string
-    start_date: string
-    end_date?: string
-    keep_study: boolean
+    startDate: string
+    endDate?: string
+    keepStudy: boolean
   }
   
   

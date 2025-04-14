@@ -24,9 +24,9 @@ type FormData = {
   id?: number;
   rol: string;
   company: string;
-  start_date: Date;
-  end_date?: Date;
-  keep_working: boolean;
+  startDate: Date;
+  endDate?: Date;
+  keepWorking: boolean;
   description: string;
 }
 
@@ -47,9 +47,9 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
       company: experience?.company,
       description: experience?.description,
       rol: experience?.rol,
-      keep_working: experience?.keep_working,
-      start_date: parseDate(experience?.start_date),
-      end_date: parseDate(experience?.end_date),
+      keepWorking: experience?.keepWorking,
+      startDate: parseDate(experience?.startDate),
+      endDate: parseDate(experience?.endDate),
     }
   });
 
@@ -62,8 +62,8 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
   const send: SubmitHandler<FormData> = async (data) => {
     const [,error] = await mutate({ resume_id, experience: {
       ...data,
-      start_date: formatDate(data.start_date) ?? '',
-      end_date: formatDate(data.end_date),
+      startDate: formatDate(data.startDate) ?? '',
+      endDate: formatDate(data.endDate),
     } })
 
     if (error) return;
@@ -103,7 +103,7 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
         </div>
         <div className="py-4 px-2 flex gap-6 items-center" >
           <Controller
-            name="keep_working"
+            name="keepWorking"
             control={control}
             render={({ field }) => (
               <Checkbox id={checkId} checked={field.value} onChange={field.onChange}/>
@@ -116,13 +116,13 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
           <div>
             <label className="font-medium text-sm">Fecha de ingreso</label>
             <Controller
-              name="start_date"
+              name="startDate"
               control={control}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
                   label="Fecha de ingreso"
-                  error={formState.errors.start_date}
+                  error={formState.errors.startDate}
                   endMonth={maxDate}
                 />
               )}
@@ -131,13 +131,13 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
           <div>
           <label className="font-medium text-sm">Fecha de finalización</label>
             <Controller
-              name="end_date"
+              name="endDate"
               control={control}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
                   label="Fecha de finalización"
-                  error={formState.errors.end_date}
+                  error={formState.errors.endDate}
                   endMonth={maxDate}
                 />
               )}

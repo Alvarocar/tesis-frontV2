@@ -4,17 +4,18 @@ export interface ICandidate {
   firstName: string;
   lastName: string;
   password: string;
-  creation_date: string;
-  modification_date: string;
+  creationDate: string;
+  modificationDate: string;
   token: string;
-  birth_date: string;
+  birthDate: string;
   direction: string;
   identification: number;
-  phone_number: string;
+  identificationType: string;
+  phoneNumber: string;
 }
 
 export namespace ICandidate {
   export type SignupPayload = Pick<ICandidate, 'email' | 'firstName' | 'lastName' | 'password'>;
   export type SigninPayload = Pick<ICandidate, 'email' | 'password'>;
-  export type PersonalInfo = Pick<ICandidate, 'firstName' | 'lastName' | 'identification' | 'phone_number' | 'birth_date' | 'direction'>
+  export type PersonalInfo = Pick<ICandidate, 'firstName' | 'lastName' | 'identification' | 'phoneNumber' | 'birthDate' | 'direction'>
 }
