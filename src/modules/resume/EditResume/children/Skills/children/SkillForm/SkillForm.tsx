@@ -8,7 +8,8 @@ import { Button } from "@app/components/ui/button";
 import { Input } from "@app/components/ui/input";
 import { stubUndefined } from "@app/util/stub";
 import { TResume } from "@app/@types/resume";
-import { toast } from "@app/hooks/use-toast";
+import { toast } from "@app/util/toast";
+
 
 type FormData = {
   skills: TResume.ISkill[]
@@ -23,7 +24,7 @@ const SkillForm: React.FC<Props> = ({ onFinish = stubUndefined }) => {
 
   const { handleSubmit, watch, control, setValue } = useForm<FormData>({
     defaultValues: {
-      skills: resume?.skills, 
+      skills: resume?.skills ?? [], 
     }
   })
 
@@ -39,7 +40,7 @@ const SkillForm: React.FC<Props> = ({ onFinish = stubUndefined }) => {
     try {
       refresh()
     } finally {
-      toast({ title: 'Actualizado' });
+      toast.successful('Actualizado');
       onFinish()
     }
   }
