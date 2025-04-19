@@ -93,6 +93,7 @@ const StudyForm: React.FC<Props> = ({
         <div className="py-4 px-2 flex flex-col gap-6 items-center" >
           <Controller 
             name="keepStudy"
+            defaultValue={false}
             control={control}
             rules={{
               deps: ["endDate"],

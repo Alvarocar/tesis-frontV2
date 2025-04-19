@@ -49,8 +49,8 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
-  deleteExperience(resumeId: number) {
-    return this.delete(`/experience/${resumeId}`);
+  deleteExperience(resumeId: number, id: number) {
+    return this.delete(`/experience/${resumeId}/${id}`);
   }
 
   @addToken()

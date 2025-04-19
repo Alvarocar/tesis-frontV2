@@ -11,9 +11,9 @@ import classNames from "classnames";
 import { stubUndefined } from "@app/util/stub";
 import useMutate from "@app/hooks/useMutation.hook";
 import resumeRepository from "@app/repositories/resume.repository";
-import { useResumeContext } from "@app/context/resume.context";
-import { toast } from "@app/hooks/use-toast";
+import { useResumeContext } from "@app/context/resume.context"; 
 import { Button } from "@app/components/ui/button";
+import { toast } from "@app/util/toast";
 
 type Props = {
   experience?: TResume.IExperience;
@@ -66,12 +66,13 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
       endDate: formatDate(data.endDate),
     } })
 
-    if (error) return;
+    if (error) {
+      toast.failed('Error', 'Hubo un error en la solicitud, vuelva a intentar');
+      return
+    };
 
     refresh();
-    toast({ 
-      title: 'Actualizado',
-     })
+    toast.successful('Actualizado', 'La experiencia ha sido actualizada');
     onFinish();
   }
 
@@ -101,16 +102,35 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
             className={classNames("bg-white resize-none h-52 focus-visible:outline-0 focus-visible:border-0", { 'border border-red-500': errors.description })}
           />
         </div>
-        <div className="py-4 px-2 flex gap-6 items-center" >
+        <div className="py-4 px-2 flex flex-col gap-6 items-center" >
           <Controller
             name="keepWorking"
+            defaultValue={false}
             control={control}
-            render={({ field }) => (
-              <Checkbox id={checkId} checked={field.value} onChange={field.onChange}/>
-
+            rules={{
+              deps: ["endDate"],
+              validate: (value, { endDate }) => {
+                if (value && endDate) {
+                  return "Desmarca este opción si ya no estás trabajando";
+                }
+                if (!value && !endDate) {
+                  return "Campo requerido"
+                }
+                return true;
+              }
+            }}
+            render={({ field, formState: { errors } }) => (
+              <>
+              <div className="flex gap-2 items-center w-full">
+                <Checkbox id={checkId} checked={field.value} onCheckedChange={field.onChange}/>
+                <label htmlFor={checkId}>¿Aun sigue trabajando ahi?</label>
+              </div>
+              <div className="w-full text-left">
+                {errors.keepWorking && <span className="text-red-500">{errors.keepWorking.message}</span>}
+              </div>
+              </>
             )}
           />
-          <label htmlFor={checkId}>¿Aun sigue trabajando ahi?</label>
         </div>
         <section className="flex flex-col gap-6 w-fit mx-auto sm:flex-row">
           <div>
@@ -118,6 +138,9 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
             <Controller
               name="startDate"
               control={control}
+              rules={{
+                required: "Campo requerido",
+              }}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
@@ -133,6 +156,15 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
             <Controller
               name="endDate"
               control={control}
+              rules={{
+                deps: ["keepWorking"],
+                validate: (value, { keepWorking }) => {
+                  if (!keepWorking && !value) {
+                    return "Campo requerido"
+                  }
+                  return true;
+                }
+              }}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
