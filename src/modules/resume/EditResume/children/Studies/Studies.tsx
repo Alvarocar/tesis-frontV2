@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Building } from "iconsax-react";
-import {  GraduationCap, PenBox } from "lucide-react";
+import {  GraduationCap, PenBox, Trash2 } from "lucide-react";
 import { TResume } from "@app/@types/resume";
 import { StudyForm } from "./children/StudyForm";
 import { Dialog, DialogContent } from "@app/components/ui/dialog";
+import { useDeleteStudy } from "./useDeleteStudy";
 
 type Props = {
   studies?: TResume.IEducation[],
@@ -12,7 +13,6 @@ type Props = {
 const Studies: React.FC<Props> = ({
   studies = [],
 }) => {
-
   const [study, setStudy] = useState<TResume.IEducation | undefined>();
   const [open, setOpen] = useState(false);
 
@@ -22,6 +22,8 @@ const Studies: React.FC<Props> = ({
     setStudy(study);
     toggle()
   }
+
+  const { deleteStudy, isLoading: isDeleting } = useDeleteStudy();
 
   return (
     <>
@@ -34,7 +36,7 @@ const Studies: React.FC<Props> = ({
             Agregar Educación
           </button>
         </header>
-        <ul className="max-w-full w-[40rem] mx-auto my-6">
+        <ul className="max-w-full w-[40rem] mx-auto my-6 flex flex-col gap-4">
           {studies.map(study => (
             <li 
               key={study.id}
@@ -51,9 +53,14 @@ const Studies: React.FC<Props> = ({
                   <span>
                     {study.startDate} - {study.keepStudy ? 'Actual' : study.endDate}
                   </span>
-                  <button onClick={() => handleStudy(study)} className="w-fit mx-auto">
-                    <PenBox />
-                  </button>
+                  <section className="flex justify-end gap-4">
+                    <button onClick={() => handleStudy(study)} className="">
+                      <PenBox />
+                    </button>
+                    <button disabled={isDeleting} onClick={() => study.id && deleteStudy(study.id)}>
+                      <Trash2 />
+                    </button>
+                  </section>
                 </aside>
             </li>
           ))}

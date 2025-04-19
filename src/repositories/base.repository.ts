@@ -17,6 +17,7 @@ export default class BaseRepository {
       }
       throw new Error(`Error en la solicitud: ${response.statusText}`);
     }
+    if (response.status === 204) return {} as T;
     const data: T = await response.json();
     return data;
   }

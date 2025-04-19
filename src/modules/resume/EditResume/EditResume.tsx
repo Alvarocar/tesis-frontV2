@@ -6,6 +6,7 @@ import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
 import { Skills } from "./children/Skills";
 
+
 type Props = {
   resume: TResume;
   onUpdate?: VoidFunction;

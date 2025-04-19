@@ -20,8 +20,8 @@ type FormData = {
   firstName: string;
   lastName: string;
   identification: number;
-  phone_number: string;
-  birth_date: Date;
+  phoneNumber: string;
+  birthDate: Date;
   direction: string;
 };
 
@@ -48,16 +48,16 @@ const birthDateRange = DateRange.init()
       firstName: data.firstName,
       lastName: data.lastName,
       identification: data.identification,
-      birth_date: parseDate(data.birth_date),
+      birthDate: parseDate(data.birthDate),
       direction: data.direction,
-      phone_number: data.phone_number,
+      phoneNumber: data.phoneNumber,
     });
   }, [data, reset])
 
   const send = async (data: FormData) => {
     const [, error] = await mutate({
       ...data,
-      birthDate: formatDate(data.birth_date)
+      birthDate: formatDate(data.birthDate)
     });
 
     if (error) return;
@@ -99,7 +99,6 @@ const birthDateRange = DateRange.init()
           error={errors.identification}
           {...register("identification", {
             required: "Campo requerido",
-            valueAsNumber: true,
           })}
         />
 
@@ -107,8 +106,8 @@ const birthDateRange = DateRange.init()
           label="Numero de celular"
           inputMode="numeric"
           type="tel"
-          error={errors.direction}
-          {...register("phone_number", {
+          error={errors.phoneNumber}
+          {...register("phoneNumber", {
             required: "Campo requerido",
           })}
         />
@@ -116,13 +115,13 @@ const birthDateRange = DateRange.init()
           <div>
             <label className="font-medium text-sm">Fecha de nacimiento</label>
             <Controller
-              name="birth_date"
+              name="birthDate"
               control={control}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
                   label="Fecha de nacimiento"
-                  error={formState.errors.birth_date}
+                  error={formState.errors.birthDate}
                   startMonth={birthDateRange.start}
                   endMonth={birthDateRange.end}
                 />

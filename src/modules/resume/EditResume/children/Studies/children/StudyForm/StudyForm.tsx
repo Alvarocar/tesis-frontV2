@@ -9,8 +9,8 @@ import useMutate from "@app/hooks/useMutation.hook";
 import { Button } from "@app/components/ui/button";
 import { Form } from "@app/modules/common/form";
 import { stubUndefined } from "@app/util/stub";
-import { toast } from "@app/hooks/use-toast";
 import { TResume } from "@app/@types/resume";
+import { toast } from "@app/util/toast";
 
 type Props = {
   study?: TResume.IEducation,
@@ -40,6 +40,7 @@ const StudyForm: React.FC<Props> = ({
     control,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       id: study?.id,
@@ -48,7 +49,7 @@ const StudyForm: React.FC<Props> = ({
       title: study?.title,
       startDate: parseDate(study?.startDate),
       endDate: parseDate(study?.endDate),
-    }
+    },
   });
 
   const checkId = useId();
@@ -66,9 +67,7 @@ const StudyForm: React.FC<Props> = ({
      })
      if (error) return;
      refresh();
-     toast({
-      title: 'Actualizado',
-     })
+     toast.successful('Registro Actualizado');
      onFinish();
   }
 
@@ -86,21 +85,39 @@ const StudyForm: React.FC<Props> = ({
         />
         <InputField
           label="Instituto en donde estudiaste"
-          error={errors.title}
+          error={errors.institute}
           {...register("institute", {
             required: "Campo requerido",
           })}
         />
-        <div className="py-4 px-2 flex gap-6 items-center" >
+        <div className="py-4 px-2 flex flex-col gap-6 items-center" >
           <Controller 
             name="keepStudy"
             control={control}
-            render={({ field }) => (
-              <Checkbox id={checkId} checked={field.value} onChange={field.onChange}/>
-
+            rules={{
+              deps: ["endDate"],
+              validate: (value, { endDate }) => {
+                if (value && endDate) {
+                  return "Desmarca este opción si ya no estás estudiando";
+                }
+                if (!value && !endDate) {
+                  return "Campo requerido"
+                }
+                return true;
+              }
+            }}
+            render={({ field, formState: { errors } }) => (
+              <>
+              <div className="flex gap-2 items-center w-full">
+                <Checkbox id={checkId} checked={field.value} onCheckedChange={field.onChange}/>
+                <label htmlFor={checkId}>¿Aun sigue estudiando?</label>
+              </div>
+              <div className="w-full text-left">
+                {errors.keepStudy && <span className="text-red-500">{errors.keepStudy.message}</span>}
+              </div>
+              </>
             )}
           />
-          <label htmlFor={checkId}>¿Aun sigue estudiando?</label>
         </div>
         <section className="flex flex-col gap-6 w-fit mx-auto sm:flex-row">
           <div>
@@ -108,6 +125,9 @@ const StudyForm: React.FC<Props> = ({
             <Controller
               name="startDate"
               control={control}
+              rules={{
+                required: "Campo requerido",
+              }}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
@@ -123,6 +143,15 @@ const StudyForm: React.FC<Props> = ({
             <Controller
               name="endDate"
               control={control}
+              rules={{
+                deps: ["keepStudy"],
+                validate: (value, { keepStudy }) => {
+                  if (!keepStudy && !value) {
+                    return "Campo requerido"
+                  }
+                  return true;
+                }
+              }}
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}

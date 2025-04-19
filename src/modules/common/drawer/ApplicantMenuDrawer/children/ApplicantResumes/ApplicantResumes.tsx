@@ -51,7 +51,7 @@ const ApplicantResumes = () => {
       {data.length < 5 ? 
         <footer className="py-4">
           <CreateResume open={open} onOpenChange={toggle} />
-          <Button onClick={toggle} ><DocumentText /> Crea una nueva</Button>
+          <Button onClick={toggle} ><DocumentText /> Crea una nueva hoja de vida</Button>
         </footer>
         : null
       }
