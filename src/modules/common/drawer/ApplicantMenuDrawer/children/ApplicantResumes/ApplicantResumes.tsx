@@ -6,6 +6,7 @@ import { Skeleton } from "@app/components/ui/skeleton";
 import { CreateResume } from "@app/modules/common/drawer/ApplicantMenuDrawer/children/CreateResume";
 import { ExternalLink } from "lucide-react";
 import { useGetResumes } from "@app/hooks/useGetResumes.hook";
+import { Typography } from "@app/components/ui/typography";
 
 const ApplicantResumes = () => {
   
@@ -34,7 +35,7 @@ const ApplicantResumes = () => {
 
   return (
     <article>
-      <h3 className="font-normal text-lg mb-4">Hojas de vidas</h3>
+      <Typography.H5 className="mb-4">Hojas de vidas</Typography.H5>
       <div className="flex flex-col gap-4">
         {data.map(cv => (
           <section className=" p-2 w-80 border rounded-md border-black" key={cv.id}>
