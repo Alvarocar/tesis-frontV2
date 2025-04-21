@@ -67,10 +67,11 @@ const VacantForm: React.FC<Props> = ({ vacant, onSubmit }) => {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Tiempo Completo">
-                    Tiempo Completo
+                  <SelectItem value="Remoto">
+                    Remoto
                   </SelectItem>
-                  <SelectItem value="Prácticas">Prácticas</SelectItem>
+                  <SelectItem value="Híbrido">Híbrido</SelectItem>
+                  <SelectItem value="Presencial">Presencial</SelectItem>
                 </SelectContent>
               </Select>
               {formState.errors.jobType && (

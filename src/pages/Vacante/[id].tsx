@@ -28,7 +28,7 @@ const VacantEdit: React.FC<Props> = ({ params }) => {
       <Header />
       <div>
         <main className="grid place-items-center pt-10">
-          <Card>
+          <Card className="w-[40rem]">
             <h2>Editar Vacante</h2>
             <VacantForm vacant={data} onSubmit={handleSubmit} />
           </Card>
