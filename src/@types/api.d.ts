@@ -16,6 +16,10 @@ export type Paginator = {
   pageSize: string,
 }
 
+export type TPaginatorWithQ = Paginator & {
+  q: string;
+}
+
 export type TListResult<T> = {
   result: T[],
 } & Paginator;

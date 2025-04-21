@@ -1,5 +1,7 @@
 import { Link } from "wouter";
 import { ENV } from "@app/constants";
+import {JobSearch} from "@app/modules/job/JobSearch";
+
 
 const HeaderDefault = () => {
   return (
@@ -9,7 +11,8 @@ const HeaderDefault = () => {
           {ENV.APP_NAME}
         </Link>
       </h4>
-      <ul className="flex flex-1 justify-end px-5 gap-6">
+      <JobSearch className="mx-auto"/>
+      <ul className="flex justify-end px-5 gap-6">
         <li className="bg-slate-800 hover:bg-slate-800/90 px-4 py-1 rounded text-white">
           <Link href="/sign-in">Ingresa</Link>
         </li>

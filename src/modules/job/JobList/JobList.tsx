@@ -1,11 +1,13 @@
 import useSWR from "swr";
 import { Paginator } from "@app/@types/api";
+import { useJobFilters } from "@app/hooks/useJobFilters";
 import JobRepository from "@app/repositories/job.repository";
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader";
 import { JobCard } from "../JobCard";
 
 const JobList = () => {
-  const { data } = useSWR({ page: '1' } as Paginator, JobRepository.getJobs.bind(JobRepository))
+  const { filters, setFilter } = useJobFilters()
+  const { data } = useSWR({ ...filters }, JobRepository.getJobs.bind(JobRepository))
   if (!data) return <DotsLoader />
   
   return (

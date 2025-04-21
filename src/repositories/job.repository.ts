@@ -1,6 +1,6 @@
 import { ENV } from "@app/constants";
 import { toUrlParams } from "@app/util/url";
-import { Paginator, TListResult } from "@app/@types/api";
+import { TListResult, TPaginatorWithQ } from "@app/@types/api";
 import { TJob, TJobPreview } from "@app/@types/jobs";
 import BaseRepository from "./base.repository";
 import { addToken } from "@app/decorators/repository.decorator";
@@ -13,7 +13,7 @@ class JobRepository extends BaseRepository {
     super(ENV.API_HOST, '/v1/job')
   }
 
-  getJobs(args: Paginator) {
+  getJobs(args: TPaginatorWithQ) {
     return this.get<TListResult<TJobPreview>>(toUrlParams(args))
   }
 
