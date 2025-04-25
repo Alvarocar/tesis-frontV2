@@ -21,5 +21,7 @@ export type TPaginatorWithQ = Paginator & {
 }
 
 export type TListResult<T> = {
+  currentPage: number;
+  totalPages: number;
   result: T[],
-} & Paginator;
+};
