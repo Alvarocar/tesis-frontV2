@@ -1,6 +1,7 @@
 import { ENV } from "@app/constants";
 import BaseRepository from "./base.repository";
 import { addToken } from "@app/decorators/repository.decorator";
+import { IApplicationDetail } from "@app/@types/application";
 
 class ApplicationRepository extends BaseRepository {
   
@@ -15,7 +16,7 @@ class ApplicationRepository extends BaseRepository {
 
   @addToken()
   getApplicationDetail({ applicationDetailId }: { applicationDetailId: number }) {
-    return this.get(`/${applicationDetailId}`);
+    return this.get<IApplicationDetail>(`/${applicationDetailId}`);
   }
 
 }

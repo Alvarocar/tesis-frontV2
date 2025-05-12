@@ -3,6 +3,7 @@ import { Header } from "@app/modules/common/header"
 import { NotFound } from "@app/modules/common/error/NotFound"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
 import applicationRepository from "@app/repositories/application.repository"
+import VacancyProcess from "@app/modules/process/VacancyProcess/VacancyProcess"
 
 type Props = {
   params: { id: string }
@@ -21,6 +22,7 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
   return (
     <>
       <Header />
+      <VacancyProcess vacancy={data.vacancy} />
     </>
   )
 }

@@ -24,7 +24,7 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
-  patchAboutMe(payload: { about_me: string, resume_id: number }) {
+  patchAboutMe(payload: { aboutMe: string, resumeId: number }) {
     return this.patch('/about_me', payload);
   }
 

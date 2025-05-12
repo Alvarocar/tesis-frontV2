@@ -13,7 +13,7 @@ type Props = {
 }
 
 type FormData = {
-  about_me: string;
+  aboutMe: string;
 }
 
 const ResumeDescriptionForm: React.FC<Props> = ({
@@ -22,7 +22,7 @@ const ResumeDescriptionForm: React.FC<Props> = ({
   
   const { handleSubmit, register, formState: { errors } } = useForm<FormData>({
     defaultValues: {
-      about_me: description,
+      aboutMe: description,
     }
   })
 
@@ -31,7 +31,7 @@ const ResumeDescriptionForm: React.FC<Props> = ({
   const { mutate, isLoading } = useMutate(resumeRepository.patchAboutMe.bind(resumeRepository))
 
   const send = async (payload: FormData) => {
-    const [,error] = await mutate({ ...payload, resume_id });
+    const [,error] = await mutate({ ...payload, resumeId: resume_id });
     if (error) return;
     refresh()
     toast({ title: 'Actualizado' })
@@ -45,12 +45,12 @@ const ResumeDescriptionForm: React.FC<Props> = ({
       <fieldset className="my-4">
         <Textarea
 
-          {...register('about_me', {
+          {...register('aboutMe', {
             required: 'Campo requerido',
           })}
-          className={classNames("bg-white resize-none h-52 focus-visible:outline-0 focus-visible:border-0", { 'border border-red-500': errors.about_me })}
+          className={classNames("bg-white resize-none h-52 focus-visible:outline-0 focus-visible:border-0", { 'border border-red-500': errors.aboutMe })}
         />
-        {errors.about_me ? <p className="text-red-500">{errors.about_me.message}</p> : null}
+        {errors.aboutMe ? <p className="text-red-500">{errors.aboutMe.message}</p> : null}
       </fieldset>
       <Button disabled={isLoading}>Guardar</Button>
     </form>
