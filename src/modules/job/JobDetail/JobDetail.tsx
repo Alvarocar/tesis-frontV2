@@ -36,15 +36,12 @@ const JobDetail: React.FC<Props> = ({ job }) => {
     userType === "applicant" ? { jobId: job.id } : undefined,
     jobRepository.isApplied.bind(jobRepository)
   );
+
   const handlePreApply = () => {
     if (!isAuth) return setLocation("/sign-in");
 
     if (userType === "recruiter")
-      return toast({
-        description: "Esta acción no es posible realizarla desde su cuenta",
-        variant: "destructive",
-        duration: 2000,
-      });
+      return setLocation(`/procesos/${job.id}`)
 
     setOpen(true);
   };

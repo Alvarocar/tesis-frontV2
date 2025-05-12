@@ -13,6 +13,11 @@ class ApplicationRepository extends BaseRepository {
     return this.post(`/apply/${vacantId}/${resumeId}`, {});
   }
 
+  @addToken()
+  getApplicationDetail({ applicationDetailId }: { applicationDetailId: number }) {
+    return this.get(`/${applicationDetailId}`);
+  }
+
 }
 
 export default new ApplicationRepository();

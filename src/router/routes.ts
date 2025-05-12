@@ -10,4 +10,7 @@ export const ROUTES = {
   SigninRecruiter: lazy(() => import('@app/pages/Signin/Recruiter').then(({ Recruiter }) => ({ default: Recruiter }))),
   CrearVacante: lazy(() => import('@app/pages/Vacante/Crear')),
   EditarVacante: lazy(() => import('@app/pages/Vacante/[id]')),
+  Vacantes: lazy(() => import('@app/pages/Vacantes').then(({ Vacantes }) => ({ default: Vacantes }))),
+  Procesos: lazy(() => import('@app/pages/Procesos').then(({ Procesos }) => ({ default: Procesos }))),
+  ApplicationDetail: lazy(() => import('@app/pages/Procesos/Aplicacion').then(({ ApplicationDetail }) => ({ default: ApplicationDetail }))),
 }

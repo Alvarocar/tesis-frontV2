@@ -4,3 +4,14 @@ export type TVacant = {
   salary: number;
   jobType: 'Tiempo Completo' | 'Prácticas';
 }
+
+export type TApplicationVacantOverview = {
+  id: number;
+  affinity: number;
+  feedBack: string;
+  applicant: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  }
+}

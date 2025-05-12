@@ -10,9 +10,10 @@ import {
 interface Props {
   currentPage: number;
   totalPages: number;
+  className?: string;
 }
 
-const JobPagination: React.FC<Props> = ({ currentPage, totalPages }) => {
+const JobPagination: React.FC<Props> = ({ currentPage, totalPages, className }) => {
   
   const getPrevious = () => {
     return Math.max(currentPage - 1, 1);
@@ -23,7 +24,7 @@ const JobPagination: React.FC<Props> = ({ currentPage, totalPages }) => {
   }
 
   return (
-    <Pagination>
+    <Pagination className={className}>
       <PaginationContent>
       <PaginationPrevious href={`?page=${getPrevious()}`} />
         {Array.from({ length: totalPages }).map((_, index) => (

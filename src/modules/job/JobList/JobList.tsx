@@ -7,8 +7,8 @@ import { JobCard } from "../JobCard";
 import JobPagination from "../JobPagination/JobPagination.component";
 
 const JobList = () => {
-  const { filters, setFilter } = useJobFilters()
-  const { data, error } = useSWR({ ...filters }, JobRepository.getJobs.bind(JobRepository))
+  const { filters } = useJobFilters()
+  const { data } = useSWR({ ...filters }, JobRepository.getJobs.bind(JobRepository))
   if (!data) return <DotsLoader />
 
   return (

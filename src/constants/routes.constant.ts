@@ -8,5 +8,8 @@ export const ROUTES_PATHS = {
   SIGN_IN_RECRUITER: '/sign-in/reclutadores',
   CREATE_VACANCY: '/vacante/crear',
   EDIT_VACANCY: '/vacante/:id',
-  NOT_FOUND: '/not-found'
+  NOT_FOUND: '/not-found',
+  VACANTES: '/vacantes',
+  PROCESOS: '/procesos/:id',
+  APPLICATION_DETAIL: '/procesos/aplicacion/:id',
 }
