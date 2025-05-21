@@ -8,7 +8,11 @@ import { ExternalLink } from "lucide-react";
 import { useGetResumes } from "@app/hooks/useGetResumes.hook";
 import { Typography } from "@app/components/ui/typography";
 
-const ApplicantResumes = () => {
+type Props = {
+  onClickResume: (id: number) => void
+}
+
+const ApplicantResumes: React.FC<Props> = ({ onClickResume }) => {
   
   const { data, isLoading } = useGetResumes()
   const [open, setOpen] = useState(false);
@@ -41,7 +45,7 @@ const ApplicantResumes = () => {
           <section className=" p-2 w-80 border rounded-md border-black" key={cv.id}>
             <header className="border-b-2 border-black mb-1 pb-2 flex" >
               <h4 className="flex-1" >{cv.title}</h4>
-              <Link to={`/aspirante/${cv.id}`} aria-label={`ir a la hoja de vida ${cv.title}`}>
+              <Link onClick={() => onClickResume(cv.id)} to={`/aspirante/${cv.id}`} aria-label={`ir a la hoja de vida ${cv.title}`}>
                 <ExternalLink />
               </Link>
             </header>

@@ -1,17 +1,18 @@
+import { useState } from "react";
 import { HambergerMenu } from "iconsax-react";
+import { ICandidate } from "@app/@types/applicant";
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@app/components/ui/drawer";
 import { ApplicantResumes } from "./children/ApplicantResumes";
 import { ApplicantHeader } from "./children/ApplicantHeader";
-import { ICandidate } from "@app/@types/applicant";
 
 type Props = {
   applicant?: ICandidate 
 }
 
 const ApplicantMenuDrawer: React.FC<Props> = () => {
-
+  const [open, setOpen] = useState(false);
   return (
-    <Drawer direction="left"  >
+    <Drawer open={open} onOpenChange={setOpen} direction="left"  >
       <DrawerTrigger asChild>
         <button
           type="button"
@@ -26,7 +27,7 @@ const ApplicantMenuDrawer: React.FC<Props> = () => {
           <ApplicantHeader />
           <hr className="my-4" />
           <article>
-            <ApplicantResumes />
+            <ApplicantResumes onClickResume={() => setOpen(false)} />
           </article>
         </aside>
       </DrawerContent>

@@ -7,6 +7,7 @@ import useMutate from "@app/hooks/useMutation.hook";
 import resumeRepository from "@app/repositories/resume.repository";
 import { useResumeContext } from "@app/context/resume.context";
 import { toast } from "@app/hooks/use-toast";
+import { useEffect } from "react";
 
 type Props = {
   description: string;
@@ -20,11 +21,15 @@ const ResumeDescriptionForm: React.FC<Props> = ({
   description,
 }) => {
   
-  const { handleSubmit, register, formState: { errors } } = useForm<FormData>({
+  const { handleSubmit, register, formState: { errors }, setValue } = useForm<FormData>({
     defaultValues: {
       aboutMe: description,
     }
   })
+
+  useEffect(() => {
+    setValue('aboutMe', description)
+  }, [description])
 
   const { refresh, resume_id } = useResumeContext()
 
