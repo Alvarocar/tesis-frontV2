@@ -2,11 +2,11 @@ import { TResume } from "@app/@types/resume";
 import { ResumeDescriptionForm } from "./children/ResumeDescriptionForm";
 import { PersonalInfoForm } from "./children/PersonalInfoForm";
 import { Experiences } from "./children/Experiences";
+import { TitleResume } from "./children/TitleResume";
 import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
 import { Skills } from "./children/Skills";
 import { DeleteResume } from "./children/DeleteResume";
-
 
 type Props = {
   resume: TResume;
@@ -21,6 +21,7 @@ const EditResume: React.FC<Props> = ({ resume }) => {
         <h1 className="text-xl font-semibold">Editar Hoja de vida</h1>
         <p className="text-gray-500">Actualiza tu información personal/profesional</p>
         <hr className="my-4" />
+        <TitleResume />
         <PersonalInfoForm />
         <hr className="my-4" />
         <ResumeDescriptionForm description={resume.aboutMe} />

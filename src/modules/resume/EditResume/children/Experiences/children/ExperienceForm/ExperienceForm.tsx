@@ -96,7 +96,7 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
           })}
         />
         <div className="mt-4">
-          <Label>Descripción del rol desempañado</Label>  
+          <Label>Descripción del rol desempeñado</Label>  
           <Textarea
             {...register('description')}
             className={classNames("bg-white resize-none h-52 focus-visible:outline-0 focus-visible:border-0", { 'border border-red-500': errors.description })}

@@ -19,6 +19,11 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
+  updateTitle(payload: { title: string, id: number }) {
+    return this.patch('/', payload);
+  }
+
+  @addToken()
   getDetail({ resumeId }: { resumeId: number }) {
     return this.get<TResume>(`/${resumeId}`);
   }
