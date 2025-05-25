@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { useSearch } from "wouter";
-
+import { useLocation, useSearch } from "wouter";
+import { toUrlParams } from "@app/util/url";
 
 export const useJobFilters = () => {
   const search = useSearch();
-
+  const [,setLocation] = useLocation();
   const filters = useMemo(() => {
     const params = new URLSearchParams(search)
     let page = params.get('page')
@@ -21,10 +21,9 @@ export const useJobFilters = () => {
   }, [search])
 
 
-  const setFilter = useCallback((attr: 'q' | 'page', value: string) => {
-    const url = new URL(window.location.href)
-    url.searchParams.set(attr, value)
-    window.history.replaceState(null, '', url.toString())
+  const setFilter = useCallback((attr: 'q' | 'page', value: string, path?: string) => {
+    const url = path ?? new URL(window.location.href).pathname
+    setLocation(url + toUrlParams({ [attr]: value }))
   }, [])
 
   return { filters, setFilter }
