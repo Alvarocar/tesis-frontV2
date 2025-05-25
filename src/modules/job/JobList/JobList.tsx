@@ -5,11 +5,14 @@ import JobRepository from "@app/repositories/job.repository";
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader";
 import { JobCard } from "../JobCard";
 import JobPagination from "../JobPagination/JobPagination.component";
+import { NoJobResult } from "../NoJobResult/NoJobResult";
 
 const JobList = () => {
   const { filters } = useJobFilters()
   const { data } = useSWR({ ...filters }, JobRepository.getJobs.bind(JobRepository))
   if (!data) return <DotsLoader />
+
+  if (data.result.length === 0) return <NoJobResult className="flex-1" />
 
   return (
     <>

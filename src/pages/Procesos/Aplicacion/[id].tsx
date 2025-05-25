@@ -3,7 +3,8 @@ import { Header } from "@app/modules/common/header"
 import { NotFound } from "@app/modules/common/error/NotFound"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
 import applicationRepository from "@app/repositories/application.repository"
-import VacancyProcess from "@app/modules/process/VacancyProcess/VacancyProcess"
+import { ResumeView } from "@app/modules/process/ResumeView/ResumeView"
+import { formatFeedBack } from "@app/util/string"
 
 type Props = {
   params: { id: string }
@@ -22,7 +23,17 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
   return (
     <>
       <Header />
-      <VacancyProcess vacancy={data.vacancy} />
+      <article className="p-10">
+        {/* <VacancyProcess vacancy={data.vacancy} /> */}
+        <section className="flex flex-wrap gap-4 justify-around">
+          <main className="max-w-2xl p-6 bg-white shadow rounded-lg space-y-8">
+            <h2 className="text-2xl font-semibold">Retroalimentación de la Aplicación</h2>
+            <p className="whitespace-pre-line">{formatFeedBack(data.feedBack)}</p>
+          </main>
+          <ResumeView resume={data.resume} />
+        </section>
+
+      </article>
     </>
   )
 }

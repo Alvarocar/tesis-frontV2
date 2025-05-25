@@ -81,7 +81,7 @@ const JobDetail: React.FC<Props> = ({ job }) => {
               <span>Ya aplicaste</span>
             ) : (
               <Button disabled={isLoading} onClick={() => handlePreApply()}>
-                <Send /> Aplicar
+                <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
               </Button>
             )}
           </div>
@@ -114,7 +114,7 @@ const JobDetail: React.FC<Props> = ({ job }) => {
             <span>Ya aplicaste</span>
           ) : (
             <Button disabled={isLoading} onClick={() => handlePreApply()}>
-              <Send /> Aplicar ahora
+              <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
             </Button>
           )}
         </footer>
