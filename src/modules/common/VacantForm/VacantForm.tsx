@@ -70,7 +70,7 @@ const VacantForm: React.FC<Props> = ({ vacant, onSubmit }) => {
                   <SelectItem value="Remoto">
                     Remoto
                   </SelectItem>
-                  <SelectItem value="Híbrido">Híbrido</SelectItem>
+                  <SelectItem value="Hibrido">Híbrido</SelectItem>
                   <SelectItem value="Presencial">Presencial</SelectItem>
                 </SelectContent>
               </Select>
