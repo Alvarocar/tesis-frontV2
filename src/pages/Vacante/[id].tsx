@@ -6,6 +6,7 @@ import useMutate from "@app/hooks/useMutation.hook"
 import { VacantForm } from "@app/modules/common/VacantForm"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
 import vacantRepository from "@app/repositories/vacant.repository"
+import { toast } from "@app/util/toast"
 
 type Props = {
   params: { id: string }
@@ -19,8 +20,13 @@ const VacantEdit: React.FC<Props> = ({ params }) => {
 
   if (isLoading || !data) return <DotsLoader />;
 
-  const handleSubmit = (data: TVacant) => {
-    return mutate(Number(params.id), data);
+  const handleSubmit = async (data: TVacant) => {
+    const [_, error] = await mutate(Number(params.id), data);
+    if (error) {
+      toast.failed('Hubo un error al editar la vacante');
+    } else {
+      toast.successful('Vacante editada exitosamente');
+    }
   }
 
   return (
