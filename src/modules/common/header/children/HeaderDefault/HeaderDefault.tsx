@@ -1,16 +1,12 @@
 import { Link } from "wouter";
-import { ENV } from "@app/constants";
 import {JobSearch} from "@app/modules/job/JobSearch";
+import { AppTitle } from "@app/modules/common/AppTitle";
 
 
 const HeaderDefault = () => {
   return (
     <header className="w-screen bg-white py-5 px-3 flex items-center">
-      <h4>
-        <Link href="/">
-          {ENV.APP_NAME}
-        </Link>
-      </h4>
+      <AppTitle />
       <JobSearch className="mx-auto"/>
       <ul className="flex justify-end px-5 gap-6">
         <li className="bg-slate-800 hover:bg-slate-800/90 px-4 py-1 rounded text-white">
