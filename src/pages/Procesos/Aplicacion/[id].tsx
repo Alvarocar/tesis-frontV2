@@ -30,7 +30,7 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
             <h2 className="text-2xl font-semibold">Retroalimentación de la Aplicación</h2>
             <p className="whitespace-pre-line">{formatFeedBack(data.feedBack)}</p>
           </main>
-          <ResumeView resume={data.resume} />
+          <ResumeView resume={data.resume} affinity={data.affinity} />
         </section>
 
       </article>

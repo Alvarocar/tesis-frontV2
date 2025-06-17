@@ -18,3 +18,9 @@ export const formatFeedBack = (feedBack: string) => {
     return item;
   })
 }
+
+export const getAffinityColor = (affinity: number) => {
+  if (affinity < 60) return "text-red-500"
+  if (affinity < 80) return "text-yellow-500"
+  return "text-green-500"
+}
