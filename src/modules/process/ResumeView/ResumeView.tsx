@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { TResume } from '@app/@types/resume'
 import { getAffinityColor } from '@app/util/string'
+import { LanguageNameFactory } from '@app/constants/resume.constant'
 
 type Props = {
   resume: TResume
@@ -68,7 +69,7 @@ export const ResumeView: React.FC<Props> = ({ resume, className, affinity }) => 
           <ul>
             {resume.languages.map(lang => (
               <li key={lang.id} className="text-gray-700">
-                {lang.name} - Nivel {lang.level}
+                {lang.name} - {LanguageNameFactory.get(lang.level)}
               </li>
             ))}
           </ul>
