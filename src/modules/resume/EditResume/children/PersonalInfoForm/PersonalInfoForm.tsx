@@ -19,7 +19,7 @@ const { InputField } = Form;
 type FormData = {
   firstName: string;
   lastName: string;
-  identification: number;
+  identification: string;
   phoneNumber: string;
   birthDate: Date;
   direction: string;
@@ -95,7 +95,7 @@ const birthDateRange = DateRange.init()
 
         <InputField          
           label="Numero de identificación"
-          type="number"
+          type="text"
           error={errors.identification}
           {...register("identification", {
             required: "Campo requerido",
