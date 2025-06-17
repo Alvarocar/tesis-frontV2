@@ -11,6 +11,7 @@ import { Button } from "@app/components/ui/button";
 import { Label } from "@app/components/ui/label";
 import { TVacant } from "@app/@types/vacant";
 import { Form } from "../form";
+import { useState } from "react";
 
 const { InputField, RichText } = Form;
 
@@ -24,6 +25,7 @@ type Props = {
 const moneyFormat = Intl.NumberFormat('es-CO')
 
 const VacantForm: React.FC<Props> = ({ vacant, onSubmit }) => {
+  const [loading, setLoading] = useState(false)
   const { handleSubmit, register, control, formState } = useForm<FormData>({
     defaultValues: {
       title: vacant?.title,
@@ -33,8 +35,14 @@ const VacantForm: React.FC<Props> = ({ vacant, onSubmit }) => {
     },
   });
 
-  const send = (data: FormData) => {
-    onSubmit?.(data);
+  const send = async (data: FormData) => {
+    try {
+      setLoading(true)
+      await onSubmit?.(data);
+    } finally {
+      setLoading(false)
+    }
+     
   };
 
   return (
@@ -122,7 +130,7 @@ const VacantForm: React.FC<Props> = ({ vacant, onSubmit }) => {
         />
       </fieldset>
       <footer className="flex justify-center py-4">
-        <Button>Guardar </Button>
+        <Button disabled={loading} >Guardar </Button>
       </footer>
     </form>
   );
