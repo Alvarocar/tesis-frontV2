@@ -7,16 +7,18 @@ import { Dialog, DialogContent } from "@app/components/ui/dialog";
 import useMutate from "@app/hooks/useMutation.hook";
 import { Button } from "@app/components/ui/button";
 import { useAuth } from "@app/hooks/useAuth.hook";
-import { useToast } from "@app/hooks/use-toast";
 import { TResume } from "@app/@types/resume";
 import { TJob } from "@app/@types/jobs";
 import CvList from "../CvList/CvList";
 import applicationRepository from "@app/repositories/application.repository";
 import useSWR from "swr";
 import jobRepository from "@app/repositories/job.repository";
+import { ApplyingStatus } from "../ApplyingStatus";
+import { toast } from "@app/util/toast";
 
 type Props = {
   job: TJob;
+  onApplyed?: VoidFunction;
 };
 
 const currencyFormat = new Intl.NumberFormat("es-CO", {
@@ -24,15 +26,14 @@ const currencyFormat = new Intl.NumberFormat("es-CO", {
   currency: "COP",
 });
 
-const JobDetail: React.FC<Props> = ({ job }) => {
+const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
   const [, setLocation] = useLocation();
   const { isAuth, userType } = useAuth();
-  const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const { mutate, isLoading } = useMutate(
     applicationRepository.apply.bind(applicationRepository)
   );
-  const { data: isApplied = false, isLoading: isLoadingAppliedFetch } = useSWR(
+  const { data: isApplied = false, isLoading: isLoadingAppliedFetch, mutate: mutateIsApplied } = useSWR(
     userType === "applicant" ? { jobId: job.id } : undefined,
     jobRepository.isApplied.bind(jobRepository)
   );
@@ -49,6 +50,10 @@ const JobDetail: React.FC<Props> = ({ job }) => {
   const handleApply = async (resume: TResume.Overview) => {
     try {
       await mutate(job.id, resume.id);
+      mutateIsApplied(true);
+      setOpen(false);
+      toast.successful("Aplicación exitosa");
+      onApplyed?.();
     } catch (e) {
       console.error("Error:", e);
     }
@@ -80,7 +85,7 @@ const JobDetail: React.FC<Props> = ({ job }) => {
             {isApplied ? (
               <span>Ya aplicaste</span>
             ) : (
-              <Button disabled={isLoading} onClick={() => handlePreApply()}>
+              <Button disabled={isLoading || isLoadingAppliedFetch} onClick={() => handlePreApply()}>
                 <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
               </Button>
             )}
@@ -113,7 +118,7 @@ const JobDetail: React.FC<Props> = ({ job }) => {
           {isApplied ? (
             <span>Ya aplicaste</span>
           ) : (
-            <Button disabled={isLoading} onClick={() => handlePreApply()}>
+            <Button disabled={isLoading || isLoadingAppliedFetch} onClick={() => handlePreApply()}>
               <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
             </Button>
           )}
@@ -121,7 +126,13 @@ const JobDetail: React.FC<Props> = ({ job }) => {
       </main>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
+          {isLoading ?
+          <div className="min-h-32 flex items-center justify-center">
+            <ApplyingStatus />
+          </div> 
+          :
           <CvList onSelect={handleApply} />
+          }
         </DialogContent>
       </Dialog>
     </div>
