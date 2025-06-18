@@ -24,6 +24,7 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
     <>
       <Header />
       <article className="p-10">
+       <h1 className="text-2xl text-center mb-6">Vacante: <span className="font-semibold">{data.vacancy.title}</span></h1>
         {/* <VacancyProcess vacancy={data.vacancy} /> */}
         <section className="flex flex-wrap gap-4 justify-around">
           <main className="max-w-2xl p-6 bg-white shadow rounded-lg space-y-8">
