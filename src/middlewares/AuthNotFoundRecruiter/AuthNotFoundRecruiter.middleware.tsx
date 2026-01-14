@@ -7,11 +7,11 @@ import { TMiddlewareComponent } from "@app/@types/middleware";
 const AuthNotFoundRecruiter: TMiddlewareComponent = ({ children, ...rest }) => {
   const { isLoading, userType } = useAuth();
 
-  if (isLoading) return <DotsLoader />
+  if (isLoading) return <DotsLoader />;
 
-  if (userType !== 'recruiter') return <NotFound />
+  if (userType !== "recruiter" && userType !== "admin") return <NotFound />;
 
   return React.cloneElement(children, rest);
-}
+};
 
 export default AuthNotFoundRecruiter;

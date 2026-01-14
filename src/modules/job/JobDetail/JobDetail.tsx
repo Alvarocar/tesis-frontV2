@@ -41,7 +41,7 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
   const handlePreApply = () => {
     if (!isAuth) return setLocation("/sign-in");
 
-    if (userType === "recruiter")
+    if (userType === "recruiter" || userType === "admin")
       return setLocation(`/procesos/${job.id}`)
 
     setOpen(true);
@@ -86,7 +86,7 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
               <span>Ya aplicaste</span>
             ) : (
               <Button disabled={isLoading || isLoadingAppliedFetch} onClick={() => handlePreApply()}>
-                <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
+                <Send /> {userType === 'recruiter' || userType === 'admin' ? 'Ver Postulaciones' : 'Aplicar'}
               </Button>
             )}
           </div>
@@ -119,7 +119,7 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
             <span>Ya aplicaste</span>
           ) : (
             <Button disabled={isLoading || isLoadingAppliedFetch} onClick={() => handlePreApply()}>
-              <Send /> {userType === 'recruiter' ? 'Ver Postulaciones' : 'Aplicar'}
+              <Send /> {userType === 'recruiter' || userType === 'admin' ? 'Ver Postulaciones' : 'Aplicar'}
             </Button>
           )}
         </footer>

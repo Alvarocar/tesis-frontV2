@@ -8,6 +8,7 @@ export type TJob = {
   salaryOffer: number;
   title: string;
   company: string;
+  editable: boolean;
 }
 
-export type TJobPreview = Pick<TJob, 'id' | 'company' | 'title' | 'salaryOffer' | 'jobType'>;
+export type TJobPreview = Pick<TJob, 'id' | 'company' | 'title' | 'salaryOffer' | 'jobType' | 'editable'>;

@@ -4,7 +4,7 @@ export const decodeToken = (token: string) => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     const decoded = JSON.parse(atob(base64));
-    return decoded;
+    return { ...decoded, userType: decoded.role };
   } catch (e) {
     console.error('Error decoding token', e);
     return null;

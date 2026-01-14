@@ -17,7 +17,7 @@ export function addToken() {
       // Si existe el token, añadirlo a los headers
       if (Authorization) {
         instance.setHeaders({
-          Authorization,
+          Authorization: `Bearer ${Authorization}`,
         });
       }
 

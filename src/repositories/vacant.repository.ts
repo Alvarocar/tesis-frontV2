@@ -8,7 +8,7 @@ import { toUrlParams } from "@app/util/url";
 
 class VacantRepository extends BaseRepository {
   constructor() {
-    super(ENV.API_HOST, '/v1/vacant');
+    super(ENV.API_HOST, '/v1/vacancy');
   }
 
   @addToken()

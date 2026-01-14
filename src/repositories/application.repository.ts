@@ -19,6 +19,10 @@ class ApplicationRepository extends BaseRepository {
     return this.get<IApplicationDetail>(`/${applicationDetailId}`);
   }
 
+  @addToken()
+  getApplicationsByVacant({ id: vacantId }: { id: number }) {
+    return this.get(`/procceses/${vacantId}`);
+  }
 }
 
 export default new ApplicationRepository();

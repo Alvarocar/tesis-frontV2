@@ -2,7 +2,7 @@
 export type TAuthContext = {
   isAuth: boolean;
   isLoading: boolean;
-  userType?: 'applicant' | 'recruiter';
+  userType?: 'applicant' | 'recruiter' | 'admin';
   token?: string;
 }
 

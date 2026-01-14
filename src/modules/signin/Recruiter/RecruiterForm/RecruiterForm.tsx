@@ -3,7 +3,7 @@ import { ENV } from "@app/constants";
 import { useAuth } from "@app/hooks/useAuth.hook";
 import useMutate from "@app/hooks/useMutation.hook";
 import { Form } from "@app/modules/common/form";
-import recruiterRepository from "@app/repositories/recruiter.repository";
+import authRepository from "@app/repositories/auth.repository";
 import { useForm } from "react-hook-form";
 
 const { InputField } = Form;
@@ -17,7 +17,7 @@ const RecruiterForm = () => {
 
   const { register, handleSubmit } = useForm<FormData>()
 
-  const { mutate, isLoading, error } = useMutate(recruiterRepository.signin.bind(recruiterRepository));
+  const { mutate, isLoading, error } = useMutate(authRepository.signInEmployee.bind(authRepository));
 
   const { setAuthToken } = useAuth()
 

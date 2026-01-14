@@ -4,7 +4,8 @@ import { NotFound } from "@app/modules/common/error/NotFound"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
 import applicationRepository from "@app/repositories/application.repository"
 import { ResumeView } from "@app/modules/process/ResumeView/ResumeView"
-import { formatFeedBack } from "@app/util/string"
+import { formatFeedBack, getAffinityColor } from "@app/util/string"
+import classNames from "classnames"
 
 type Props = {
   params: { id: string }
@@ -30,8 +31,12 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
           <main className="max-w-2xl p-6 bg-white shadow rounded-lg space-y-8">
             <h2 className="text-2xl font-semibold">Retroalimentación de la Aplicación</h2>
             <p className="whitespace-pre-line">{formatFeedBack(data.feedBack)}</p>
+            <p className="font-medium">
+              Porcentaje de afinidad:
+              <span className={classNames("font-bold", getAffinityColor(data.affinity))}> {data.affinity}</span>
+            </p>
           </main>
-          <ResumeView resume={data.resume} affinity={data.affinity} />
+          <ResumeView resume={data.resume} phoneNumber={data.applicant.phoneNumber} />
         </section>
 
       </article>

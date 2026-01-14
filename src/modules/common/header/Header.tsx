@@ -8,7 +8,7 @@ const Header = () => {
 
   if (!userType) return <HeaderDefault />
 
-  if (userType === 'recruiter') return <HeaderRecruiter />
+  if (userType === 'recruiter' || userType === 'admin') return <HeaderRecruiter />
 
   return <HeaderApplicant />
 }

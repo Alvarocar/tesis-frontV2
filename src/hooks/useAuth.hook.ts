@@ -11,7 +11,7 @@ export const useAuth = () => {
     if (decoded && decoded.exp > Date.now() / 1000) {
       Cookies.set("token", token, {
         expires: decoded.exp / 86400,
-        sameSite: "Strict",
+        sameSite: import.meta.env.DEV ? "lax" : "Strict",
       });
       dispatch({ type: "SET_TOKEN", payload: token });
     } else {

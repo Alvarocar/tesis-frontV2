@@ -13,6 +13,7 @@ class JobRepository extends BaseRepository {
     super(ENV.API_HOST, '/v1/job')
   }
 
+  @addToken()
   getJobs(args: TPaginatorWithQ) {
     return this.get<TListResult<TJobPreview>>(toUrlParams(args))
   }

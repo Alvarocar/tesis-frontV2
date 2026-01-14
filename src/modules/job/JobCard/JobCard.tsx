@@ -21,7 +21,7 @@ const JobCard: React.FC<Props> = ({ className, job }) => {
 
   return (
     <Card className={classNames("w-80  min-h-56 h-fit relative", className)}>
-      {userType === "recruiter" ? (
+      {job.editable ? (
         <Link
           className="border rounded-lg p-[0.5rem] absolute right-4 top-10"
           to={`/vacante/${job.id}`}

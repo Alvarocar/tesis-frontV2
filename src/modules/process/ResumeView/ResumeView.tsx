@@ -6,18 +6,20 @@ import { LanguageNameFactory } from '@app/constants/resume.constant'
 
 type Props = {
   resume: TResume
-  affinity: number
+  phoneNumber?: string
   className?: string
 }
 
-export const ResumeView: React.FC<Props> = ({ resume, className, affinity }) => {
+export const ResumeView: React.FC<Props> = ({ resume, phoneNumber,className }) => {
   return (
     <div className={classNames("max-w-2xl p-6 bg-white shadow rounded-lg space-y-8", className)}>
       {/* Header */}
       <header className='flex items-end gap-4'>
-        <h1 className="text-3xl font-bold">{resume.title}</h1> 
-        <span className={classNames("font-bold text-2xl", getAffinityColor(affinity))}>{affinity}</span>
+        <h1 className="text-3xl font-bold">Aspirante: {resume.title}</h1>
       </header>
+      {/* Phone */}
+      <br />
+      {phoneNumber && <span className="text-gray-600 text-sm">Teléfono: {phoneNumber}</span>}
       {/* About Me */}
       <p className="text-gray-700 whitespace-pre-line">{resume.aboutMe}</p>
 

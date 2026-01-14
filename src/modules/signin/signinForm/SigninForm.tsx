@@ -5,8 +5,8 @@ import { Form } from "@app/modules/common/form";
 import { Button } from "@app/components/ui/button";
 import { emailRegex } from "@app/util/regex";
 import useMutate from "@app/hooks/useMutation.hook";
-import ApplicantRepository from "@app/repositories/applicant.repository";
 import { useAuth } from "@app/hooks/useAuth.hook";
+import authRepository from "@app/repositories/auth.repository";
 
 const { InputField } = Form;
 
@@ -26,7 +26,7 @@ const SigninForm = () => {
     }
   })
 
-  const { mutate, isLoading } = useMutate(ApplicantRepository.signin.bind(ApplicantRepository))
+  const { mutate, isLoading } = useMutate(authRepository.signin.bind(authRepository))
   const { setAuthToken } = useAuth()
 
   const onSubmit: SubmitHandler<Inputs> = async (args) => {
