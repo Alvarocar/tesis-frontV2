@@ -64,7 +64,7 @@ const SigninForm = () => {
       />
       {errorMsg && <p className="text-red-500">{errorMsg}</p>}
     </fieldset>
-    <Button disabled={isLoading} className="my-5" type="submit">Registrarme</Button>
+    <Button disabled={isLoading} className="my-5" type="submit">Iniciar Sesión</Button>
 
     <p className="md:hidden">¿Aun no tienes una cuenta? <Link className='text-sky-500' href="/sign-up">haz clic aquí</Link></p>
   </form>
