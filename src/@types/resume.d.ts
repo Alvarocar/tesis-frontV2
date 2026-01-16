@@ -23,7 +23,7 @@ export namespace TResume {
     rol: string
     company: string
     startDate: string
-    endDate?: string
+    endDate?: string | null
     keepWorking: boolean
     description: string
   }

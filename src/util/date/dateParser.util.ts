@@ -7,6 +7,6 @@ export const parseDate = (dateString?: string | null) => {
 };
 
 export const formatDate = (date?: Date | null) => {
-  if (date == null) return undefined;
+  if (date == null) return date;
   return format(date, 'dd-MM-yyyy');
 }

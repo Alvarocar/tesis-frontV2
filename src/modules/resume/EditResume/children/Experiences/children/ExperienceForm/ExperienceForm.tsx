@@ -140,6 +140,13 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
               control={control}
               rules={{
                 required: "Campo requerido",
+                deps: ["endDate"],
+                validate: (value, { endDate }) => {
+                  if (endDate && value > endDate) {
+                    return "La fecha de inicio no puede ser mayor a la fecha final";
+                  }
+                  return true;
+                }
               }}
               render={({ field, formState }) => (
                 <DatePicker
@@ -157,10 +164,13 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
               name="endDate"
               control={control}
               rules={{
-                deps: ["keepWorking"],
-                validate: (value, { keepWorking }) => {
+                deps: ["keepWorking", "startDate"],
+                validate: (value, { keepWorking, startDate }) => {
                   if (!keepWorking && !value) {
                     return "Campo requerido"
+                  }
+                  if (value && startDate && value < startDate) {
+                    return "La fecha final no puede ser menor a la fecha de inicio";
                   }
                   return true;
                 }
@@ -168,6 +178,7 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
+                  showClearButton
                   label="Fecha de finalización"
                   error={formState.errors.endDate}
                   endMonth={maxDate}
