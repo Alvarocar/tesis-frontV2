@@ -128,6 +128,13 @@ const StudyForm: React.FC<Props> = ({
               control={control}
               rules={{
                 required: "Campo requerido",
+                deps: ["endDate"],
+                validate: (value, { endDate }) => {
+                  if (endDate && value > endDate) {
+                    return "La fecha de inicio no puede ser mayor a la fecha final";
+                  }
+                  return true;
+                }
               }}
               render={({ field, formState }) => (
                 <DatePicker
@@ -145,10 +152,13 @@ const StudyForm: React.FC<Props> = ({
               name="endDate"
               control={control}
               rules={{
-                deps: ["keepStudy"],
-                validate: (value, { keepStudy }) => {
+                deps: ["keepStudy", "startDate"],
+                validate: (value, { keepStudy, startDate }) => {
                   if (!keepStudy && !value) {
                     return "Campo requerido"
+                  }
+                  if (value && startDate && value < startDate) {
+                    return "La fecha final no puede ser menor a la fecha de inicio";
                   }
                   return true;
                 }
@@ -156,6 +166,7 @@ const StudyForm: React.FC<Props> = ({
               render={({ field, formState }) => (
                 <DatePicker
                   {...field}
+                  showClearButton
                   label="Fecha de finalización"
                   error={formState.errors.endDate}
                   endMonth={maxDate}

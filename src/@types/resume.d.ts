@@ -33,7 +33,7 @@ export namespace TResume {
     institute: string
     title: string
     startDate: string
-    endDate?: string
+    endDate?: string | null
     keepStudy: boolean
   }
   
