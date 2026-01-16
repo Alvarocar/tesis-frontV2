@@ -3,10 +3,14 @@ import { HeaderDefault } from "./children/HeaderDefault";
 import { HeaderApplicant } from "./children/HeaderApplicant";
 import { HeaderRecruiter } from "./children/HeaderRecruiter";
 
-const Header = () => {
+interface HeaderProps {
+  hideSearch?: boolean;
+}
+
+const Header = ({ hideSearch }: HeaderProps) => {
   const { userType } = useAuth()
 
-  if (!userType) return <HeaderDefault />
+  if (!userType) return <HeaderDefault hideSearch={hideSearch} />
 
   if (userType === 'recruiter' || userType === 'admin') return <HeaderRecruiter />
 

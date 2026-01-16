@@ -2,12 +2,15 @@ import { Link } from "wouter";
 import {JobSearch} from "@app/modules/job/JobSearch";
 import { AppTitle } from "@app/modules/common/AppTitle";
 
+interface HeaderDefaultProps {
+  hideSearch?: boolean;
+}
 
-const HeaderDefault = () => {
+const HeaderDefault = ({ hideSearch }: HeaderDefaultProps) => {
   return (
     <header className="w-screen bg-white py-5 px-3 flex items-center">
       <AppTitle />
-      <JobSearch className="mx-auto"/>
+      {!hideSearch ? <JobSearch className="mx-auto"/> : <div className="mx-auto"></div>}
       <ul className="flex justify-end px-5 gap-6">
         <li className="bg-slate-800 hover:bg-slate-800/90 px-4 py-1 rounded text-white">
           <Link href="/sign-in">Ingresa</Link>

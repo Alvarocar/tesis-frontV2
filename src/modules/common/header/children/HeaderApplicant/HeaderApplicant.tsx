@@ -6,15 +6,18 @@ import applicantRepository from "@app/repositories/applicant.repository";
 import {JobSearch} from "@app/modules/job/JobSearch";
 import { AppTitle } from "@app/modules/common/AppTitle";
 
+interface HeaderApplicantProps {
+  hideSearch?: boolean;
+}
 
-const HeaderApplicant = () => {
+const HeaderApplicant = ({ hideSearch }: HeaderApplicantProps) => {
   const { token } = useAuth()
   useSWR(token, applicantRepository.getApplicant.bind(applicantRepository))
   return (
     <header className="w-screen bg-zinc-200 py-5 px-3 flex items-center">
       <ApplicantMenuDrawer />
       <AppTitle />
-      <JobSearch className="mx-auto" />
+      {!hideSearch ? <JobSearch className="mx-auto" /> : <div className="mx-auto"></div>}
       <ul className="flex justify-end px-5 gap-6">
         <li className="px-4 py-1 rounded text-white">
           <AccountOptionsDropDown />
