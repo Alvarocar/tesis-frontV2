@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HambergerMenu } from "iconsax-react";
 import { ICandidate } from "@app/@types/applicant";
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@app/components/ui/drawer";
+import { ApplicantSettings } from "./children/ApplicantSettings";
 import { ApplicantResumes } from "./children/ApplicantResumes";
 import { ApplicantHeader } from "./children/ApplicantHeader";
 
@@ -28,6 +29,7 @@ const ApplicantMenuDrawer: React.FC<Props> = () => {
           <hr className="my-4" />
           <article>
             <ApplicantResumes onClickResume={() => setOpen(false)} />
+            <ApplicantSettings />
           </article>
         </aside>
       </DrawerContent>
