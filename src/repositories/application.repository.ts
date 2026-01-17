@@ -2,6 +2,8 @@ import { ENV } from "@app/constants";
 import BaseRepository from "./base.repository";
 import { addToken } from "@app/decorators/repository.decorator";
 import { IApplicationDetail } from "@app/@types/application";
+import { TApplicationVacantOverview } from "@app/@types/vacant";
+import { TListResult } from "@app/@types/api";
 
 class ApplicationRepository extends BaseRepository {
   
@@ -21,7 +23,7 @@ class ApplicationRepository extends BaseRepository {
 
   @addToken()
   getApplicationsByVacant({ id: vacantId }: { id: number }) {
-    return this.get(`/procceses/${vacantId}`);
+    return this.get<TListResult<TApplicationVacantOverview>>(`/procceses/${vacantId}`);
   }
 }
 

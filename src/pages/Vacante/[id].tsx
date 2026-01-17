@@ -20,11 +20,13 @@ const VacantEdit: React.FC<Props> = ({ params }) => {
 
   if (isLoading || !data) return <DotsLoader />;
 
-  const handleSubmit = async (data: TVacant) => {
+  const handleSubmit = async (data: TVacant): Promise<[null, Error | undefined]> => {
     const [_, error] = await mutate(Number(params.id), data);
     if (error) {
       toast.failed('Hubo un error al editar la vacante');
+      return [null, error];
     } else {
+      return [null, undefined];
       toast.successful('Vacante editada exitosamente');
     }
   }
