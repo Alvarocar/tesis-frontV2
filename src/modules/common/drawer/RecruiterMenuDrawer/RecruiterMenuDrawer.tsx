@@ -36,12 +36,11 @@ const RecruiterMenuDrawer = () => {
           Opciones del Candidato para crear hojas de vida
         </DrawerDescription>
         <aside className="h-screen p-4 w-full">
-          <Typography.H4>
-            Bienvenido {data?.firstName + " " + (data?.lastName ?? "")}
-          </Typography.H4>
-          <hr className="my-4" />
+          <h2 className="w-80 text-lg font-medium">Hola! {data?.firstName} {data?.lastName ?? ""}</h2>
+          <span className="text-sm text-gray-500">Estas son la opciones que tienes disponible</span>
+          <hr/>
           <nav>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col">
               <li>
                 <OptionDrawerLink to="/" aria-label="pagína principal">
                   <>Pagina principal</>
