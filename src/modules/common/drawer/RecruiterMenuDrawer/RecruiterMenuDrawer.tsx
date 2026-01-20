@@ -9,13 +9,15 @@ import {
   DrawerTrigger,
 } from "@app/components/ui/drawer";
 import { OptionDrawerLink } from "../OptionDrawerLink";
-import { Typography } from "@app/components/ui/typography";
+import { useAuth } from "@app/hooks/useAuth.hook";
 
 const RecruiterMenuDrawer = () => {
   const { data } = useSWR(
     "/recruiter",
     recruiterRepository.getInfo.bind(recruiterRepository),
   );
+
+  const { userType } = useAuth();
 
   return (
     <Drawer direction="left">
@@ -36,9 +38,13 @@ const RecruiterMenuDrawer = () => {
           Opciones del Candidato para crear hojas de vida
         </DrawerDescription>
         <aside className="h-screen p-4 w-full">
-          <h2 className="w-80 text-lg font-medium">Hola! {data?.firstName} {data?.lastName ?? ""}</h2>
-          <span className="text-sm text-gray-500">Estas son la opciones que tienes disponible</span>
-          <hr/>
+          <h2 className="w-80 text-lg font-medium">
+            Hola! {data?.firstName} {data?.lastName ?? ""}
+          </h2>
+          <span className="text-sm text-gray-500">
+            Estas son la opciones que tienes disponible
+          </span>
+          <hr />
           <nav>
             <ul className="flex flex-col">
               <li>
@@ -46,6 +52,16 @@ const RecruiterMenuDrawer = () => {
                   <>Pagina principal</>
                 </OptionDrawerLink>
               </li>
+              {userType === "admin" && (
+                <li>
+                  <OptionDrawerLink
+                    to="/empleados"
+                    aria-label="gestión de empleados"
+                  >
+                    Gestión de empleados
+                  </OptionDrawerLink>
+                </li>
+              )}
               <li>
                 <OptionDrawerLink to="/vacantes" aria-label="mis vacantes">
                   <>Mis Vacantes</>

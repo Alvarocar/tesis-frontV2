@@ -9,7 +9,7 @@ const AuthNotFoundRecruiter: TMiddlewareComponent = ({ children, ...rest }) => {
 
   if (isLoading) return <DotsLoader />;
 
-  if (userType !== "recruiter" && userType !== "admin") return <NotFound />;
+  if (userType !== "applicant" && userType !== "admin") return <NotFound />;
 
   return React.cloneElement(children, rest);
 };

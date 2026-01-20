@@ -6,7 +6,7 @@ type OptionDrawerLinkProps = Omit<React.ComponentProps<typeof Link>, "children" 
   to: string;
   className?: string;
   "aria-label": string;
-  children: React.ReactElement;
+  children: React.ReactNode;
 };
 
 export const OptionDrawerLink = ({
@@ -22,6 +22,8 @@ export const OptionDrawerLink = ({
     )}
     aria-label={ariaLabel}
   >
-    {children}
+    <>
+      {children}
+    </>
   </Link>
 );
