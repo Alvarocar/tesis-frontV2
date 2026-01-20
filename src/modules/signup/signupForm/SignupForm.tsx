@@ -1,11 +1,12 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import ApplicantRepository from "@app/repositories/applicant.repository";
 import useMutate from "@app/hooks/useMutation.hook";
 import { Button } from "@app/components/ui/button";
 import { Form } from "@app/modules/common/form";
 import { emailRegex } from "@app/util/regex";
+import { useAuth } from "@app/hooks/useAuth.hook";
+import authRepository from "@app/repositories/auth.repository";
 
 type Inputs = {
   firstName: string;
@@ -19,6 +20,7 @@ const { InputField } = Form
 const SignupForm = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
+  const { setAuthToken } = useAuth();
 
   const { handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
@@ -29,7 +31,7 @@ const SignupForm = () => {
     }
   })
 
-  const { mutate, isLoading } = useMutate(ApplicantRepository.signup.bind(ApplicantRepository))
+  const { mutate, isLoading } = useMutate(authRepository.signup.bind(authRepository))
 
   const onSubmit: SubmitHandler<Inputs> = async (args) => {
     setErrorMsg('')
@@ -37,6 +39,10 @@ const SignupForm = () => {
       const [resp, error] = await mutate(args)
       if (error) {
         return setErrorMsg(error.message);
+      }
+
+      if (resp?.data.token) {
+        setAuthToken(resp.data.token);
       }
       //TODO: use resp to authenticate the applicant.
     } catch (e) { console.error(e) }

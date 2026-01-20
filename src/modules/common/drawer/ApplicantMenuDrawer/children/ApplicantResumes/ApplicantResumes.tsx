@@ -28,7 +28,7 @@ const ApplicantResumes: React.FC<Props> = ({ onClickResume }) => {
 
   if (isLoading || !data)
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-4">
         <Skeleton className="w-1/1 h-20" />
         <Skeleton className="w-1/1 h-20" />
         <Skeleton className="w-1/1 h-20" />
@@ -37,7 +37,7 @@ const ApplicantResumes: React.FC<Props> = ({ onClickResume }) => {
 
   if (data.length === 0)
     return (
-      <article className="flex flex-col gap-5">
+      <article className="flex flex-col gap-5 mt-4">
         <h3 className="font-normal text-lg">
           Aun no tienes una hoja de vida creada
         </h3>
@@ -49,7 +49,7 @@ const ApplicantResumes: React.FC<Props> = ({ onClickResume }) => {
     );
 
   return (
-    <article>
+    <article className="mt-4">
       <Collapsible open={expanded} onOpenChange={setExpanded}>
         <CollapsibleTrigger asChild>
           <button className="flex items-center w-full gap-2 mb-4 py-2 px-1 transition-colors hover:bg-gray-100">

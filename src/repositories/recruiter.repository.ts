@@ -14,7 +14,7 @@ class RecruiterRepository extends BaseRepository {
 
   @addToken()
   getInfo() {
-    return this.get<Recruiter>('/');
+    return this.get<Recruiter>('/me');
   }
 
 }

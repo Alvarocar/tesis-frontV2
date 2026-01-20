@@ -1,12 +1,14 @@
 import { ENV } from "@app/constants";
 import BaseRepository from "./base.repository";
-import { addToken } from "@app/decorators/repository.decorator";
-import { IApplicationDetail } from "@app/@types/application";
 
 class AuthRepository extends BaseRepository {
   
   constructor() {
     super(ENV.API_HOST, '/v1/auth')
+  }
+
+  signup(payload: { firstName: string, lastName: string, email: string, password: string }) {
+    return this.post<{ data: { token: string } }, { firstName: string, lastName: string, email: string, password: string }>('/sign-up', payload);
   }
   
   signin(payload: { email: string, password: string }) {

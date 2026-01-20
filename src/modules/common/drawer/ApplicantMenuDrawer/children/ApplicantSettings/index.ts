@@ -1,1 +1,0 @@
-export { ApplicantSettings } from './ApplicantSettings'
