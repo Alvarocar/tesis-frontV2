@@ -39,7 +39,7 @@ export default class BaseRepository {
     const options: RequestInit = {
       method: 'POST',
       headers: this._getHeaders(),
-      body: JSON.stringify(body),
+      body: JSON.stringify(body ?? {}),
     };
     return this._request<T>(endpoint, options);
   }

@@ -7,6 +7,16 @@ import { AuthPublicApplicant } from "@app/middlewares/authPublicApplicant";
 
 export const routesSchema: TSchemaRouter[] = [
   {
+    path: ROUTES_PATHS.APPLICANT_SETTINGS,
+    component: ROUTES.ApplicantSettings,
+    middleware: [AuthNotFoundApplicant],
+  },
+  {
+    path: ROUTES_PATHS.APPLICANT_RESET_PASSWORD,
+    component: ROUTES.ApplicantSetPassword,
+    middleware: [],
+  },
+  {
     path: ROUTES_PATHS.HOME,
     component: ROUTES.Home,
     middleware: [],
@@ -60,5 +70,10 @@ export const routesSchema: TSchemaRouter[] = [
     path: ROUTES_PATHS.APPLICATION_DETAIL,
     component: ROUTES.ApplicationDetail,
     middleware: [AuthNotFoundRecruiter],
+  },
+  {
+    path: ROUTES_PATHS.SET_PASSWORD,
+    component: ROUTES.SetPassword,
+    middleware: [],
   },
 ]

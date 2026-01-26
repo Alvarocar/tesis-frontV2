@@ -27,6 +27,19 @@ class ApplicantRepository extends BaseRepository {
   patchPersonalInfo(payload: ICandidate.PersonalInfo) {
     return this.patch('/personal-info', payload);
   }
+
+  @addToken()
+  resetPassword(): Promise<void> {
+    return this.post('/password-reset', undefined);
+  }
+
+  async changePassword(token: string, password: string): Promise<void> {
+    return this.post('/reset-password', { token, password });
+  }
+
+  async deleteAccount(): Promise<Response> {
+    return this.delete('/');
+  }
 }
 
 export default new ApplicantRepository();

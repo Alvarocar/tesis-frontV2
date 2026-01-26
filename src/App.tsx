@@ -6,6 +6,7 @@ import { routesSchema } from "./router/routes.schema";
 import { ErrorBoundary } from "./modules/common/error/ErrorBoundary";
 import { GenericError } from "./modules/common/error/GenericError";
 import { Toaster } from "./components/ui/toaster";
+import "@app/router/routes.schema";
 
 
 function App() {  return (

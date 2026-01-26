@@ -13,4 +13,7 @@ export const ROUTES = {
   Vacantes: lazy(() => import('@app/pages/Vacantes').then(({ Vacantes }) => ({ default: Vacantes }))),
   Procesos: lazy(() => import('@app/pages/Procesos').then(({ Procesos }) => ({ default: Procesos }))),
   ApplicationDetail: lazy(() => import('@app/pages/Procesos/Aplicacion').then(({ ApplicationDetail }) => ({ default: ApplicationDetail }))),
+  SetPassword: lazy(() => import('@app/pages/Empleados/SetPassword').then(({ SetPassword }) => ({ default: SetPassword }))),
+  ApplicantSetPassword: lazy(() => import('@app/pages/ApplicantResetPassword/ApplicantResetPassword').then(({ SetPassword }) => ({ default: SetPassword }))),
+  ApplicantSettings: lazy(() => import('@app/pages/ApplicantSettings/ApplicantSettingsPage').then(({ ApplicantSettingsPage }) => ({ default: ApplicantSettingsPage }))),
 }

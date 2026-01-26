@@ -17,6 +17,9 @@ class RecruiterRepository extends BaseRepository {
     return this.get<Recruiter>('/me');
   }
 
+  async changePassword(token: string, password: string): Promise<void> {
+    return this.post('/auth/change-password', { token, password });
+  }
 }
 
 export default new RecruiterRepository();

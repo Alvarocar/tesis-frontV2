@@ -12,4 +12,7 @@ export const ROUTES_PATHS = {
   VACANTES: '/vacantes',
   PROCESOS: '/procesos/:id',
   APPLICATION_DETAIL: '/procesos/aplicacion/:id',
+  SET_PASSWORD: "/empleados/set-password",
+  APPLICANT_SETTINGS: "/aspirante/configuracion",
+  APPLICANT_RESET_PASSWORD: "/aspirante/restablecer-contrasena",
 }
