@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { HambergerMenu } from "iconsax-react";
+import { Archive, ElementPlus, HambergerMenu, Home, Profile2User, Setting2 } from "iconsax-react";
 import recruiterRepository from "@app/repositories/recruiter.repository";
 import {
   Drawer,
@@ -10,6 +10,7 @@ import {
 } from "@app/components/ui/drawer";
 import { OptionDrawerLink } from "../OptionDrawerLink";
 import { useAuth } from "@app/hooks/useAuth.hook";
+import { Typography } from "@app/components/ui/typography";
 
 const RecruiterMenuDrawer = () => {
   const { data } = useSWR(
@@ -49,7 +50,10 @@ const RecruiterMenuDrawer = () => {
             <ul className="flex flex-col">
               <li>
                 <OptionDrawerLink to="/" aria-label="pagína principal">
-                  <>Pagina principal</>
+                  <Home size="18" />
+                  <Typography.H5 className="flex-1 text-start">
+                    Página principal
+                  </Typography.H5>
                 </OptionDrawerLink>
               </li>
               {userType === "admin" && (
@@ -58,13 +62,19 @@ const RecruiterMenuDrawer = () => {
                     to="/empleados"
                     aria-label="gestión de empleados"
                   >
-                    Gestión de empleados
+                    <Profile2User size="18" />
+                    <Typography.H5 className="flex-1 text-start">
+                      Gestión de empleados
+                    </Typography.H5>
                   </OptionDrawerLink>
                 </li>
               )}
               <li>
                 <OptionDrawerLink to="/vacantes" aria-label="mis vacantes">
-                  <>Mis Vacantes</>
+                  <Archive size="18"/>
+                  <Typography.H5 className="flex-1 text-start">
+                    Mis Vacantes
+                  </Typography.H5>
                 </OptionDrawerLink>
               </li>
               <li>
@@ -72,7 +82,21 @@ const RecruiterMenuDrawer = () => {
                   to="/vacante/crear"
                   aria-label="crear vacante"
                 >
-                  <>Crear nueva Vacante</>
+                  <ElementPlus size="18"/>
+                  <Typography.H5 className="flex-1 text-start">
+                    Crear nueva Vacante
+                  </Typography.H5>
+                </OptionDrawerLink>
+              </li>
+              <li>
+                <OptionDrawerLink
+                  to="/configuracion"
+                  aria-label="configuración"
+                >
+                  <Setting2 size="18" />
+                  <Typography.H5 className="flex-1 text-start">
+                    Configuración
+                  </Typography.H5>
                 </OptionDrawerLink>
               </li>
             </ul>

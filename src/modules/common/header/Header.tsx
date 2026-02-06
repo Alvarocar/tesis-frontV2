@@ -12,7 +12,7 @@ const Header = ({ hideSearch }: HeaderProps) => {
 
   if (!userType) return <HeaderDefault hideSearch={hideSearch} />
 
-  if (userType === 'recruiter' || userType === 'admin') return <HeaderRecruiter />
+  if (userType === 'employee' || userType === 'admin') return <HeaderRecruiter />
 
   return <HeaderApplicant />
 }

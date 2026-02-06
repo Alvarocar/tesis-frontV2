@@ -4,6 +4,7 @@ import { TSchemaRouter } from "@app/@types/schema";
 import { AuthNotFoundApplicant } from "@app/middlewares/authNotFoundApplicant";
 import { AuthNotFoundRecruiter } from "@app/middlewares/AuthNotFoundRecruiter";
 import { AuthPublicApplicant } from "@app/middlewares/authPublicApplicant";
+import { AuthNotFoundAdmin } from "@app/middlewares/AuthNotFoundAdmin";
 
 export const routesSchema: TSchemaRouter[] = [
   {
@@ -76,4 +77,9 @@ export const routesSchema: TSchemaRouter[] = [
     component: ROUTES.SetPassword,
     middleware: [],
   },
+  {
+    path: ROUTES_PATHS.EMPLOYEE_MANAGEMENT,
+    component: ROUTES.EmployeeManagement,
+    middleware: [AuthNotFoundAdmin],
+  }
 ]

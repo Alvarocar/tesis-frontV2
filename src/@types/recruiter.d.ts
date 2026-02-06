@@ -14,6 +14,16 @@ export interface Recruiter {
   companyId: number;
 }
 
+export interface RecruiterOverview {
+  fullName: string;
+  id: number;
+  firstName: string;
+  lastName: any;
+  email: string;
+  role: 'employee' | 'admin';
+  hasAccount: boolean;
+}
+
 export interface Company {
   id: number
   name: string

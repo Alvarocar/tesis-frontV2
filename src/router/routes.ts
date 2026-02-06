@@ -16,4 +16,5 @@ export const ROUTES = {
   SetPassword: lazy(() => import('@app/pages/Empleados/SetPassword').then(({ SetPassword }) => ({ default: SetPassword }))),
   ApplicantSetPassword: lazy(() => import('@app/pages/ApplicantResetPassword/ApplicantResetPassword').then(({ SetPassword }) => ({ default: SetPassword }))),
   ApplicantSettings: lazy(() => import('@app/pages/ApplicantSettings/ApplicantSettingsPage').then(({ ApplicantSettingsPage }) => ({ default: ApplicantSettingsPage }))),
+  EmployeeManagement: lazy(() => import('@app/pages/Empleados/Administrar').then(({ EmployeeManagement }) => ({ default: EmployeeManagement }))),
 }

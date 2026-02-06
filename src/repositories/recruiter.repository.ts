@@ -1,7 +1,9 @@
 import { ENV } from "@app/constants";
+import { toUrlParams } from "@app/util/url";
 import BaseRepository from "./base.repository";
+import { Paginator, TListResult } from "@app/@types/api";
 import { addToken } from "@app/decorators/repository.decorator";
-import { Recruiter } from "@app/@types/recruiter";
+import { Recruiter, RecruiterOverview } from "@app/@types/recruiter";
 
 class RecruiterRepository extends BaseRepository {
   constructor() {
@@ -18,7 +20,22 @@ class RecruiterRepository extends BaseRepository {
   }
 
   async changePassword(token: string, password: string): Promise<void> {
-    return this.post('/auth/change-password', { token, password });
+    return this.post('/set-password', { token, password });
+  }
+
+  @addToken()
+  async getAll(filters: { page: number }) {
+    return this.get<TListResult<RecruiterOverview>>(toUrlParams({ page: String(filters.page) }) );
+  }
+
+  @addToken()
+  createRecruiter(payload: { firstName: string, lastName: string, email: string }) {
+    return this.post<void, { firstName: string, lastName: string, email: string }>('/', payload);
+  }
+
+  @addToken()
+  sendInvitationEmail(email: string) {
+    return this.patch('/resend-invitation', { email });
   }
 }
 
