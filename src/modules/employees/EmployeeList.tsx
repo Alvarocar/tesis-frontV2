@@ -9,7 +9,7 @@ import JobPagination from "../job/JobPagination/JobPagination.component";
 const EmployeeList: React.FC = () => {
   const { filters } = useEmployeeFilter();
 
-  const { data, error } = useSWR({ ...filters, flag: "employees" }, () => RecruiterRepository.getAll({ page: filters.page }));
+  const { data, error, mutate } = useSWR({ ...filters, flag: "employees" }, () => RecruiterRepository.getAll({ page: filters.page }));
 
   if (error) {
     return <p>Error al cargar los empleados.</p>;
@@ -23,11 +23,18 @@ const EmployeeList: React.FC = () => {
     return <p>No se encontraron empleados.</p>;
   }
 
+  const handleRefresh = () => {
+    mutate();
+  }
+
   return (
     <>
-      <div className="grid min-h-screen gap-y-6 gap-x-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+      <div className="grid gap-y-6 gap-x-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
         {data.result.map((employee) => (
-          <EmployeeCard key={employee.id} employee={employee} />
+          <EmployeeCard
+            onDeleted={handleRefresh}
+            onEmailSent={handleRefresh}
+            key={employee.id} employee={employee} />
         ))}
       </div>
       <JobPagination currentPage={data.currentPage} totalPages={data.totalPages} />

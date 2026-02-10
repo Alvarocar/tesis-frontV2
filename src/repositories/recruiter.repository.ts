@@ -37,6 +37,11 @@ class RecruiterRepository extends BaseRepository {
   sendInvitationEmail(email: string) {
     return this.patch('/resend-invitation', { email });
   }
+
+  @addToken()
+  deleteRecruiter(id: number) {
+    return this.delete(`/${id}`);
+  }
 }
 
 export default new RecruiterRepository();
