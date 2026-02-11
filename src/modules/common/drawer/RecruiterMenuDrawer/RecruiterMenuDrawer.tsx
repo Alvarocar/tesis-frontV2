@@ -88,7 +88,7 @@ const RecruiterMenuDrawer = () => {
                   </Typography.H5>
                 </OptionDrawerLink>
               </li>
-              <li>
+{/*               <li>
                 <OptionDrawerLink
                   to="/configuracion"
                   aria-label="configuración"
@@ -98,7 +98,7 @@ const RecruiterMenuDrawer = () => {
                     Configuración
                   </Typography.H5>
                 </OptionDrawerLink>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </aside>
