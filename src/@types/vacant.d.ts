@@ -3,6 +3,7 @@ export type TVacant = {
   description: string;
   salary: number;
   jobType: 'Tiempo Completo' | 'Prácticas';
+  editable: boolean;
 }
 
 export type TApplicationVacantOverview = {

@@ -40,6 +40,11 @@ class VacantRepository extends BaseRepository {
   getVacanciesByApplications({ id }: { id: number }) {
     return this.get<TListResult<TApplicationVacantOverview>>(`/procceses/${id}`);
   }
+
+  @addToken()
+  archiveVacancy(id: number): Promise<void> {
+    return this.patch(`/${id}/archive`, {});
+  }
 }
 
 export default new VacantRepository();
