@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Archive, ElementPlus, HambergerMenu, Home, Profile2User, Setting2 } from "iconsax-react";
+import { Archive, ArchiveBook, ElementPlus, HambergerMenu, Home, Profile2User, Setting2 } from "iconsax-react";
 import recruiterRepository from "@app/repositories/recruiter.repository";
 import {
   Drawer,
@@ -71,7 +71,7 @@ const RecruiterMenuDrawer = () => {
               )}
               <li>
                 <OptionDrawerLink to="/vacantes" aria-label="mis vacantes">
-                  <Archive size="18"/>
+                  <ArchiveBook size="18"/>
                   <Typography.H5 className="flex-1 text-start">
                     Mis Vacantes
                   </Typography.H5>
@@ -85,6 +85,17 @@ const RecruiterMenuDrawer = () => {
                   <ElementPlus size="18"/>
                   <Typography.H5 className="flex-1 text-start">
                     Crear nueva Vacante
+                  </Typography.H5>
+                </OptionDrawerLink>
+              </li>
+              <li>
+                <OptionDrawerLink
+                  to="/vacantes/archivadas"
+                  aria-label="vacantes archivadas"
+                >
+                  <Archive size="18"/>
+                  <Typography.H5 className="flex-1 text-start">
+                    Vacantes Archivadas
                   </Typography.H5>
                 </OptionDrawerLink>
               </li>

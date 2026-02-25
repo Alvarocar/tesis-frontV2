@@ -4,10 +4,5 @@ export type TAuthContext = {
   isLoading: boolean;
   userType?: 'applicant' | 'employee' | 'admin';
   token?: string;
+  reValidate: () => void;
 }
-
-export type TAuthAction =
-| { type: 'SET_LOADING' }
-| { type: 'SET_AUTH', payload: { isAuth: boolean, userType: TAuthContext['userType'] } }
-| { type: 'SET_TOKEN', payload: string }
-| { type: 'REMOVE_TOKEN' };

@@ -10,6 +10,7 @@ export const ROUTES_PATHS = {
   EDIT_VACANCY: '/vacante/:id',
   NOT_FOUND: '/not-found',
   VACANTES: '/vacantes',
+  VACANTES_ARCHIVED: '/vacantes/archivadas',
   PROCESOS: '/procesos/:id',
   APPLICATION_DETAIL: '/procesos/aplicacion/:id',
   SET_PASSWORD: "/empleados/restablecer-contrasena",

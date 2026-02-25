@@ -5,6 +5,7 @@ import { Card } from "@app/modules/common/card"
 import { Header } from "@app/modules/common/header"
 import useMutate from "@app/hooks/useMutation.hook"
 import { VacantForm } from "@app/modules/common/VacantForm"
+import { NotFound } from "@app/modules/common/error/NotFound"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
 import vacantRepository from "@app/repositories/vacant.repository"
 import { toast } from "@app/util/toast"
@@ -20,12 +21,14 @@ type Props = {
 const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
 
 const VacantEdit: React.FC<Props> = ({ params }) => {
-  const { isLoading, data } = useSWR(isValidSlug(params.id) ? { id: params.id } : undefined, vacantRepository.getVacant.bind(vacantRepository))
+  const { isLoading, data, error } = useSWR(isValidSlug(params.id) ? { id: params.id } : undefined, vacantRepository.getVacant.bind(vacantRepository))
   const { mutate } = useMutate(vacantRepository.updateVacant.bind(vacantRepository));
   const [isModalOpen, setModalOpen] = useState(false);
   const [, setLocation] = useLocation()
 
-  if (isLoading || !data) return <DotsLoader />;
+  if (isLoading) return <DotsLoader />;
+
+  if (error || !data) return <NotFound />;
 
   const handleSubmit = async (data: TVacant): Promise<[null, Error | undefined]> => {
     const [_, error] = await mutate(Number(params.id), data);

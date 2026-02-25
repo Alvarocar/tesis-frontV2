@@ -4,7 +4,7 @@ import { AuthContext } from "@app/context/auth/auth.context";
 import { decodeToken } from "@app/util/token";
 
 export const useAuth = () => {
-  const [state, dispatch] = useContext(AuthContext);
+  const state = useContext(AuthContext);
 
   const setAuthToken = (token: string) => {
     const decoded = decodeToken(token);
@@ -13,7 +13,7 @@ export const useAuth = () => {
         expires: decoded.exp / 86400,
         sameSite: import.meta.env.DEV ? "lax" : "Strict",
       });
-      dispatch({ type: "SET_TOKEN", payload: token });
+      state.reValidate();
     } else {
       console.error("Token is expired or invalid");
     }
@@ -21,7 +21,7 @@ export const useAuth = () => {
 
   const removeAuthToken = () => {
     Cookies.remove("token");
-    dispatch({ type: "REMOVE_TOKEN" });
+    state.reValidate();
   };
 
   return {

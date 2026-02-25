@@ -63,6 +63,11 @@ export const routesSchema: TSchemaRouter[] = [
     middleware: [AuthNotFoundRecruiter],
   },
   {
+    path: ROUTES_PATHS.VACANTES_ARCHIVED,
+    component: ROUTES.VacantesArchivadas,
+    middleware: [AuthNotFoundRecruiter],
+  },
+  {
     path: ROUTES_PATHS.PROCESOS,
     component: ROUTES.Procesos,
     middleware: [AuthNotFoundRecruiter],

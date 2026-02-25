@@ -1,20 +1,19 @@
 import useSWR from "swr"
+import { TJobStatus } from "@app/enums/jobs.enum"
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader"
-import vacantRepository from "@app/repositories/vacant.repository"
 import { useJobFilters } from "@app/hooks/useJobFilters"
 import { Header } from "@app/modules/common/header"
 import { JobCard } from "@app/modules/job/JobCard"
 import JobPagination from "@app/modules/job/JobPagination/JobPagination.component"
+import jobRepository from "@app/repositories/job.repository"
 
 type Props = {
   params: { jobSlug: string }
 }
 
-const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
-
 const JobById: React.FC<Props> = ({ params }) => {
   const { filters } = useJobFilters()
-  const { data } = useSWR({ type: "vacant", ...filters }, vacantRepository.getMyVacants.bind(vacantRepository))
+  const { data } = useSWR({ type: "vacant-archived",  ...filters, status: TJobStatus.ARCHIVED }, jobRepository.getJobs.bind(jobRepository))
   if (!data) return <DotsLoader />
 
   return (
@@ -22,8 +21,8 @@ const JobById: React.FC<Props> = ({ params }) => {
     <Header />
     {data.result.length === 0 ? (
       <div className="h-[70vh] flex flex-col gap-5 justify-center items-center">
-        <h2 className="text-2xl font-medium">No se encontraron vacantes</h2>
-        <p className="text-gray-500">Parece que no has creado ninguna vacante aún.</p>
+        <h2 className="text-2xl font-medium">No se encontraron vacantes archivadas</h2>
+        <p className="text-gray-500">Parece que no has archivado ninguna vacante aún.</p>
       </div>
     ) : (
     <div className="max-w-screen-2xl min-h-[70vh] mx-auto grid gap-y-10 gap-x-5 justify-center py-10 px-5 grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] ">

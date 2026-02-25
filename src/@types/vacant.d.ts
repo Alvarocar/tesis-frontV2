@@ -1,3 +1,6 @@
+import { TJobStatus } from "@app/enums/jobs.enum";
+import { TPaginatorWithQ } from "./api";
+
 export type TVacant = {
   title: string;
   description: string;
@@ -15,4 +18,8 @@ export type TApplicationVacantOverview = {
     firstName: string;
     lastName: string;
   }
+}
+
+export interface TVacancySearch extends TPaginatorWithQ {
+  status: TJobStatus;
 }
