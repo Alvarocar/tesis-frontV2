@@ -1,4 +1,8 @@
+import { ElementType, ReactNode } from "react";
+
 export interface TypographyProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
+  as?: ElementType;
+  noMargin?: boolean;
 }

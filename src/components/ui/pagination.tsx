@@ -3,12 +3,90 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@app/lib/utils"
 import { ButtonProps, buttonVariants } from "@app/components/ui/button"
-import { Link } from "wouter"
+import { Link, useLocation } from "wouter"
+
+const SCROLL_TARGET_ID = "main"
+
+/**
+ * Wouter's <Link> renders a plain <a>. We need an onClick hook to:
+ *  1. Scroll the page landmark back to the top so the user lands on the
+ *     new page's first row, not wherever they were in the previous list.
+ *  2. Move keyboard focus to the landmark so screen readers announce
+ *     "main, region" after the page change (WCAG 2.4.3 + 2.4.1).
+ *  3. Respect `prefers-reduced-motion` so we don't trigger vestibular
+ *     symptoms in users who opt out of motion.
+ */
+type ScrollOnNavigateProps = {
+  href: string
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>
+  className?: string
+  children?: React.ReactNode
+  "aria-label"?: string
+  "aria-current"?: React.AriaAttributes["aria-current"]
+}
+
+const ScrollOnNavigate: React.FC<ScrollOnNavigateProps> = ({
+  href,
+  onClick,
+  className,
+  children,
+  ...aria
+}) => {
+  const [, navigate] = useLocation()
+
+  const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
+    onClick?.(event)
+    // Let the browser handle modifier-clicks, new tabs, etc.
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return
+    }
+
+    // wouter's <Link> intercepts the click; we just need to fire the
+    // scroll + focus as a side effect, so it's safe to schedule.
+    queueMicrotask(() => {
+      const target = document.getElementById(SCROLL_TARGET_ID)
+      if (!target) return
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+
+      target.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "start",
+      })
+
+      // Make the landmark programmatically focusable without showing
+      // a focus ring on the layout itself (the :focus-visible rule in
+      // index.css won't apply because we set tabIndex programmatically).
+      target.setAttribute("tabindex", "-1")
+      ;(target as HTMLElement).focus({ preventScroll: true })
+    })
+  }
+
+  return (
+    <Link
+      href={href}
+      onClick={handleClick}
+      className={className}
+      {...aria}
+    >
+      {children}
+    </Link>
+  )
+}
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
-    aria-label="pagination"
+    aria-label="paginación"
     className={cn("mx-auto flex w-full justify-center", className)}
     {...props}
   />
@@ -47,8 +125,11 @@ const PaginationLink = ({
   size = "icon",
   ...props
 }: PaginationLinkProps) => (
-  <Link
+  <ScrollOnNavigate
     aria-current={isActive ? "page" : undefined}
+    aria-label={
+      isActive ? `Página ${props.children} (actual)` : `Ir a la página ${props.children}`
+    }
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghost",
@@ -66,13 +147,13 @@ const PaginationPrevious = ({
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
-    aria-label="Go to previous page"
+    aria-label="Ir a la página anterior"
     size="default"
     className={cn("gap-1 pl-2.5", className)}
     {...props}
   >
-    <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
+    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+    <span>Anterior</span>
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -82,13 +163,13 @@ const PaginationNext = ({
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
-    aria-label="Go to next page"
+    aria-label="Ir a la página siguiente"
     size="default"
     className={cn("gap-1 pr-2.5", className)}
     {...props}
   >
-    <span>Next</span>
-    <ChevronRight className="h-4 w-4" />
+    <span>Siguiente</span>
+    <ChevronRight className="h-4 w-4" aria-hidden="true" />
   </PaginationLink>
 )
 PaginationNext.displayName = "PaginationNext"
@@ -103,7 +184,7 @@ const PaginationEllipsis = ({
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">Más páginas</span>
   </span>
 )
 PaginationEllipsis.displayName = "PaginationEllipsis"

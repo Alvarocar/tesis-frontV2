@@ -3,9 +3,11 @@ import { Header } from "@app/modules/common/header";
 
 const Home = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <JobList />
+      <main id="main" className="flex-1 focus:outline-none" tabIndex={-1}>
+        <JobList />
+      </main>
     </div>
   )
 }

@@ -1,293 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
-    --radius: 0.5rem
+    /* Geometry */
+    --radius: 0.5rem;
+
+    /* Surfaces */
+    --background: 248 250 252;     /* slate-50  #F8FAFC */
+    --surface: 255 255 255;        /* white */
+    --surface-muted: 241 245 249;  /* slate-100 #F1F5F9 */
+    --border: 226 232 240;         /* slate-200 #E2E8F0 */
+    --border-strong: 203 213 225;  /* slate-300 #CBD5E1 */
+
+    /* Text */
+    --foreground: 15 23 42;        /* slate-900 #0F172A */
+    --secondary: 71 85 105;        /* slate-600 #475569 */
+    --muted: 100 116 139;          /* slate-500 #64748B */
+    --on-brand: 255 255 255;
+
+    /* Brand (blue-600) */
+    --brand: 37 99 235;            /* #2563EB */
+    --brand-hover: 29 78 216;      /* #1D4ED8 */
+    --brand-soft: 239 246 255;     /* blue-50  #EFF6FF */
+
+    /* Semantic */
+    --success: 22 163 74;          /* green-600 */
+    --warning: 217 119 6;          /* amber-600 */
+    --danger: 220 38 38;           /* red-600   */
+
+    /* Focus ring */
+    --ring: 37 99 235;
   }
 }
 
-.unset-tailwind {
+@layer base {
+  html {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
-    margin: 8px;
-    line-height: normal;
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01", "ss03";
   }
-  
-  p {
-    margin: 1em 0;
+
+  /* Headings inherit weight and tracking from the scale; only sizes differ. */
+  h1 { @apply text-3xl font-semibold tracking-tight; }
+  h2 { @apply text-2xl font-semibold tracking-tight; }
+  h3 { @apply text-xl font-semibold tracking-tight; }
+  h4 { @apply text-lg font-semibold tracking-tight; }
+  h5 { @apply text-base font-semibold; }
+  h6 { @apply text-sm font-semibold; }
+
+  p { @apply leading-relaxed; }
+
+  /* Visible, consistent keyboard focus across the app. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--ring));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 2px);
   }
-  
-  blockquote,
-  figure {
-    margin: 1em 40px;
-  }
-  
-  q {
-    quotes: "“" "”" "‘" "’";
-  
-    &:before {
-      content: open-quote;
+
+  /* Honor user motion preferences everywhere. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
     }
-  
-    &:after {
-      content: close-quote;
-    }
-  }
-  
-  hr {
-    border: 1px inset;
-    box-sizing: border-box;
-    margin: 0.5em auto;
-  }
-  
-  h1 {
-    font-size: 2em;
-    font-weight: bold;
-    margin: 0.67em 0;
-  }
-  
-  h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 0.83em 0;
-  }
-  
-  h3 {
-    font-size: 1.17em;
-    font-weight: bold;
-    margin: 1em 0;
-  }
-  
-  h4 {
-    font-size: 1.00em;
-    font-weight: bold;
-    margin: 1.33em 0;
-  }
-  
-  h5 {
-    font-size: 0.83em;
-    font-weight: bold;
-    margin: 1.67em 0;
-  }
-  
-  h6 {
-    font-size: 0.67em;
-    font-weight: bold;
-    margin: 2.33em 0;
-  }
-  
-  article, aside, nav, section {
-  
-    h1 {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin: 0.83em 0;
-    }
-  
-    article, aside, nav, section {
-  
-      h1 {
-        font-size: 1.17em;
-        font-weight: bold;
-        margin: 1em 0;
-      }
-  
-      article, aside, nav, section {
-  
-        h1 {
-          font-size: 1.00em;
-          font-weight: bold;
-          margin: 1.33em 0;
-        }
-  
-        article, aside, nav, section {
-  
-          h1 {
-            font-size: 0.83em;
-            font-weight: bold;
-            margin: 1.67em 0;
-          }
-  
-          article, aside, nav, section {
-  
-            h1 {
-              font-size: 0.67em;
-              font-weight: bold;
-              margin: 2.33em 0;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  table {
-    border-collapse: separate;
-    border-spacing: 2px;
-    border-color: gray;
-  }
-  
-  thead,
-  tbody,
-  tfoot,
-  tr {
-    border-color: inherit;
-    vertical-align: middle;
-  }
-  
-  td, th {
-    padding: 1px;
-    vertical-align: inherit;
-  }
-  
-  th {
-    font-weight: bold
-  }
-  
-  caption {
-    text-align: center;
-  }
-  
-  ul, menu {
-    list-style-type: disc;
-    margin: 1em 0;
-    padding: 0 0 0 40px;
-  }
-  
-  ol {
-    list-style-type: decimal;
-    margin: 1em 0;
-    padding: 0 0 0 40px;
-  }
-  
-  ul, ol {
-  
-    ul {
-      list-style-type: circle;
-    }
-  
-    ul, ol {
-  
-      ul {
-        list-style-type: square;
-      }
-    }
-  }
-  
-  dd {
-    margin: 0 0 0 40px;
-  }
-  
-  dl {
-    margin: 1em 0;
-  }
-  
-  ul, ol, menu, dl {
-  
-    ul, ol, menu, dl {
-      margin: 0;
-    }
-  }
-  
-  legend {
-    padding: 0 2px;
-  }
-  
-  fieldset {
-    border-style: groove;
-    border-width: 2px;
-    border: 2px groove ThreeDFace;
-    margin: 0 2px;
-    padding: 0 2px 3px;
-    -webkit-padding-before: 0.35em;
-    -webkit-padding-start: 0.75em;
-    -webkit-padding-end: 0.75em;
-    -webkit-padding-after: 0.625em;
-  }
-  
-  ins {
-    background-color: transparent;
-    font-weight: inherit;
-    text-decoration: underline;
-  }
-  
-  b, strong {
-    font-weight: bold;
-  }
-  
-  i, cite, em, var, address, dfn {
-    font-style: italic;
-    font-weight: inherit;
-  }
-  
-  abbr[title], dfn[title] {
-    border-bottom: 0;
-    cursor: default;
-    font-weight: inherit;
-  }
-  
-  tt, code, kbd, samp {
-    font-family: monospace;
-    font-weight: inherit;
-  }
-  
-  pre {
-    font-family: monospace;
-    margin: 1em 0;
-    white-space: pre;
-  }
-  
-  mark {
-    background-color: yellow;
-    color: black;
-    font-style: normal;
-    font-weight: inherit;
-  }
-  
-  big {
-    font-size: larger;
-    font-weight: inherit;
-  }
-  
-  small {
-    font-size: smaller;
-    font-weight: inherit;
-  }
-  
-  sub, sup {
-    font-weight: inherit;
-    line-height: inherit;
-    position: static;
-  }
-  
-  sub {
-    font-size: smaller;
-    bottom: 0;
-    vertical-align: sub;
-  }
-  
-  sup {
-    font-size: smaller;
-    top: 0;
-    vertical-align: super;
-  }
-  
-  ruby {
-  
-    > rt {
-      font-size: 50%;
-    }
-  }
-  
-  iframe {
-    border: 2px inset;
   }
 }
 
+@layer components {
+  /* Skeleton shimmer base — used by per-component skeletons (Fase 3). */
+  .skeleton {
+    @apply bg-surface-muted animate-pulse rounded-md;
+  }
+}
 
 .text-rich .tiptap.ProseMirror {
   height: 20rem;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .text-rich .tiptap.ProseMirror:focus-visible {
