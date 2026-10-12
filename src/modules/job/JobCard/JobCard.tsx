@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { Edit, ExternalLink } from "lucide-react";
-import { Buildings, Clock, DollarCircle } from "iconsax-react";
+import { ArrowRight, Edit } from "lucide-react";
+import { Buildings, Clock } from "iconsax-react";
+import { useLocation } from "wouter";
 import { Link } from "@app/modules/common/router/Link";
-import { useAuth } from "@app/hooks/useAuth.hook";
-import { Card } from "@app/modules/common/card";
 import { TJobPreview } from "@app/@types/jobs";
+import { withViewTransition } from "@app/util/viewTransition";
 
 type Props = {
   className?: string;
@@ -14,51 +14,105 @@ type Props = {
 const currencyFormat = new Intl.NumberFormat("es-CO", {
   style: "currency",
   currency: "COP",
+  maximumFractionDigits: 0,
 });
 
 const JobCard: React.FC<Props> = ({ className, job }) => {
-  const { userType } = useAuth();
+  const [, navigate] = useLocation();
+  const titleId = `job-title-${job.id}`;
+  // View Transitions require a unique `view-transition-name` per pair. We
+  // pair the card with the corresponding hero block on the detail page.
+  const transitionName = `job-card-${job.id}`;
+
+  const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Defer to the browser for modifier clicks, new-tab opens, etc.
+    if (
+      e.defaultPrevented ||
+      e.button !== 0 ||
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.altKey
+    ) {
+      return;
+    }
+    e.preventDefault();
+    withViewTransition(() => navigate(`/empleo/${job.id}`));
+  };
 
   return (
-    <Card className={classNames("w-80  min-h-56 h-fit relative", className)}>
+    <article
+      style={{ viewTransitionName: transitionName }}
+      className={classNames(
+        "group relative flex h-full w-80 flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
+        "transition-[transform,box-shadow] duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg",
+        className
+      )}
+    >
       {job.editable ? (
         <Link
-          className="border rounded-lg p-[0.5rem] absolute right-4 top-10"
           to={`/vacante/${job.id}`}
+          aria-label={`Editar vacante ${job.title}`}
+          className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-surface text-secondary opacity-0 transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
         >
-          <Edit size={16} />
+          <Edit size={14} aria-hidden="true" />
         </Link>
       ) : null}
-      <h4 className="font-semibold">{job.title}</h4>
-      <article>
-        <ul className="flex flex-col gap-3">
-          <li className="flex gap-2 items-center">
-            <Buildings size={20} />
-            <p>{job.company}</p>
-          </li>
-          <li className="flex gap-2 items-center">
-            <DollarCircle size={20} />
-            <p>
-              {job.salaryOffer
-                ? currencyFormat.format(job.salaryOffer)
-                : "A convenir"}
-            </p>
-          </li>
-          <li className="flex gap-2 items-center">
-            <Clock size={20} />
-            <p>{job.jobType}</p>
-          </li>
-        </ul>
-        <section className="mt-6">
-          <Link
-            href={`/empleo/${job.id}`}
-            className="px-5 py-2 rounded-lg flex gap-2 border-2"
-          >
-            <ExternalLink /> Ver detalle
-          </Link>
-        </section>
-      </article>
-    </Card>
+
+      {/* Whole card is clickable, but the title region owns the link's label
+          so screen readers announce it instead of the surrounding "card". */}
+      <Link
+        href={`/empleo/${job.id}`}
+        onClick={handleNavigate}
+        aria-labelledby={titleId}
+        className="flex h-full flex-col p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        <p className="text-xs font-medium uppercase tracking-wide text-muted">
+          {job.company}
+        </p>
+        <h3 id={titleId} className="mt-1 text-lg font-semibold leading-snug text-foreground">
+          {job.title}
+        </h3>
+
+        <div className="mt-5 rounded-lg border border-border bg-surface-muted px-3 py-2.5">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-muted">
+            Salario
+          </p>
+          <p className="mt-0.5 text-lg font-semibold leading-none text-foreground">
+            {job.salaryOffer ? (
+              currencyFormat.format(job.salaryOffer)
+            ) : (
+              <span className="text-sm font-medium text-secondary">A convenir</span>
+            )}
+          </p>
+        </div>
+
+        <dl className="mt-5 grid grid-cols-2 gap-x-3 gap-y-3 text-sm">
+          <div className="flex items-start gap-2">
+            <Buildings size={18} variant="Bulk" className="mt-0.5 shrink-0 text-secondary" aria-hidden="true" />
+            <div className="min-w-0">
+              <dt className="text-xs text-muted">Empresa</dt>
+              <dd className="truncate text-foreground">{job.company}</dd>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <Clock size={18} variant="Bulk" className="mt-0.5 shrink-0 text-secondary" aria-hidden="true" />
+            <div className="min-w-0">
+              <dt className="text-xs text-muted">Jornada</dt>
+              <dd className="truncate text-foreground">{job.jobType}</dd>
+            </div>
+          </div>
+        </dl>
+
+        <span
+          className="mt-auto inline-flex items-center justify-center gap-1.5 pt-5 text-sm font-medium text-brand"
+          aria-hidden="true"
+        >
+          Ver oferta
+          <ArrowRight size={16} className="transition-transform motion-safe:group-hover:translate-x-0.5" />
+        </span>
+      </Link>
+    </article>
   );
 };
 
