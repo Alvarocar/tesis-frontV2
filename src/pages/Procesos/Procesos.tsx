@@ -18,12 +18,18 @@ const Procesos: React.FC<Props> = ({ params }) => {
   if (isLoading || !data) return <DotsLoader />
 
   return (
-        <main className="min-h-screen flex flex-col pb-10">
-          <Header />
-          <ProcessList className="flex-1" data={data.result} />
-          <JobPagination currentPage={data.currentPage} totalPages={data.totalPages} />        
-        </main>
-    )
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main
+        id="main"
+        tabIndex={-1}
+        className="flex flex-1 flex-col pb-10 focus:outline-none"
+      >
+        <ProcessList className="flex-1" data={data.result} />
+        <JobPagination currentPage={data.currentPage} totalPages={data.totalPages} />
+      </main>
+    </div>
+  )
 }
 
 export default Procesos

@@ -25,13 +25,27 @@ const Search = forwardRef<Methods, Props>(({ onSearch, className, placeholder },
   }))
 
   return (
-    <form className={className} onSubmit={(e) => {
-      e.preventDefault()
-      onSearch?.(inputRef.current?.value ?? '');
-    }}>
+    <form
+      role="search"
+      className={className}
+      onSubmit={(e) => {
+        e.preventDefault()
+        onSearch?.(inputRef.current?.value ?? '');
+      }}
+    >
         <div className={"flex gap-2"}>
-            <Input ref={inputRef} placeholder={placeholder} />
-            <Button type="submit"><SearchIcon/></Button>
+            <label htmlFor="job-search" className="sr-only">
+              {placeholder ?? "Buscar"}
+            </label>
+            <Input
+              id="job-search"
+              ref={inputRef}
+              type="search"
+              placeholder={placeholder}
+            />
+            <Button type="submit" aria-label="Buscar">
+              <SearchIcon aria-hidden="true" />
+            </Button>
         </div>
     </form>
     )

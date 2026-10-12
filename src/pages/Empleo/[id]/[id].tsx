@@ -20,10 +20,16 @@ const JobById: React.FC<Props> = ({ params }) => {
   if (error || !data) return <NotFound />
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <JobDetail job={data} />
-    </>
+      <main
+        id="main"
+        tabIndex={-1}
+        className="flex-1 focus:outline-none"
+      >
+        <JobDetail job={data} />
+      </main>
+    </div>
   )
 }
 

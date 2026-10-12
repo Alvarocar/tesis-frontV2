@@ -12,7 +12,7 @@ export function Toaster() {
   const { toasts } = useToast()
 
   return (
-    <ToastProvider>
+    <ToastProvider duration={5000} swipeDirection="right">
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
@@ -23,11 +23,11 @@ export function Toaster() {
               )}
             </div>
             {action}
-            <ToastClose />
+            <ToastClose aria-label="Cerrar notificación" />
           </Toast>
         )
       })}
-      <ToastViewport />
+      <ToastViewport aria-label="Notificaciones" />
     </ToastProvider>
   )
 }

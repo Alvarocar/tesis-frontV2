@@ -22,8 +22,8 @@ const ApplicantMenuDrawer: React.FC<Props> = () => {
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="left">
       <DrawerTrigger asChild>
-        <button type="button" aria-label="menu-de-opciones" className="pr-2">
-          <HambergerMenu />
+        <button type="button" aria-label="Abrir menú de navegación" className="pr-2">
+          <HambergerMenu aria-hidden="true" />
         </button>
       </DrawerTrigger>
       <DrawerContent className="w-fit">

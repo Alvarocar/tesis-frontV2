@@ -25,27 +25,27 @@ const RecruiterMenuDrawer = () => {
       <DrawerTrigger asChild>
         <button
           type="button"
-          aria-label="menu-de-opciones"
+          aria-label="Abrir menú de navegación"
           className="pr-2 w-fit"
         >
-          <HambergerMenu />
+          <HambergerMenu aria-hidden="true" />
         </button>
       </DrawerTrigger>
       <DrawerContent className="w-min-fit w-[20rem]">
         <DrawerTitle className="hidden">
-          Menu de opciones del Candidato
+          Menú de opciones del reclutador
         </DrawerTitle>
         <DrawerDescription className="hidden">
-          Opciones del Candidato para crear hojas de vida
+          Opciones de navegación para el reclutador
         </DrawerDescription>
         <aside className="h-screen p-4 w-full">
-          <h2 className="w-80 text-lg font-medium">
-            Hola! {data?.firstName} {data?.lastName ?? ""}
+          <h2 className="w-80 text-lg font-medium text-foreground">
+            ¡Hola! {data?.firstName} {data?.lastName ?? ""}
           </h2>
-          <span className="text-sm text-gray-500">
-            Estas son la opciones que tienes disponible
+          <span className="text-sm text-muted">
+            Estas son las opciones que tienes disponibles
           </span>
-          <hr />
+          <hr className="border-border" />
           <nav>
             <ul className="flex flex-col">
               <li>

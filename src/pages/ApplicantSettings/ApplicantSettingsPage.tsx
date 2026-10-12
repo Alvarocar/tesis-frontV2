@@ -44,59 +44,61 @@ export const ApplicantSettingsPage: React.FC = () => {
 
   return (
     <>
-    <Header />
-    <div className="container mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">Configuración de Cuenta</h1>
+      <Header />
+      <main
+        id="main"
+        tabIndex={-1}
+        className="mx-auto w-full max-w-3xl px-4 py-8 focus:outline-none sm:px-6"
+      >
+        <h1 className="mb-6 text-2xl font-semibold text-foreground">Configuración de Cuenta</h1>
 
-      {/* Formulario de datos personales */}
-      <div className="mb-8">
-        <PersonalInfoForm />
-      </div>
+        <section className="mb-10 rounded-xl border border-border bg-surface p-6 shadow-sm">
+          <PersonalInfoForm />
+        </section>
 
-      {/* Botón para cambiar contraseña */}
-      <Typography.H3>Cambio de contraseña</Typography.H3>
-      <Typography.Small className="mb-4">
-        Puedes cambiar tu contraseña haciendo clic en el botón a continuación. Se te enviará un correo con las instrucciones para restablecer tu contraseña.
-      </Typography.Small>
-      <div className="mt-10 mb-4 flex justify-center items-center">
-        <Button variant="default" onClick={handlePasswordChange}>Cambiar Contraseña</Button>
-      </div>
-
-      {/* Botón para eliminar cuenta y su modal */}
-      <Typography.H3 className='text-red-500'>Eliminar cuenta</Typography.H3>
-      <Typography.Small className="mb-4">
-        Si deseas eliminar tu cuenta, puedes hacerlo haciendo clic en el botón a continuación. Ten en cuenta que esta acción es irreversible y perderás todos tus datos.
-      </Typography.Small>
-      <div>
-        <Dialog.Root>
-          <div className='flex justify-center items-center'>
-            <Dialog.Trigger asChild>
-              <Button className='mt-10' variant="destructive">Eliminar Cuenta</Button>
-            </Dialog.Trigger>
+        <section className="mb-10 rounded-xl border border-border bg-surface p-6 shadow-sm">
+          <Typography.H3 as="h2" className="m-0">Cambio de contraseña</Typography.H3>
+          <Typography.Small className="mb-0 mt-1">
+            Puedes cambiar tu contraseña haciendo clic en el botón a continuación. Se te enviará un correo con las instrucciones para restablecer tu contraseña.
+          </Typography.Small>
+          <div className="mt-5 flex justify-center">
+            <Button variant="default" onClick={handlePasswordChange}>Cambiar Contraseña</Button>
           </div>
-          <Dialog.Portal>
-            <Dialog.Overlay className="bg-black bg-opacity-50 fixed inset-0 z-50" />
-            <Dialog.Content
-              className={cn(
-                "fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg",
-                "w-11/12 max-w-lg"
-              )}
-            >
-              <Dialog.Title className="text-xl font-semibold mb-4">¿Estás seguro de eliminar tu cuenta?</Dialog.Title>
-              <Dialog.Description className="mb-4">
-                Esta acción no se puede deshacer. Si eliminas tu cuenta, perderás todos tus datos.
-              </Dialog.Description>
-              <div className="flex justify-end space-x-4">
-                <Dialog.Close asChild>
-                  <Button variant="default">Cancelar</Button>
-                </Dialog.Close>
-                <Button variant="destructive" onClick={handleAccountDeletion}>Confirmar</Button>
-              </div>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
-      </div>
-    </div>
+        </section>
+
+        <section className="rounded-xl border border-danger/30 bg-danger/5 p-6">
+          <Typography.H3 as="h2" className="m-0 text-danger">Eliminar cuenta</Typography.H3>
+          <Typography.Small className="mb-0 mt-1">
+            Si deseas eliminar tu cuenta, puedes hacerlo haciendo clic en el botón a continuación. Ten en cuenta que esta acción es irreversible y perderás todos tus datos.
+          </Typography.Small>
+          <div className="mt-5 flex justify-center">
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <Button variant="destructive">Eliminar Cuenta</Button>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 z-50 bg-foreground/40" />
+                <Dialog.Content
+                  className={cn(
+                    "fixed left-1/2 top-1/2 z-50 w-11/12 max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-surface p-6 shadow-lg"
+                  )}
+                >
+                  <Dialog.Title className="mb-4 text-xl font-semibold">¿Estás seguro de eliminar tu cuenta?</Dialog.Title>
+                  <Dialog.Description className="mb-4 text-secondary">
+                    Esta acción no se puede deshacer. Si eliminas tu cuenta, perderás todos tus datos.
+                  </Dialog.Description>
+                  <div className="flex justify-end gap-3">
+                    <Dialog.Close asChild>
+                      <Button variant="outline">Cancelar</Button>
+                    </Dialog.Close>
+                    <Button variant="destructive" onClick={handleAccountDeletion}>Confirmar</Button>
+                  </div>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </div>
+        </section>
+      </main>
     </>
   );
 };

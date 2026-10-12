@@ -26,19 +26,21 @@ const CrearVacante = () => {
   }
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="h-screen grid place-items-center">
-        <Card className="w-[40rem]">
-          <main>
-            <h1 className="text-lg font-semibold text-center">
-              Crear una Vacante
-            </h1>
-            <VacantForm onSubmit={handleCreate} />
-          </main>
+      <main
+        id="main"
+        tabIndex={-1}
+        className="grid flex-1 place-items-center px-4 py-10 focus:outline-none"
+      >
+        <Card className="w-full max-w-2xl">
+          <h1 className="mb-6 text-lg font-semibold text-center text-foreground">
+            Crear una Vacante
+          </h1>
+          <VacantForm onSubmit={handleCreate} />
         </Card>
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
 
