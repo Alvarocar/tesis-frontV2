@@ -38,7 +38,7 @@ const JobById: React.FC<Props> = ({ params }) => {
           <NoJobResult className="flex-1" />
         ) : (
           <>
-            <div className="mx-auto grid min-h-[70vh] max-w-7xl grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] justify-center gap-x-5 gap-y-8 px-4 py-10 sm:px-6">
+            <div className="list-enter mx-auto grid min-h-[70vh] max-w-7xl grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] justify-center gap-x-5 gap-y-8 px-4 py-10 sm:px-6">
               {data.result.map((job: TJobPreview) => (
                 <JobCard key={job.id} job={job} className="justify-self-center" />
               ))}

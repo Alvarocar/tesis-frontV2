@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Buildings } from "iconsax-react";
 import { Link, useLocation } from "wouter";
 import { ArrowLeft, Clock, DollarSign, Send } from "lucide-react";
@@ -15,6 +15,8 @@ import useSWR from "swr";
 import jobRepository from "@app/repositories/job.repository";
 import { ApplyingStatus } from "../ApplyingStatus";
 import { toast } from "@app/util/toast";
+import { withViewTransition } from "@app/util/viewTransition";
+import { rememberLastViewedJob } from "@app/util/viewTransition/jobTransition";
 
 type Props = {
   job: TJob;
@@ -38,11 +40,21 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
     jobRepository.isApplied.bind(jobRepository)
   );
 
+  // Hand the current job id off to the list view so the matching card can
+  // re-apply the view-transition-name on the way back.
+  useEffect(() => {
+    rememberLastViewedJob(job.id);
+  }, [job.id]);
+
+  const goBackToList = () => {
+    withViewTransition(() => setLocation("/"));
+  };
+
   const handlePreApply = () => {
     if (!isAuth) return setLocation("/sign-in");
 
     if (userType === "employee" || userType === "admin")
-      return setLocation(`/procesos/${job.id}`)
+      return withViewTransition(() => setLocation(`/procesos/${job.id}`))
 
     setOpen(true);
   };
@@ -66,9 +78,13 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
   return (
     <div style={{ maxWidth: "45rem" }} className="mx-auto ">
       <header>
-        <Link className="flex gap-2 py-4 text-gray-400 align-middle" to="/">
-          <ArrowLeft size={20} /> Volver a empleos
-        </Link>
+        <button
+          type="button"
+          onClick={goBackToList}
+          className="flex items-center gap-2 py-4 text-muted align-middle transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+        >
+          <ArrowLeft size={20} aria-hidden="true" /> Volver a empleos
+        </button>
       </header>
       <main
         style={{ viewTransitionName: `job-card-${job.id}` }}

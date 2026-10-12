@@ -1,10 +1,12 @@
 import classNames from "classnames";
+import { useLayoutEffect, useState } from "react";
 import { ArrowRight, Edit } from "lucide-react";
 import { Buildings, Clock } from "iconsax-react";
 import { useLocation } from "wouter";
 import { Link } from "@app/modules/common/router/Link";
 import { TJobPreview } from "@app/@types/jobs";
 import { withViewTransition } from "@app/util/viewTransition";
+import { consumeLastViewedJob } from "@app/util/viewTransition/jobTransition";
 
 type Props = {
   className?: string;
@@ -20,9 +22,21 @@ const currencyFormat = new Intl.NumberFormat("es-CO", {
 const JobCard: React.FC<Props> = ({ className, job }) => {
   const [, navigate] = useLocation();
   const titleId = `job-title-${job.id}`;
+
   // View Transitions require a unique `view-transition-name` per pair. We
   // pair the card with the corresponding hero block on the detail page.
-  const transitionName = `job-card-${job.id}`;
+  // On the way back (detail → list) the marker we left in sessionStorage
+  // tells us which card to re-tag so the browser can pair the snapshots.
+  const [transitionName, setTransitionName] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    const lastId = consumeLastViewedJob();
+    if (lastId === job.id) {
+      setTransitionName(`job-card-${job.id}`);
+      // Clear it after a frame so the next navigation can re-arm the marker.
+      requestAnimationFrame(() => setTransitionName(null));
+    }
+  }, [job.id]);
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Defer to the browser for modifier clicks, new-tab opens, etc.
@@ -42,7 +56,7 @@ const JobCard: React.FC<Props> = ({ className, job }) => {
 
   return (
     <article
-      style={{ viewTransitionName: transitionName }}
+      style={transitionName ? { viewTransitionName: transitionName } : undefined}
       className={classNames(
         "group relative flex h-full w-80 flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
         "transition-[transform,box-shadow] duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg",

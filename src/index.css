@@ -121,3 +121,27 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Grid entrance
+   -------------
+   Single fade+rise on the list container. Not per-card (avoids the
+   "AI-default" feel of staggered reveals on every list). The global
+   `prefers-reduced-motion` block already drops duration to 0, but we
+   also gate the rule itself with `motion-safe` so reduced-motion users
+   see content immediately, no animation at all. */
+@layer components {
+  .list-enter {
+    @apply motion-safe:animate-[list-enter_220ms_ease-out_both];
+  }
+}
+
+@keyframes list-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
