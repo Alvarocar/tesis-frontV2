@@ -70,7 +70,10 @@ const JobDetail: React.FC<Props> = ({ job, onApplyed }) => {
           <ArrowLeft size={20} /> Volver a empleos
         </Link>
       </header>
-      <main className="border-2 rounded-lg p-6">
+      <main
+        style={{ viewTransitionName: `job-card-${job.id}` }}
+        className="border-2 rounded-lg p-6"
+      >
         <section className="flex">
           <div className="flex-1">
             <h1 className="text-2xl font-medium">{job.title}</h1>

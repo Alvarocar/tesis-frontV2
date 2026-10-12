@@ -95,3 +95,29 @@
 .text-rich .tiptap.ProseMirror:focus-visible {
   outline: none;
 }
+
+/* View Transitions
+   ---------------
+   Default duration is short so navigation feels snappy. When the user has
+   `prefers-reduced-motion: reduce` we drop the duration to 0 and let the
+   browser swap snapshots instantly, which the global @media block already
+   covers — but we keep this rule explicit in case someone overrides that
+   block later. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: ease-out;
+}
+
+::view-transition-group(*) {
+  animation-duration: 250ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
+    animation-duration: 0.01ms !important;
+  }
+}
