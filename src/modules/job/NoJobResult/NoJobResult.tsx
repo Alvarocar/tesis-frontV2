@@ -1,21 +1,43 @@
 import React from 'react'
 import classNames from 'classnames'
-import { BriefcaseIcon } from 'lucide-react'
+import { BriefcaseIcon, X } from 'lucide-react'
+import { Button } from '@app/components/ui/button'
 import { useJobFilters } from '@app/hooks/useJobFilters'
 
 export const NoJobResult: React.FC<{ className?: string }> = ({ className }) => {
-  const { filters: { q } } = useJobFilters()
+  const { filters: { q }, setFilter } = useJobFilters()
+  const hasQuery = Boolean(q)
+
   return (
-    <div className={classNames("flex flex-col items-center justify-center text-center border border-gray-200 rounded-xl p-8 bg-gray-50", className)}>
-      <BriefcaseIcon className="w-12 h-12 text-gray-400 mb-4" />
-      <h2 className="text-xl font-semibold text-gray-800 mb-2">
-        No se encontraron ofertas
+    <div
+      role="status"
+      className={classNames(
+        "mx-auto flex max-w-md flex-col items-center justify-center rounded-xl border border-dashed border-border bg-surface p-8 text-center",
+        className
+      )}
+    >
+      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-surface-muted">
+        <BriefcaseIcon className="h-6 w-6 text-muted" aria-hidden="true" />
+      </div>
+      <h2 className="text-lg font-semibold text-foreground">
+        {hasQuery ? 'Sin resultados' : 'No hay ofertas disponibles'}
       </h2>
-      <p className="text-gray-600 max-w-sm">
-        {q
-          ? `No encontramos resultados para “${q}”. Intenta con otro término o revisa tu búsqueda.`
-          : `No hay ofertas disponibles en este momento. Vuelve a intentarlo más tarde o prueba con otros filtros.`}
+      <p className="mt-2 text-sm text-secondary">
+        {hasQuery
+          ? `No encontramos ofertas para "${q}". Probá con otro término o limpia los filtros.`
+          : 'Volvé a intentarlo más tarde o probá con otros filtros.'}
       </p>
+      {hasQuery ? (
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-5"
+          onClick={() => setFilter('q', '')}
+        >
+          <X className="h-4 w-4" aria-hidden="true" />
+          Limpiar búsqueda
+        </Button>
+      ) : null}
     </div>
   )
 }
