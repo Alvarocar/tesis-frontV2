@@ -16,7 +16,8 @@ export const useJobFilters = () => {
     }
     return {
       q: params.get('q') ?? undefined,
-      page: Number(page),
+      page: page ?? '1',
+      pageSize: '10',
     }
   }, [search])
 

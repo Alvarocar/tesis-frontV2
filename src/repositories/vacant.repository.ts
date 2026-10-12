@@ -1,5 +1,5 @@
 import { ENV } from "@app/constants";
-import { TApplicationVacantOverview, TVacancySearch, TVacant } from "@app/@types/vacant";
+import { TApplicationVacantOverview, TVacancyListResult, TVacancySearch, TVacant } from "@app/@types/vacant";
 import { addToken } from "@app/decorators/repository.decorator";
 import BaseRepository from "./base.repository";
 import { TListResult, TPaginatorWithQ } from "@app/@types/api";
@@ -28,7 +28,7 @@ class VacantRepository extends BaseRepository {
 
   @addToken()
   getMyVacants(args: TVacancySearch) {
-    return this.get<TListResult<TJobPreview>>(toUrlParams(args as any));
+    return this.get<TVacancyListResult<TJobPreview>>(toUrlParams(args as any));
   }
 
   /* @addToken()

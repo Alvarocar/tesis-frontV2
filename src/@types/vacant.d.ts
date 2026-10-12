@@ -23,3 +23,16 @@ export type TApplicationVacantOverview = {
 export interface TVacancySearch extends TPaginatorWithQ {
   status: TJobStatus;
 }
+
+/**
+ * Response shape of GET /v1/vacancy (recruiter's "my vacants" list).
+ *
+ * NOTE: this endpoint uses `data` as the items key, not `result` like
+ * the rest of the API (e.g. /v1/job). `currentPage` comes as a string.
+ * Keep in sync with the backend if it ever aligns with the others.
+ */
+export interface TVacancyListResult<T> {
+  data: T[];
+  currentPage: string;
+  totalPages: number;
+}

@@ -7,8 +7,9 @@ import JobGridSkeleton from "@app/modules/job/JobCard/JobGridSkeleton"
 import JobPagination from "@app/modules/job/JobPagination/JobPagination.component"
 import { NoJobResult } from "@app/modules/job/NoJobResult/NoJobResult"
 import { GenericError } from "@app/modules/common/error/GenericError"
-import { TListResult } from "@app/@types/api"
 import { TJobPreview } from "@app/@types/jobs"
+import { TJobStatus } from "@app/enums/jobs.enum"
+import { TVacancyListResult } from "@app/@types/vacant"
 
 type Props = {
   params: { jobSlug: string }
@@ -18,8 +19,8 @@ const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
 
 const JobById: React.FC<Props> = ({ params }) => {
   const { filters } = useJobFilters()
-  const { data, error, isLoading, mutate } = useSWR<TListResult<TJobPreview>>(
-    { type: "vacant", ...filters },
+  const { data, error, isLoading, mutate } = useSWR<TVacancyListResult<TJobPreview>>(
+    { type: "vacant", status: TJobStatus.ENABLE, ...filters },
     vacantRepository.getMyVacants.bind(vacantRepository)
   )
 
@@ -35,16 +36,16 @@ const JobById: React.FC<Props> = ({ params }) => {
             title="No pudimos cargar tus vacantes"
             message="Ocurrió un error al obtener tus vacantes. Inténtalo de nuevo."
           />
-        ) : data.result.length === 0 ? (
+        ) : data.data.length === 0 ? (
           <NoJobResult className="flex-1" />
         ) : (
           <>
             <div className="list-enter mx-auto grid min-h-[70vh] max-w-7xl grid-cols-[repeat(auto-fill,_minmax(20rem,_1fr))] justify-center gap-x-5 gap-y-8 px-4 py-10 sm:px-6">
-              {data.result.map((job: TJobPreview) => (
+              {data.data.map((job: TJobPreview) => (
                 <JobCard key={job.id} job={job} className="justify-self-center" />
               ))}
             </div>
-            <JobPagination currentPage={data.currentPage} totalPages={data.totalPages} />
+            <JobPagination currentPage={Number(data.currentPage)} totalPages={data.totalPages} />
           </>
         )}
       </main>
