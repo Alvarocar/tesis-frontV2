@@ -18,6 +18,7 @@ class JobRepository extends BaseRepository {
     return this.get<TListResult<TJobPreview>>(toUrlParams(args))
   }
 
+  @addToken()
   getJobDetail(args: { jobSlug: string}) {
     return this.get<TJob>(`/${args.jobSlug}`)
   }

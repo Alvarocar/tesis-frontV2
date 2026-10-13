@@ -58,7 +58,7 @@ const JobCard: React.FC<Props> = ({ className, job }) => {
     <article
       style={transitionName ? { viewTransitionName: transitionName } : undefined}
       className={classNames(
-        "group relative flex h-full w-80 flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
+        "group relative flex w-80 flex-col overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
         "transition-[transform,box-shadow] duration-150 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-lg",
         className
       )}
