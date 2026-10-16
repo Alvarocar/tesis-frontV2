@@ -1,3 +1,4 @@
+import { isAFormatError } from "@app/util/error/isAFormatError";
 
 export default class BaseRepository {
   private baseURL: string;
@@ -12,9 +13,10 @@ export default class BaseRepository {
   private async _handleResponse<T>(response: Response): Promise<T> {
     this.clearHeaders();
     if (!response.ok) {
-      const data =  await response.json();
-      if (data.message) {
-        throw new Error(data.message);
+      const data = await response.json();
+      const { error = null } = data;
+      if (isAFormatError(error)) {
+        throw new Error(error.message);
       }
       throw new Error(`Error en la solicitud: ${response.statusText}`);
     }
