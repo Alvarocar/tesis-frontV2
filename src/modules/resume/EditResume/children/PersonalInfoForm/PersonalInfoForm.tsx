@@ -13,17 +13,19 @@ import { useResumeContext } from "@app/context/resume.context";
 import useMutate from "@app/hooks/useMutation.hook";
 import { ENV } from "@app/constants";
 import { toast } from "@app/hooks/use-toast";
+import { toPersonalInfoDefaults, type PersonalInfoFormData } from './usePersonalInfoFormData';
+import { ESex } from '@app/enums/sex.enum';
+import { EGender } from '@app/enums/gender.enum';
+import { ESexualOrientation } from '@app/enums/sexual-orientation.enum';
+import { EEthnicGroup } from '@app/enums/ethnic-group.enum';
+import { toApplicantPersonalInfoPayload } from './personalInfo.adapter';
 
 const { InputField } = Form;
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  identification: string;
-  phoneNumber: string;
-  birthDate: Date;
-  direction: string;
-};
+const SEX_OPTIONS = Object.values(ESex);
+const GENDER_OPTIONS = Object.values(EGender);
+const ORIENTATION_OPTIONS = Object.values(ESexualOrientation);
+const ETHNIC_OPTIONS = Object.values(EEthnicGroup);
 
 const birthDateRange = DateRange.init()
   .setStartDateRelative({ year: -75, month: 0, day: 0 })
@@ -34,31 +36,24 @@ const birthDateRange = DateRange.init()
     const { data } = useSWR(token ? token : null, applicantRepository.getApplicant.bind(applicantRepository));
     const { isLoading, mutate, error } = useMutate(applicantRepository.patchPersonalInfo.bind(applicantRepository));
     const { refresh } = useResumeContext();
-  const {
+   const {
     register,
     control,
     formState: { errors },
     reset,
     handleSubmit,
-  } = useForm<FormData>();
+  } = useForm<PersonalInfoFormData>();
 
   useEffect(() => {
     if (!data) return;
     reset({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      identification: data.identification,
+      ...toPersonalInfoDefaults(data),
       birthDate: parseDate(data.birthDate),
-      direction: data.direction,
-      phoneNumber: data.phoneNumber,
     });
   }, [data, reset])
 
-  const send = async (data: FormData) => {
-    const [, error] = await mutate({
-      ...data,
-      birthDate: formatDate(data.birthDate)
-    });
+  const send = async (data: PersonalInfoFormData) => {
+    const [, error] = await mutate(toApplicantPersonalInfoPayload(data));
 
     if (error) return;
     toast({
@@ -137,6 +132,47 @@ const birthDateRange = DateRange.init()
             })}
           />
         </div>
+
+        <InputField
+          label="Aspiración salarial"
+          type="number"
+          error={errors.salaryAspiration}
+          {...register('salaryAspiration', { valueAsNumber: true })}
+        />
+
+        <div className="col-span-2 rounded border border-dashed p-4 text-sm text-muted-foreground">
+          Phase 0 geo fields now use object values in the form model. The selectors will be wired to geo catalogs next.
+        </div>
+
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Sexo
+          <select className="border rounded px-3 py-2" {...register('sex')}>
+            <option value="">Seleccione</option>
+            {SEX_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Género
+          <select className="border rounded px-3 py-2" {...register('genre')}>
+            <option value="">Seleccione</option>
+            {GENDER_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Orientación sexual
+          <select className="border rounded px-3 py-2" {...register('sexualOrientation')}>
+            <option value="">Seleccione</option>
+            {ORIENTATION_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Grupo étnico
+          <select className="border rounded px-3 py-2" {...register('ethnicGroup')}>
+            <option value="">Seleccione</option>
+            {ETHNIC_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
+          </select>
+        </label>
+
         {error ? <p className="text-red-400">{error.message}</p> : null}
       </fieldset>
       <Button className="mt-5" type="submit" disabled={isLoading}>Guardar</Button>

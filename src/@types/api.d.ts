@@ -25,3 +25,10 @@ export type TListResult<T> = {
   totalPages: number;
   result: T[],
 };
+
+export type TApiError = {
+  code: string;
+  message: string;
+  context?: Record<string, unknown>;
+}
+
