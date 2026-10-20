@@ -1,3 +1,4 @@
+import { formatDate } from '@app/util/date/dateParser.util';
 import type { PersonalInfoFormData } from './usePersonalInfoFormData';
 
 export type UpdateApplicantPayload = {
@@ -27,7 +28,7 @@ export const toApplicantPersonalInfoPayload = (
   lastName: data.lastName,
   identification: data.identification,
   phoneNumber: data.phoneNumber,
-  birthDate: data.birthDate.toISOString(),
+  birthDate: formatDate(data.birthDate)!,
   direction: data.direction,
   countryOfBirthId: data.countryOfBirth?.id ?? null,
   departmentOfBirthId: data.departmentOfBirth?.id ?? null,

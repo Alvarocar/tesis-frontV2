@@ -3,6 +3,7 @@ import BaseRepository from "./base.repository";
 import { ICandidate } from "@app/@types/applicant";
 import { TApiResponse } from '@app/@types/api';
 import { addToken } from "@app/decorators/repository.decorator";
+import type { UpdateApplicantPayload } from "@app/modules/resume/EditResume/children/PersonalInfoForm/personalInfo.adapter";
 
 
 class ApplicantRepository extends BaseRepository {
@@ -24,7 +25,7 @@ class ApplicantRepository extends BaseRepository {
   }
 
   @addToken()
-  patchPersonalInfo(payload: ICandidate.PersonalInfo) {
+  patchPersonalInfo(payload: UpdateApplicantPayload) {
     return this.patch('/personal-info', payload);
   }
 

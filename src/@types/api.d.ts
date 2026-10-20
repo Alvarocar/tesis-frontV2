@@ -32,3 +32,8 @@ export type TApiError = {
   context?: Record<string, unknown>;
 }
 
+export type TValidationError = {
+  message: string[];
+  error: string;
+  statusCode: 400;
+};

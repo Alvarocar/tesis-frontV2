@@ -22,6 +22,9 @@ class AuthRepository extends BaseRepository {
 
   @addToken()
   check() {
+    // 401 sin token aquí significa "no autenticado", no sesión vencida.
+    // No disparamos cleanup para evitar loops de revalidation.
+    this.withAuthCleanupSkipped();
     return this.get('/check');
   }
 }
