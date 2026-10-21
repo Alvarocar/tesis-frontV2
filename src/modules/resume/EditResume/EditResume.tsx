@@ -3,6 +3,7 @@ import { ResumeDescriptionForm } from "./children/ResumeDescriptionForm";
 import { PersonalInfoForm } from "./children/PersonalInfoForm";
 import { Experiences } from "./children/Experiences";
 import { TitleResume } from "./children/TitleResume";
+import { WorkModalityForm } from "./children/WorkModality";
 import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
 import { Skills } from "./children/Skills";
@@ -23,6 +24,7 @@ const EditResume: React.FC<Props> = ({ resume }) => {
         <p className="text-gray-500">Actualiza tu información personal/profesional</p>
         <hr className="my-4" />
         <TitleResume />
+        <WorkModalityForm />
         <PersonalInfoForm />
         <hr className="my-4" />
         <ResumeDescriptionForm description={resume.aboutMe} />

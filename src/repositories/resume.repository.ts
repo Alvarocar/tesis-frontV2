@@ -2,6 +2,7 @@ import { addToken } from "@app/decorators/repository.decorator";
 import BaseRepository from "./base.repository";
 import { TResume } from "@app/@types/resume";
 import { ENV } from "@app/constants";
+import { VacantJobType } from "@app/enums/vacant.enum";
 
 class ResumeRepository extends BaseRepository {
   constructor() {
@@ -14,13 +15,23 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
-  createResume(payload: { title: string }) {
-    return this.post<{ id: number }, { title: string }>('/', payload)
+  createResume(payload: { title: string, workModality?: VacantJobType | null }) {
+    return this.post<{ id: number }, { title: string, workModality?: VacantJobType | null }>('/', payload)
   }
 
   @addToken()
   updateTitle(payload: { title: string, id: number }) {
     return this.patch('/', payload);
+  }
+
+  @addToken()
+  updateWorkModality(payload: { workModality: VacantJobType | '', id: number }) {
+    // El backend distingue "no tocar" (undefined) de "vaciar" (null), asi
+    // que el string vacio del select se traduce a null explicitamente.
+    return this.patch('/', {
+      id: payload.id,
+      workModality: payload.workModality === '' ? null : payload.workModality,
+    });
   }
 
   @addToken()
