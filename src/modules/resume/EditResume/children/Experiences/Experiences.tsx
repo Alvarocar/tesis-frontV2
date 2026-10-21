@@ -46,8 +46,8 @@ const Experiences: React.FC<Props> = ({ experiences = [] }) => {
             >
               <div className="flex">
                 <section className="flex-1">
-                  <h3 className="font-medium">{experience.rol}</h3>
-                  <span className="text-gray-500 flex gap-2">
+                  <h3 className="font-medium text-lg">{experience.rol}</h3>
+                  <span className="text-gray-500 flex align-bottom gap-1 text-sm">
                     <Building className="h-5 w-5" /> {experience.company}
                   </span>
                 </section>

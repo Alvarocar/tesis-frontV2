@@ -29,7 +29,7 @@ const Studies: React.FC<Props> = ({
     <>
       <article>
         <header className="flex">
-          <h2 className="flex flex-1 gap-2 text-lg font-medium mb-2 flex gap-2 items-center">
+          <h2 className="flex flex-1 gap-2 text-lg font-medium mb-2 items-center">
             <GraduationCap className="w-5 h-5 my-auto" /> Educación
           </h2>
           <button onClick={() => handleStudy()} className="rounded-lg border border-gray-400 p-2">
@@ -43,8 +43,8 @@ const Studies: React.FC<Props> = ({
               className="p-5 border border-gray-400 rounded-lg flex"
               >
                 <section className="flex-1">
-                  <h3 className="font-medium">{study.title}</h3>
-                  <span className="text-gray-500 flex gap-2">
+                  <h3 className="font-medium text-lg">{study.title}</h3>
+                  <span className="text-gray-500 flex align-bottom gap-1 text-sm">
                     <Building className="h-5 w-5" /> {study.institute}
                   </span>
 
