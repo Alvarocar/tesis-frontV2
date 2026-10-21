@@ -28,9 +28,9 @@ const Experiences: React.FC<Props> = ({ experiences = [] }) => {
     <>
       <article>
         <header className="flex">
-          <div className="flex flex-1 gap-2 text-lg font-medium mb-2 flex gap-2 items-center">
+          <h2 className="flex flex-1 gap-2 text-lg font-medium mb-2 items-center">
             <BriefcaseIcon className="w-5 h-5 my-auto" /> Experiencia
-          </div>
+          </h2>
           <button
             onClick={() => handleExperience()}
             className="rounded-lg border border-gray-400 p-2"
@@ -46,7 +46,7 @@ const Experiences: React.FC<Props> = ({ experiences = [] }) => {
             >
               <div className="flex">
                 <section className="flex-1">
-                  <h1 className="font-medium">{experience.rol}</h1>
+                  <h3 className="font-medium">{experience.rol}</h3>
                   <span className="text-gray-500 flex gap-2">
                     <Building className="h-5 w-5" /> {experience.company}
                   </span>

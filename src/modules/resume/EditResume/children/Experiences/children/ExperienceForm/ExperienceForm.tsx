@@ -14,21 +14,16 @@ import resumeRepository from "@app/repositories/resume.repository";
 import { useResumeContext } from "@app/context/resume.context"; 
 import { Button } from "@app/components/ui/button";
 import { toast } from "@app/util/toast";
+import { useCities, useCountries, useDepartments } from "@app/hooks/useGeo.hook";
+import { toExperiencePayload, type ExperienceFormData } from './experienceForm.adapter';
+import type { TCityOption, TCountryOption, TDepartmentOption } from "@app/@types/geo";
 
 type Props = {
   experience?: TResume.IExperience;
   onFinish?: VoidFunction;
 }
 
-type FormData = {
-  id?: number;
-  rol: string;
-  company: string;
-  startDate: Date;
-  endDate?: Date;
-  keepWorking: boolean;
-  description: string;
-}
+type FormData = ExperienceFormData;
 
 const { InputField } = Form
 
@@ -39,17 +34,22 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
   const {
     register,
     control,
+    watch,
+    setValue,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>({
     defaultValues: {
       id: experience?.id,
-      company: experience?.company,
-      description: experience?.description,
-      rol: experience?.rol,
-      keepWorking: experience?.keepWorking,
+      company: experience?.company ?? '',
+      description: experience?.description ?? '',
+      rol: experience?.rol ?? '',
+      keepWorking: experience?.keepWorking ?? false,
       startDate: parseDate(experience?.startDate),
       endDate: parseDate(experience?.endDate),
+      country: experience?.country ?? null,
+      department: experience?.department ?? null,
+      city: experience?.city ?? null,
     }
   });
 
@@ -58,13 +58,28 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
   const { mutate, isLoading } = useMutate(resumeRepository.patchExperience.bind(resumeRepository));
 
   const checkId = useId()
+
+  // Cascada geo: cada nivel depende del anterior. Los hooks comparten cache
+  // con otros formularios vía `geoKeys`, así que no hay requests duplicadas.
+  const country = watch('country');
+  const department = watch('department');
+  const { data: countries = [] } = useCountries();
+  const { data: departments = [] } = useDepartments(country?.id);
+  const { data: cities = [] } = useCities(department?.id);
   
   const send: SubmitHandler<FormData> = async (data) => {
-    const [,error] = await mutate({ resume_id, experience: {
-      ...data,
-      startDate: formatDate(data.startDate) ?? '',
-      endDate: formatDate(data.endDate),
-    } })
+    const { country, department, city, startDate, endDate, ...rest } = data;
+    const [,error] = await mutate({
+      resume_id,
+      experience: toExperiencePayload(
+        rest,
+        {
+          startDate: formatDate(startDate) ?? '',
+          endDate: formatDate(endDate),
+        },
+        { country, department, city },
+      ),
+    })
 
     if (error) {
       toast.failed('Error', 'Hubo un error en la solicitud, vuelva a intentar');
@@ -101,6 +116,107 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
             {...register('description')}
             className={classNames("bg-white resize-none h-52 focus-visible:outline-0 focus-visible:border-0", { 'border border-red-500': errors.description })}
           />
+        </div>
+        <div className="mt-4 grid grid-cols-1 gap-4 rounded border p-4 sm:grid-cols-3">
+          <label className="flex flex-col gap-1 text-sm font-medium">
+            País
+            <Controller
+              name="country"
+              control={control}
+              render={({ field, formState }) => (
+                <>
+                  <select
+                    className="rounded border px-3 py-2"
+                    value={field.value?.id != null ? String(field.value.id) : ''}
+                    onChange={(event) => {
+                      const selected: TCountryOption | null =
+                        countries.find((c) => String(c.id) === event.target.value) ?? null;
+                      field.onChange(selected);
+                      // Limpiar hijos: cambiamos el país, el departamento y la
+                      // ciudad previamente elegidos ya no son válidos.
+                      setValue('department', null);
+                      setValue('city', null);
+                    }}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  >
+                    <option value="">Seleccione</option>
+                    {countries.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                  {formState.errors.country && (
+                    <span className="text-red-500">{formState.errors.country.message as string}</span>
+                  )}
+                </>
+              )}
+            />
+          </label>
+
+          <label className="flex flex-col gap-1 text-sm font-medium">
+            Departamento
+            <Controller
+              name="department"
+              control={control}
+              render={({ field, formState }) => (
+                <>
+                  <select
+                    className="rounded border px-3 py-2"
+                    value={field.value?.id != null ? String(field.value.id) : ''}
+                    disabled={!country}
+                    onChange={(event) => {
+                      const selected: TDepartmentOption | null =
+                        departments.find((d) => String(d.id) === event.target.value) ?? null;
+                      field.onChange(selected);
+                      setValue('city', null);
+                    }}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  >
+                    <option value="">Seleccione</option>
+                    {departments.map((d) => (
+                      <option key={d.id} value={d.id}>{d.name}</option>
+                    ))}
+                  </select>
+                  {formState.errors.department && (
+                    <span className="text-red-500">{formState.errors.department.message as string}</span>
+                  )}
+                </>
+              )}
+            />
+          </label>
+
+          <label className="flex flex-col gap-1 text-sm font-medium">
+            Ciudad
+            <Controller
+              name="city"
+              control={control}
+              render={({ field, formState }) => (
+                <>
+                  <select
+                    className="rounded border px-3 py-2"
+                    value={field.value?.id != null ? String(field.value.id) : ''}
+                    disabled={!department}
+                    onChange={(event) => {
+                      const selected: TCityOption | null =
+                        cities.find((c) => String(c.id) === event.target.value) ?? null;
+                      field.onChange(selected);
+                    }}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  >
+                    <option value="">Seleccione</option>
+                    {cities.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                  {formState.errors.city && (
+                    <span className="text-red-500">{formState.errors.city.message as string}</span>
+                  )}
+                </>
+              )}
+            />
+          </label>
         </div>
         <div className="py-4 px-2 flex flex-col gap-6 items-center" >
           <Controller

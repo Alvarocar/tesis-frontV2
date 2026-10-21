@@ -11,6 +11,10 @@ import { Form } from "@app/modules/common/form";
 import { stubUndefined } from "@app/util/stub";
 import { TResume } from "@app/@types/resume";
 import { toast } from "@app/util/toast";
+import { useCountries } from "@app/hooks/useGeo.hook";
+import { EEducationLevel } from "@app/enums/education-level.enum";
+import { toEducationPayload, toStudyFormDefaults, type StudyFormData } from './studyForm.adapter';
+import type { TCountryOption } from "@app/@types/geo";
 
 type Props = {
   study?: TResume.IEducation,
@@ -19,14 +23,9 @@ type Props = {
 
 const { InputField } = Form
 
-type FormData = {
-  id: number;
-  institute: string;
-  title: string;
-  keepStudy: boolean;
-  startDate: Date;
-  endDate: Date;
-};
+const EDUCATION_LEVEL_OPTIONS = Object.values(EEducationLevel);
+
+type FormData = StudyFormData;
 
 const maxDate = new Date();
 
@@ -40,30 +39,37 @@ const StudyForm: React.FC<Props> = ({
     control,
     formState: { errors },
     handleSubmit,
-    watch,
   } = useForm<FormData>({
     defaultValues: {
       id: study?.id,
-      institute: study?.institute,
-      keepStudy: study?.keepStudy,
-      title: study?.title,
+      institute: study?.institute ?? '',
+      keepStudy: study?.keepStudy ?? false,
+      title: study?.title ?? '',
       startDate: parseDate(study?.startDate),
       endDate: parseDate(study?.endDate),
+      educationLevel: study?.educationLevel ?? null,
+      programName: study?.programName ?? null,
+      country: study?.country ?? null,
     },
   });
 
   const checkId = useId();
   const { resume_id, refresh } = useResumeContext();
   const { mutate, isLoading } = useMutate(resumeRepository.patchEducation.bind(resumeRepository))
+  const { data: countries = [] } = useCountries();
 
   const send = async (data: FormData) => {
-    const [, error] = await mutate({ 
+    const { country, startDate, endDate, ...rest } = data;
+    const [, error] = await mutate({
       resume_id,
-      education: {
-        ...data,
-        startDate: formatDate(data.startDate) ?? '',
-        endDate: formatDate(data.endDate),
-      }
+      education: toEducationPayload(
+        rest,
+        {
+          startDate: formatDate(startDate) ?? '',
+          endDate: formatDate(endDate),
+        },
+        country,
+      ),
      })
      if (error) return;
      refresh();
@@ -90,6 +96,62 @@ const StudyForm: React.FC<Props> = ({
             required: "Campo requerido",
           })}
         />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 py-4">
+          <label className="flex flex-col gap-1 text-sm font-medium">
+            Nivel educativo
+            <select
+              className="rounded border px-3 py-2"
+              {...register("educationLevel")}
+            >
+              <option value="">Seleccione</option>
+              {EDUCATION_LEVEL_OPTIONS.map((level) => (
+                <option key={level} value={level}>{level}</option>
+              ))}
+            </select>
+            {errors.educationLevel && (
+              <span className="text-red-500">{errors.educationLevel.message}</span>
+            )}
+          </label>
+
+          <InputField
+            label="Nombre del programa"
+            error={errors.programName}
+            {...register("programName")}
+          />
+
+          <label className="flex flex-col gap-1 text-sm font-medium">
+            País
+            <Controller
+              name="country"
+              control={control}
+              render={({ field, formState }) => (
+                <>
+                  <select
+                    className="rounded border px-3 py-2"
+                    value={field.value?.id != null ? String(field.value.id) : ''}
+                    onChange={(event) => {
+                      const selected: TCountryOption | null =
+                        countries.find((country) => String(country.id) === event.target.value) ?? null;
+                      field.onChange(selected);
+                    }}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  >
+                    <option value="">Seleccione</option>
+                    {countries.map((country) => (
+                      <option key={country.id} value={country.id}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formState.errors.country && (
+                    <span className="text-red-500">{formState.errors.country.message as string}</span>
+                  )}
+                </>
+              )}
+            />
+          </label>
+        </div>
         <div className="py-4 px-2 flex flex-col gap-6 items-center" >
           <Controller 
             name="keepStudy"

@@ -22,7 +22,7 @@ import { ESexualOrientation } from '@app/enums/sexual-orientation.enum';
 import { EEthnicGroup } from '@app/enums/ethnic-group.enum';
 import { toApplicantPersonalInfoPayload } from './personalInfo.adapter';
 import { personalInfoSchema } from './PersonalInfoForm.validator';
-import geoRepository from '@app/repositories/geo.repository';
+import { useCities, useCountries, useDepartments } from '@app/hooks/useGeo.hook';
 
 const { InputField } = Form;
 
@@ -38,7 +38,6 @@ const birthDateRange = DateRange.init()
 const PersonalInfoForm = () => {
   const { token } = useAuth();
   const { data } = useSWR(token ? token : null, applicantRepository.getApplicant.bind(applicantRepository));
-  const { data: countries = [] } = useSWR('geo-countries', geoRepository.getCountries.bind(geoRepository));
   const { isLoading, mutate, error } = useMutate(applicantRepository.patchPersonalInfo.bind(applicantRepository));
   const { refresh } = useResumeContext();
   const {
@@ -58,22 +57,15 @@ const PersonalInfoForm = () => {
   const departmentOfBirth = watch('departmentOfBirth');
   const departmentOfResidence = watch('departmentOfResidence');
 
-  const { data: birthDepartments = [] } = useSWR(
-    countryOfBirth?.id ? ['geo-departments', countryOfBirth.id] : null,
-    ([, countryId]) => geoRepository.getDepartments(countryId),
-  );
-  const { data: residenceDepartments = [] } = useSWR(
-    countryOfResidence?.id ? ['geo-departments-residence', countryOfResidence.id] : null,
-    ([, countryId]) => geoRepository.getDepartments(countryId),
-  );
-  const { data: birthCities = [] } = useSWR(
-    departmentOfBirth?.id ? ['geo-cities', departmentOfBirth.id] : null,
-    ([, departmentId]) => geoRepository.getCities(departmentId),
-  );
-  const { data: residenceCities = [] } = useSWR(
-    departmentOfResidence?.id ? ['geo-cities-residence', departmentOfResidence.id] : null,
-    ([, departmentId]) => geoRepository.getCities(departmentId),
-  );
+  // Cascada geo. Las keys salen de `geoKeys`, así que un `departments(48)`
+  // pedido aca se sirve desde cache si otro formulario ya lo trajo (o al
+  // reves). Antes usabamos keys distintas ('geo-departments' vs
+  // 'geo-departments-residence') y eso duplicaba la request.
+  const { data: countries = [] } = useCountries();
+  const { data: birthDepartments = [] } = useDepartments(countryOfBirth?.id);
+  const { data: residenceDepartments = [] } = useDepartments(countryOfResidence?.id);
+  const { data: birthCities = [] } = useCities(departmentOfBirth?.id);
+  const { data: residenceCities = [] } = useCities(departmentOfResidence?.id);
 
   useEffect(() => {
     if (!data) return;
