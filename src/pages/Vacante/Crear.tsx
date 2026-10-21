@@ -12,7 +12,7 @@ const CrearVacante = () => {
   const { mutate } = useMutate(
     vacantRepository.createVacant.bind(vacantRepository)
   );
-  const [_, setLocation] = useLocation()
+  const [, setLocation] = useLocation()
 
   const handleCreate = async (vacant: TVacant) => {
     const resp = await mutate(vacant)

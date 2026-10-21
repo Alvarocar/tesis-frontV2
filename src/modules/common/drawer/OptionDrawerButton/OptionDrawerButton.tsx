@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React from "react";
 import classNames from "classnames";
 import { Button } from "@app/components/ui/button";
 

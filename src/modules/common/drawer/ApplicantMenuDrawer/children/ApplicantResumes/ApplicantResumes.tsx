@@ -24,7 +24,6 @@ const ApplicantResumes: React.FC<Props> = ({ onClickResume }) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggle = () => setOpen((oldState) => !oldState);
-  const toggleExpanded = () => setExpanded((oldState) => !oldState);
 
   if (isLoading || !data)
     return (

@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import { useEffect, useMemo, useState } from "react";
 import { Buildings } from "iconsax-react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { ArrowLeft, Clock, DollarSign, Send } from "lucide-react";
 import { Dialog, DialogContent } from "@app/components/ui/dialog";
 import useMutate from "@app/hooks/useMutation.hook";

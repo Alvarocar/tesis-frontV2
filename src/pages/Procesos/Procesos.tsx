@@ -2,7 +2,6 @@ import useSWR from "swr";
 import { Header } from "@app/modules/common/header";
 import { ProcessList } from "@app/modules/process/ProcessList";
 import { DotsLoader } from "@app/modules/common/loader/dotsLoader";
-import vacantRepository from "@app/repositories/vacant.repository";
 import JobPagination from "@app/modules/job/JobPagination/JobPagination.component";
 import applicationRepository from "@app/repositories/application.repository";
 

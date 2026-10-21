@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import classNames from "classnames";
 import { es } from "date-fns/locale";
-import { CalendarIcon, Trash2, X } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { FieldError } from "react-hook-form";
 import { forwardRef, useState } from "react";
 import { stubUndefined } from "@app/util/stub";

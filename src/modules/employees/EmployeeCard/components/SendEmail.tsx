@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@app/components/ui/dialog";
+import { Dialog, DialogContent } from "@app/components/ui/dialog";
 import recruiterRepository from "@app/repositories/recruiter.repository";
 import useMutate from "@app/hooks/useMutation.hook";
 import { toast } from "@app/util/toast";
@@ -21,7 +21,7 @@ const SendEmail: React.FC<SendEmailProps> = ({ email, hasAccount, open = false, 
 
   const handleSendEmail = async () => {
     try {
-      const [_, error] = await mutate(email);
+      const [, error] = await mutate(email);
       if (error) {
         toast.failed("Error", "No se pudo enviar el correo. Inténtalo de nuevo más tarde.");
       } else {
@@ -36,7 +36,7 @@ const SendEmail: React.FC<SendEmailProps> = ({ email, hasAccount, open = false, 
         onSent?.();
       }
     } finally {
-      onChangeOpen && onChangeOpen(false);
+       onChangeOpen?.(false);
     }
   };
 

@@ -1,7 +1,6 @@
 import { isAFormatError, isAValidationError } from "./isAFormatError";
 
 export const getErrorResponse = (error: unknown): string | null => {
-  debugger
   if (error instanceof Error) return error.message;
 
   if (isAFormatError(error)) return error.message;

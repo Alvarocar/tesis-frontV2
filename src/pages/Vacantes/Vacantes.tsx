@@ -11,13 +11,7 @@ import { TJobPreview } from "@app/@types/jobs"
 import { TJobStatus } from "@app/enums/jobs.enum"
 import { TVacancyListResult } from "@app/@types/vacant"
 
-type Props = {
-  params: { jobSlug: string }
-}
-
-const isValidSlug = (jobSlug: string) => Number.isFinite(Number(jobSlug))
-
-const JobById: React.FC<Props> = ({ params }) => {
+const JobById: React.FC = () => {
   const { filters } = useJobFilters()
   const { data, error, isLoading, mutate } = useSWR<TVacancyListResult<TJobPreview>>(
     { type: "vacant", status: TJobStatus.ENABLE, ...filters },

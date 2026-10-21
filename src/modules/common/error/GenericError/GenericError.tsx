@@ -1,4 +1,4 @@
-import { AlertCircle, ChevronLeft, Home, RotateCw } from 'lucide-react'
+import { AlertCircle, Home, RotateCw } from 'lucide-react'
 import { Button } from "@app/components/ui/button"
 import { Card } from '../../card';
 

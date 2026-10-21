@@ -2,7 +2,7 @@ import { ENV } from "@app/constants";
 import { TApplicationVacantOverview, TVacancyListResult, TVacancySearch, TVacant } from "@app/@types/vacant";
 import { addToken } from "@app/decorators/repository.decorator";
 import BaseRepository from "./base.repository";
-import { TListResult, TPaginatorWithQ } from "@app/@types/api";
+import { TListResult } from "@app/@types/api";
 import { TJobPreview } from "@app/@types/jobs";
 import { toUrlParams } from "@app/util/url";
 

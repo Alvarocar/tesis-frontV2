@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { RecruiterOverview } from "@app/@types/recruiter";
-import { Button } from "@app/components/ui/button";
 import OptionsMenu from "./components/OptionsMenu";
 import DeleteModal from "./components/DeleteModal";
 import SendEmail from "./components/SendEmail";

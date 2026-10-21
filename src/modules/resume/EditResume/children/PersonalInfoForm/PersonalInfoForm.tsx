@@ -1,12 +1,11 @@
 import useSWR from "swr";
-import { useEffect } from "react";
 import type { FieldError } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker } from "@app/modules/common/datePicker";
 import { DateRange } from "@app/util/date/dateRange.validator";
 import applicantRepository from "@app/repositories/applicant.repository";
-import { formatDate, parseDate } from "@app/util/date/dateParser.util";
+import { parseDate } from "@app/util/date/dateParser.util";
 import { Button } from "@app/components/ui/button";
 import { useAuth } from "@app/hooks/useAuth.hook";
 import { Form } from "@app/modules/common/form";
@@ -69,7 +68,6 @@ const PersonalInfoForm = () => {
     register,
     control,
     formState: { errors },
-    reset,
     handleSubmit,
     setValue,
   } = useForm<PersonalInfoFormData>({
@@ -344,7 +342,7 @@ const PersonalInfoForm = () => {
             <Controller
               name="departmentOfResidence"
               control={control}
-              render={({ field, formState }) => (
+              render={({ field }) => (
                   <Select
                     value={
                       field.value?.id != null ? String(field.value.id) : ""

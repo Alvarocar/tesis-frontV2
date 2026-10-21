@@ -55,7 +55,7 @@ const ExperienceForm: React.FC<Props> = ({ experience, onFinish = stubUndefined 
 
   const { refresh, resume_id } = useResumeContext();
 
-  const { mutate, isLoading } = useMutate(resumeRepository.patchExperience.bind(resumeRepository));
+  const { mutate } = useMutate(resumeRepository.patchExperience.bind(resumeRepository));
 
   const checkId = useId()
 

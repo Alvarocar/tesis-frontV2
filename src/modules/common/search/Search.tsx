@@ -1,5 +1,4 @@
 import {forwardRef, useImperativeHandle, useRef} from "react";
-import classNames from "classnames";
 import {SearchIcon} from "lucide-react";
 import {Input} from "@app/components/ui/input";
 import {Button} from "@app/components/ui/button";

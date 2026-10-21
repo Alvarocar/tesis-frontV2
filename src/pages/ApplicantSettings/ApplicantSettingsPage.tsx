@@ -37,7 +37,7 @@ export const ApplicantSettingsPage: React.FC = () => {
       });
       navigate(ROUTES_PATHS.HOME);
       removeAuthToken();
-    } catch (error) {
+    } catch {
       toast({ title: "Error", description: "Ocurrió un error inesperado al intentar eliminar la cuenta." });
     }
   };

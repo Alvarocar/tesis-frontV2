@@ -31,7 +31,7 @@ const VacantEdit: React.FC<Props> = ({ params }) => {
   if (error || !data) return <NotFound />;
 
   const handleSubmit = async (data: TVacant): Promise<[null, Error | undefined]> => {
-    const [_, error] = await mutate(Number(params.id), data);
+    const [, error] = await mutate(Number(params.id), data);
     if (error) {
       toast.failed('Hubo un error al editar la vacante');
       return [null, error];

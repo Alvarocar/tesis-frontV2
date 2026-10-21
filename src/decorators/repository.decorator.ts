@@ -1,6 +1,3 @@
-//@ts-nocheck
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import BaseRepository from "@app/repositories/base.repository";
 import Cookies from "js-cookie";
 
@@ -9,7 +6,7 @@ export function addToken() {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
-      const instance = this as T;
+      const instance = this as unknown as T;
 
       // Obtener el token de las cookies
       const Authorization = Cookies.get('token');

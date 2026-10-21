@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@app/components/ui/dialog";
+import { Dialog, DialogContent } from "@app/components/ui/dialog";
 import { Button } from "@app/components/ui/button";
 import useMutate from "@app/hooks/useMutation.hook";
 import recruiterRepository from "@app/repositories/recruiter.repository";
@@ -18,7 +18,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ employeeName, isOpen, onClose
 
   const handleDelete = async () => {
     try {
-      const [_, error] = await mutate(employeeId);
+      const [, error] = await mutate(employeeId);
       onClose();
 
       if (!error) {

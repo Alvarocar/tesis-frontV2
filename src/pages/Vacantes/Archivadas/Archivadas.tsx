@@ -11,11 +11,7 @@ import { TListResult } from "@app/@types/api"
 import { TJobPreview } from "@app/@types/jobs"
 import jobRepository from "@app/repositories/job.repository"
 
-type Props = {
-  params: { jobSlug: string }
-}
-
-const JobById: React.FC<Props> = ({ params }) => {
+const JobById: React.FC = () => {
   const { filters } = useJobFilters()
   const { data, error, isLoading, mutate } = useSWR<TListResult<TJobPreview>>(
     { type: "vacant-archived", ...filters, status: TJobStatus.ARCHIVED },

@@ -13,7 +13,7 @@ import { TResume } from "@app/@types/resume";
 import { toast } from "@app/util/toast";
 import { useCountries } from "@app/hooks/useGeo.hook";
 import { EEducationLevel } from "@app/enums/education-level.enum";
-import { toEducationPayload, toStudyFormDefaults, type StudyFormData } from './studyForm.adapter';
+import { toEducationPayload, type StudyFormData } from './studyForm.adapter';
 import type { TCountryOption } from "@app/@types/geo";
 
 type Props = {

@@ -1,10 +1,8 @@
-import { useId } from "react";
 import { useForm } from "react-hook-form";
 import useMutate from "@app/hooks/useMutation.hook";
 import { Button } from "@app/components/ui/button";
 import { Form } from "@app/modules/common/form";
 import { stubUndefined } from "@app/util/stub";
-import { TResume } from "@app/@types/resume";
 import { toast } from "@app/util/toast";
 import recruiterRepository from "@app/repositories/recruiter.repository";
 
@@ -19,8 +17,6 @@ type FormData = {
   lastName: string;
   email: string;
 };
-
-const maxDate = new Date();
 
 export const CreateEmployeeForm: React.FC<Props> = ({ 
   onFinish = stubUndefined,

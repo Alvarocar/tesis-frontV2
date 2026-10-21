@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Archive, ArchiveBook, ElementPlus, HambergerMenu, Home, Profile2User, Setting2 } from "iconsax-react";
+import { Archive, ArchiveBook, ElementPlus, HambergerMenu, Home, Profile2User } from "iconsax-react";
 import recruiterRepository from "@app/repositories/recruiter.repository";
 import {
   Drawer,

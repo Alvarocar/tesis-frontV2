@@ -1,7 +1,7 @@
 import { ENV } from "@app/constants";
 import { toUrlParams } from "@app/util/url";
 import BaseRepository from "./base.repository";
-import { Paginator, TListResult } from "@app/@types/api";
+import { TListResult } from "@app/@types/api";
 import { addToken } from "@app/decorators/repository.decorator";
 import { Recruiter, RecruiterOverview } from "@app/@types/recruiter";
 

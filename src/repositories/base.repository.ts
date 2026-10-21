@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { isAFormatError } from "@app/util/error/isAFormatError";
 import { getErrorResponse } from "@app/util/error/getErrorResponse";
 
 export const AUTH_UNAUTHORIZED_EVENT = "auth:unauthorized";

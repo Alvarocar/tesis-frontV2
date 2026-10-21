@@ -18,6 +18,5 @@ const CollapsibleContent: React.FC<
     />
   );
 };
-CollapsiblePrimitive.CollapsibleContent;
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent };

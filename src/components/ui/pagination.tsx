@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@app/lib/utils"
 import { ButtonProps, buttonVariants } from "@app/components/ui/button"
-import { Link, useLocation } from "wouter"
+import { Link } from "wouter"
 
 const SCROLL_TARGET_ID = "main"
 
@@ -32,7 +32,6 @@ const ScrollOnNavigate: React.FC<ScrollOnNavigateProps> = ({
   children,
   ...aria
 }) => {
-  const [, navigate] = useLocation()
 
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
     onClick?.(event)
