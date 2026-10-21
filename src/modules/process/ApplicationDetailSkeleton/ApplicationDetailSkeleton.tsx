@@ -72,6 +72,25 @@ const ApplicationDetailSkeleton: React.FC<{ className?: string }> = ({ className
         <div className="mt-2 h-7 w-1/2 rounded skeleton" />
         <div className="mt-2 h-3 w-1/3 rounded skeleton" />
       </div>
+      {/* Contacto + información personal */}
+      <div className="space-y-6 border-b border-border px-6 py-6">
+        <div className="space-y-3">
+          <div className="h-3 w-40 rounded skeleton" />
+          <div className="grid gap-2 sm:grid-cols-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-4 w-full rounded skeleton" />
+            ))}
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div className="h-3 w-44 rounded skeleton" />
+          <div className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-4 w-full rounded skeleton" />
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="border-b border-border bg-surface/95 px-6 py-3">
         <div className="flex gap-2">
           {Array.from({ length: 5 }).map((_, i) => (

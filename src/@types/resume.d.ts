@@ -1,7 +1,7 @@
 import { ICandidate } from "./applicant";
 import { EEducationLevel } from "@app/enums/education-level.enum";
 import { VacantJobType } from "@app/enums/vacant.enum";
-import type { TCityOption, TCountryOption, TDepartmentOption } from "@app/@types/geo";
+import type { TCityOption, TCountryOption, TDepartmentOption, TGeoName } from "@app/@types/geo";
 
 export type TResume = {
   id: number
@@ -32,10 +32,10 @@ export namespace TResume {
     endDate?: string | null
     keepWorking: boolean
     description: string
-    // Phase 0 — SPE experience location fields
-    country?: TCountryOption | null;
-    department?: TDepartmentOption | null;
-    city?: TCityOption | null;
+    // Ubicación: forma completa en formularios, reducida en vistas de solo lectura.
+    country?: TCountryOption | TGeoName | null;
+    department?: TDepartmentOption | TGeoName | null;
+    city?: TCityOption | TGeoName | null;
   }
 
   export interface IEducation {
@@ -45,10 +45,10 @@ export namespace TResume {
     startDate: string
     endDate?: string | null
     keepStudy: boolean
-    // Phase 0 — SPE academic formation fields
-    educationLevel?: EEducationLevel;
-    programName?: string;
-    country?: TCountryOption | null;
+    // Formación académica
+    educationLevel?: EEducationLevel | null;
+    programName?: string | null;
+    country?: TCountryOption | TGeoName | null;
   }
 
   export interface PersonalReference {

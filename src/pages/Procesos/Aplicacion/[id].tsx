@@ -100,7 +100,7 @@ const ApplicationById: React.FC<Props> = ({ params }) => {
           <AffinityScore affinity={data.affinity} />
         </section>
 
-        <ResumeView resume={data.resume} phoneNumber={data.applicant.phoneNumber} />
+        <ResumeView resume={data.resume} applicant={data.applicant} />
       </main>
     </div>
   )
