@@ -39,6 +39,11 @@ class ResumeRepository extends BaseRepository {
   }
 
   @addToken()
+  patchKnowledge(payload: { knowledge: TResume.IKnowledge[], resume_id: number }) {
+    return this.patch(`/knowledge/${payload.resume_id}`, payload.knowledge);
+  }
+
+  @addToken()
   patchLanguages(params: { languages: TResume.ILanguage[], resumeId: number }) {
     return this.patch(`/language/${params.resumeId}`, params.languages);
   }

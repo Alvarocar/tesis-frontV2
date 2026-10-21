@@ -6,6 +6,7 @@ import { TitleResume } from "./children/TitleResume";
 import { Languages } from "./children/Languages";
 import { Studies } from "./children/Studies";
 import { Skills } from "./children/Skills";
+import { Knowledge } from "./children/Knowledge";
 import { DeleteResume } from "./children/DeleteResume";
 
 type Props = {
@@ -31,6 +32,8 @@ const EditResume: React.FC<Props> = ({ resume }) => {
         <Experiences experiences={resume.experiences} />
         <hr className="my-4" />
         <Skills skills={resume.skills} />
+        <hr className="my-4" />
+        <Knowledge knowledge={resume.knowledge} />
         <hr className="my-4" />
         <Languages languages={resume.languages} />
       </main>
