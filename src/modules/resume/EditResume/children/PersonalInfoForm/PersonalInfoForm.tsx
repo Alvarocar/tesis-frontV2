@@ -14,15 +14,34 @@ import { useResumeContext } from "@app/context/resume.context";
 import useMutate from "@app/hooks/useMutation.hook";
 import { ENV } from "@app/constants";
 import { toast } from "@app/hooks/use-toast";
-import { toPersonalInfoDefaults, type PersonalInfoFormData } from './usePersonalInfoFormData';
-import type { TCountryOption, TDepartmentOption, TCityOption } from '@app/@types/geo';
-import { ESex } from '@app/enums/sex.enum';
-import { EGender } from '@app/enums/gender.enum';
-import { ESexualOrientation } from '@app/enums/sexual-orientation.enum';
-import { EEthnicGroup } from '@app/enums/ethnic-group.enum';
-import { toApplicantPersonalInfoPayload } from './personalInfo.adapter';
-import { personalInfoSchema } from './PersonalInfoForm.validator';
-import { useCities, useCountries, useDepartments } from '@app/hooks/useGeo.hook';
+import {
+  toPersonalInfoDefaults,
+  type PersonalInfoFormData,
+} from "./usePersonalInfoFormData";
+import type {
+  TCountryOption,
+  TDepartmentOption,
+  TCityOption,
+} from "@app/@types/geo";
+import { ESex } from "@app/enums/sex.enum";
+import { EGender } from "@app/enums/gender.enum";
+import { ESexualOrientation } from "@app/enums/sexual-orientation.enum";
+import { EEthnicGroup } from "@app/enums/ethnic-group.enum";
+import { toApplicantPersonalInfoPayload } from "./personalInfo.adapter";
+import { personalInfoSchema } from "./PersonalInfoForm.validator";
+import {
+  useCities,
+  useCountries,
+  useDepartments,
+} from "@app/hooks/useGeo.hook";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@app/components/ui/select";
+import { Label } from "@app/components/ui/label";
 
 const { InputField } = Form;
 
@@ -37,8 +56,13 @@ const birthDateRange = DateRange.init()
 
 const PersonalInfoForm = () => {
   const { token } = useAuth();
-  const { data } = useSWR(token ? token : null, applicantRepository.getApplicant.bind(applicantRepository));
-  const { isLoading, mutate, error } = useMutate(applicantRepository.patchPersonalInfo.bind(applicantRepository));
+  const { data } = useSWR(
+    token ? token : null,
+    applicantRepository.getApplicant.bind(applicantRepository),
+  );
+  const { isLoading, mutate, error } = useMutate(
+    applicantRepository.patchPersonalInfo.bind(applicantRepository),
+  );
   const { refresh } = useResumeContext();
   const {
     watch,
@@ -50,12 +74,16 @@ const PersonalInfoForm = () => {
     setValue,
   } = useForm<PersonalInfoFormData>({
     resolver: zodResolver(personalInfoSchema),
+    defaultValues: {
+      ...toPersonalInfoDefaults(data),
+      birthDate: parseDate(data?.birthDate),
+    }
   });
 
-  const countryOfBirth = watch('countryOfBirth');
-  const countryOfResidence = watch('countryOfResidence');
-  const departmentOfBirth = watch('departmentOfBirth');
-  const departmentOfResidence = watch('departmentOfResidence');
+  const countryOfBirth = watch("countryOfBirth");
+  const countryOfResidence = watch("countryOfResidence");
+  const departmentOfBirth = watch("departmentOfBirth");
+  const departmentOfResidence = watch("departmentOfResidence");
 
   // Cascada geo. Las keys salen de `geoKeys`, así que un `departments(48)`
   // pedido aca se sirve desde cache si otro formulario ya lo trajo (o al
@@ -63,34 +91,28 @@ const PersonalInfoForm = () => {
   // 'geo-departments-residence') y eso duplicaba la request.
   const { data: countries = [] } = useCountries();
   const { data: birthDepartments = [] } = useDepartments(countryOfBirth?.id);
-  const { data: residenceDepartments = [] } = useDepartments(countryOfResidence?.id);
+  const { data: residenceDepartments = [] } = useDepartments(
+    countryOfResidence?.id,
+  );
   const { data: birthCities = [] } = useCities(departmentOfBirth?.id);
   const { data: residenceCities = [] } = useCities(departmentOfResidence?.id);
-
-  useEffect(() => {
-    if (!data) return;
-    reset({
-      ...toPersonalInfoDefaults(data),
-      birthDate: parseDate(data.birthDate),
-    });
-  }, [data, reset])
 
   const send = async (formData: PersonalInfoFormData) => {
     const [, error] = await mutate(toApplicantPersonalInfoPayload(formData));
 
     if (error) return;
     toast({
-      title: 'Actualizado',
+      title: "Actualizado",
       duration: 2000,
-    })
+    });
     try {
       await refresh();
     } catch (e) {
-      if (ENV.MODE === 'development') {
+      if (ENV.MODE === "development") {
         console.error(e);
-      } 
+      }
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(send)}>
@@ -144,7 +166,7 @@ const PersonalInfoForm = () => {
           label="Aspiración salarial"
           type="number"
           error={errors.salaryAspiration}
-          {...register('salaryAspiration', { valueAsNumber: true })}
+          {...register("salaryAspiration", { valueAsNumber: true })}
         />
 
         <div className="col-span-2 grid grid-cols-2 gap-6 rounded border p-4">
@@ -155,28 +177,35 @@ const PersonalInfoForm = () => {
               control={control}
               render={({ field, formState }) => (
                 <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
-                    onChange={(event) => {
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
+                    onValueChange={(value) => {
                       const selected: TCountryOption | null =
-                        countries.find((country) => String(country.id) === event.target.value) ?? null;
+                        countries.find(
+                          (country) => String(country.id) === value,
+                        ) ?? null;
                       field.onChange(selected);
-                      setValue('departmentOfBirth', null);
-                      setValue('cityOfBirth', null);
+                      setValue("departmentOfBirth", null);
+                      setValue("cityOfBirth", null);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {countries.map((country) => (
-                      <option key={country.id} value={country.id}>
-                        {country.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.id} value={String(country.id)}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {formState.errors.countryOfBirth ? (
-                    <span className="text-red-500">{formState.errors.countryOfBirth.message as string}</span>
+                    <span className="text-red-500">
+                      {formState.errors.countryOfBirth.message as string}
+                    </span>
                   ) : null}
                 </>
               )}
@@ -190,28 +219,38 @@ const PersonalInfoForm = () => {
               control={control}
               render={({ field, formState }) => (
                 <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
                     disabled={!countryOfBirth}
-                    onChange={(event) => {
+                    onValueChange={(value) => {
                       const selected: TDepartmentOption | null =
-                        birthDepartments.find((department) => String(department.id) === event.target.value) ?? null;
+                        birthDepartments.find(
+                          (department) => String(department.id) === value,
+                        ) ?? null;
                       field.onChange(selected);
-                      setValue('cityOfBirth', null);
+                      setValue("cityOfBirth", null);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {birthDepartments.map((department) => (
-                      <option key={department.id} value={department.id}>
-                        {department.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {birthDepartments.map((department) => (
+                        <SelectItem
+                          key={department.id}
+                          value={String(department.id)}
+                        >
+                          {department.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {formState.errors.departmentOfBirth ? (
-                    <span className="text-red-500">{formState.errors.departmentOfBirth.message as string}</span>
+                    <span className="text-red-500">
+                      {formState.errors.departmentOfBirth.message as string}
+                    </span>
                   ) : null}
                 </>
               )}
@@ -225,27 +264,33 @@ const PersonalInfoForm = () => {
               control={control}
               render={({ field, formState }) => (
                 <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
                     disabled={!departmentOfBirth}
-                    onChange={(event) => {
+                    onValueChange={(value) => {
                       const selected: TCityOption | null =
-                        birthCities.find((city) => String(city.id) === event.target.value) ?? null;
+                        birthCities.find((city) => String(city.id) === value) ??
+                        null;
                       field.onChange(selected);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {birthCities.map((city) => (
-                      <option key={city.id} value={city.id}>
-                        {city.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {birthCities.map((city) => (
+                        <SelectItem key={city.id} value={String(city.id)}>
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {formState.errors.cityOfBirth ? (
-                    <span className="text-red-500">{formState.errors.cityOfBirth.message as string}</span>
+                    <span className="text-red-500">
+                      {formState.errors.cityOfBirth.message as string}
+                    </span>
                   ) : null}
                 </>
               )}
@@ -259,28 +304,35 @@ const PersonalInfoForm = () => {
               control={control}
               render={({ field, formState }) => (
                 <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
-                    onChange={(event) => {
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
+                    onValueChange={(value) => {
                       const selected: TCountryOption | null =
-                        countries.find((country) => String(country.id) === event.target.value) ?? null;
+                        countries.find(
+                          (country) => String(country.id) === value,
+                        ) ?? null;
                       field.onChange(selected);
-                      setValue('departmentOfResidence', null);
-                      setValue('cityOfResidence', null);
+                      setValue("departmentOfResidence", null);
+                      setValue("cityOfResidence", null);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {countries.map((country) => (
-                      <option key={country.id} value={country.id}>
-                        {country.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.id} value={String(country.id)}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {formState.errors.countryOfResidence ? (
-                    <span className="text-red-500">{formState.errors.countryOfResidence.message as string}</span>
+                    <span className="text-red-500">
+                      {formState.errors.countryOfResidence.message as string}
+                    </span>
                   ) : null}
                 </>
               )}
@@ -293,33 +345,37 @@ const PersonalInfoForm = () => {
               name="departmentOfResidence"
               control={control}
               render={({ field, formState }) => (
-                <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
                     disabled={!countryOfResidence}
-                    onChange={(event) => {
+                    onValueChange={(value) => {
                       const selected: TDepartmentOption | null =
-                        residenceDepartments.find((department) => String(department.id) === event.target.value) ?? null;
+                        residenceDepartments.find(
+                          (department) => String(department.id) === value,
+                        ) ?? null;
                       field.onChange(selected);
-                      setValue('cityOfResidence', null);
+                      setValue("cityOfResidence", null);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {residenceDepartments.map((department) => (
-                      <option key={department.id} value={department.id}>
-                        {department.name}
-                      </option>
-                    ))}
-                  </select>
-                  {formState.errors.departmentOfResidence ? (
-                    <span className="text-red-500">{formState.errors.departmentOfResidence.message as string}</span>
-                  ) : null}
-                </>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {residenceDepartments.map((department) => (
+                        <SelectItem
+                          key={department.id}
+                          value={String(department.id)}
+                        >
+                          {department.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
               )}
             />
+            {renderFieldError(errors.departmentOfResidence?.id)}
           </label>
 
           <label className="flex flex-col gap-1 text-sm font-medium">
@@ -329,70 +385,163 @@ const PersonalInfoForm = () => {
               control={control}
               render={({ field, formState }) => (
                 <>
-                  <select
-                    className="rounded border px-3 py-2"
-                    value={field.value?.id != null ? String(field.value.id) : ''}
+                  <Select
+                    value={
+                      field.value?.id != null ? String(field.value.id) : ""
+                    }
                     disabled={!departmentOfResidence}
-                    onChange={(event) => {
+                    onValueChange={(value) => {
                       const selected: TCityOption | null =
-                        residenceCities.find((city) => String(city.id) === event.target.value) ?? null;
+                        residenceCities.find(
+                          (city) => String(city.id) === value,
+                        ) ?? null;
                       field.onChange(selected);
                     }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
                   >
-                    <option value="">Seleccione</option>
-                    {residenceCities.map((city) => (
-                      <option key={city.id} value={city.id}>
-                        {city.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger onBlur={field.onBlur} ref={field.ref}>
+                      <SelectValue placeholder="Seleccione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {residenceCities.map((city) => (
+                        <SelectItem key={city.id} value={String(city.id)}>
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   {formState.errors.cityOfResidence ? (
-                    <span className="text-red-500">{formState.errors.cityOfResidence.message as string}</span>
+                    <span className="text-red-500">
+                      {formState.errors.cityOfResidence.message as string}
+                    </span>
                   ) : null}
                 </>
               )}
             />
           </label>
         </div>
-
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <Label
+          htmlFor="sexo"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
           Sexo
-          <select className="border rounded px-3 py-2" {...register('sex')}>
-            <option value="">Seleccione</option>
-            {SEX_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <Controller
+            name="sex"
+            control={control}
+            render={({ field, formState }) => (
+              <>
+                <Select
+                  value={field.value ?? ""}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger
+                    id="sexo"
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  >
+                    <SelectValue placeholder="Seleccione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SEX_OPTIONS.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {formState.errors.sex ? (
+                  <span className="text-red-500">
+                    {formState.errors.sex.message as string}
+                  </span>
+                ) : null}
+              </>
+            )}
+          />
           {renderFieldError(errors.sex)}
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        </Label>
+
+        <Label
+          htmlFor="genre"
+          className="flex flex-col gap-1 text-sm font-medium"
+        >
           Género
-          <select className="border rounded px-3 py-2" {...register('genre')}>
-            <option value="">Seleccione</option>
-            {GENDER_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <Controller
+            name="genre"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                <SelectTrigger id="genre" onBlur={field.onBlur} ref={field.ref}>
+                  <SelectValue placeholder="Seleccione" />
+                </SelectTrigger>
+                <SelectContent>
+                  {GENDER_OPTIONS.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
           {renderFieldError(errors.genre)}
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        </Label>
+        <Label className="flex flex-col gap-1 text-sm font-medium">
           Orientación sexual
-          <select className="border rounded px-3 py-2" {...register('sexualOrientation')}>
-            <option value="">Seleccione</option>
-            {ORIENTATION_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <Controller
+            name="sexualOrientation"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id="sexualOrientation"
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                >
+                  <SelectValue placeholder="Seleccione" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ORIENTATION_OPTIONS.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
           {renderFieldError(errors.sexualOrientation)}
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        </Label>
+        <Label className="flex flex-col gap-1 text-sm font-medium">
           Grupo étnico
-          <select className="border rounded px-3 py-2" {...register('ethnicGroup')}>
-            <option value="">Seleccione</option>
-            {ETHNIC_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <Controller
+            name="ethnicGroup"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id="ethnicGroup"
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                >
+                  <SelectValue placeholder="Seleccione" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ETHNIC_OPTIONS.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
           {renderFieldError(errors.ethnicGroup)}
-        </label>
+        </Label>
 
         {error ? <p className="text-red-400">{error.message}</p> : null}
       </fieldset>
-      <Button className="mt-5" type="submit" disabled={isLoading}>Guardar</Button>
+      <Button className="mt-5" type="submit" disabled={isLoading}>
+        Guardar
+      </Button>
     </form>
   );
 };
