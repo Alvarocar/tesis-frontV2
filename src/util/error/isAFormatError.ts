@@ -22,3 +22,14 @@ export const isAValidationError = (
     "statusCode" in error
   );
 };
+
+export const isGeneralUnAuthorizatedError = (error: unknown): error is { error: { message: string } } => {
+  if (!error) return false;
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "error" in error &&
+    typeof (error as { error: { message: string } }).error === "object" &&
+    "message" in (error as { error: { message: string } }).error
+  );
+}
